@@ -1,0 +1,6 @@
+rootProject.name = "ReliableAlarmV1.0"
+include ':app'
+include ':customTimePicker'
+include ':alarmSchedule'
+include ':alarmDateTimeView'
+include ':alarmSoundView'

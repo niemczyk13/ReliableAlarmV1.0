@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AlarmSoundView</string>
+    <string name="alarm_sound">Dźwięk alarmu:</string>
+    <string name="cancel">Anuluj</string>
+    <string name="save">Zapisz</string>
+    <string name="author_unkown">Nieznany</string>
+</resources>
