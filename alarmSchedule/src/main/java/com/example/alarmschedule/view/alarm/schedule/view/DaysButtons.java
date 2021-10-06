@@ -13,7 +13,7 @@ import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
 import com.google.android.material.button.MaterialButton;
 
 public class DaysButtons {
-    private Context context;
+    private final Context context;
     private MaterialButton[] daysButtons;
     private ImageButton checkAllDaysButton;
     private String[] daysNames;
@@ -23,7 +23,7 @@ public class DaysButtons {
     public DaysButtons(Context context) {
         this.context = context;
         createDaysNames();
-        createButtons(context);
+        createButtons();
     }
 
     private void createDaysNames() {
@@ -37,21 +37,20 @@ public class DaysButtons {
         daysNames[6] = "N";
     }
 
-    private void createButtons(Context context) {
-        this.context = context;
-        createDaysButtons(context);
-        createCheckAllDaysButton(context);
+    private void createButtons() {
+        createDaysButtons();
+        createCheckAllDaysButton();
     }
 
-    private void createDaysButtons(Context context) {
+    private void createDaysButtons() {
         daysButtons = new MaterialButton[7];
         for (int i = 0; i < daysButtons.length; i++) {
-            MaterialButton button = createDayButton(context, daysNames[i]);
+            MaterialButton button = createDayButton(daysNames[i]);
             daysButtons[i] = button;
         }
     }
 
-    private MaterialButton createDayButton(Context context, String daysName) {
+    private MaterialButton createDayButton(String daysName) {
         MaterialButton button = new MaterialButton(context);
         button.setText(daysName);
         LinearLayout.LayoutParams params = getDefaultLayoutParamsForDayButton();
@@ -112,7 +111,7 @@ public class DaysButtons {
         button.setTextColor(Color.rgb(0,0,0));
     }
 
-    private void createCheckAllDaysButton(Context context) {
+    private void createCheckAllDaysButton() {
         checkAllDaysButton = new ImageButton(context);
         LinearLayout.LayoutParams params = getDefaultLayoutParamsForCheckAllDayButton();
         checkAllDaysButton.setLayoutParams(params);
