@@ -19,4 +19,10 @@
         android:layout_height="wrap_content"
         />
 
+    <com.niemiec.risingview.view.RisingSoundView
+        android:id="@+id/rising_sound_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </LinearLayout>

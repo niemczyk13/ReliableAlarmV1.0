@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/alarmSoundView" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/customTimePicker" />
+            <option value="$PROJECT_DIR$/risingSoundView" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

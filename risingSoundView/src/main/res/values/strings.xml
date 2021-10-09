@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RisingView</string>
+    <string name="rising_sound_description">"Narastający dźwięk: "</string>
+</resources>

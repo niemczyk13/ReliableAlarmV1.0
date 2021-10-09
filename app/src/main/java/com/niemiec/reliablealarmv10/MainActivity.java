@@ -11,6 +11,9 @@ import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
 import com.example.alarmsoundview.model.Sound;
 import com.example.alarmsoundview.view.AlarmSoundView;
 import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
+import com.niemiec.risingview.model.RisingSound;
+import com.niemiec.risingview.view.RisingSoundValue;
+import com.niemiec.risingview.view.RisingSoundView;
 
 import java.util.Calendar;
 
@@ -39,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         sound.setPersonal(false);
         alarmSoundView.initialize(sound);
 
+        RisingSoundView view = findViewById(com.niemiec.risingview.R.id.rising_sound_view);
+
+        RisingSound risingSound = new RisingSound(RisingSoundValue.SECOND.getValue());
+        view.initialize(risingSound);
 
     }
 
