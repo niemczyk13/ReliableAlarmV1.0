@@ -6,12 +6,11 @@
         <item name="android:numbersBackgroundColor">#00BCD4</item>
 
         <item name="colorControlActivated">#0066FF</item>
-        <item name="colorAccent">#F8F8F8</item>
+        <item name="android:headerBackground">#FFFFFF</item>
         <item name="android:textColorPrimary">#43a047</item>
         <item name="android:textColorSecondary">#f44336</item>
 
 
-
-
+        <item name="android:timePickerStyle">@style/MyTimePicker</item>
     </style>
 </resources>
