@@ -3,6 +3,7 @@ package com.example.customtimepicker.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
@@ -62,6 +63,12 @@ public class CustomTimePicker extends TimePicker {
 
     private void getViewsFromTimePicker() {
         radialPicker = (View) getViewFromTimePicker("radial_picker");
+        //radialPicker.setBackgroundColor(Color.BLACK);
+        //radialPicker.setDrawingCacheBackgroundColor(Color.RED);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        ViewGroup.LayoutParams params2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         timePickerHour = (TextView) getViewFromTimePicker("hours");
         timePickerMinute = (TextView) getViewFromTimePicker("minutes");
     }

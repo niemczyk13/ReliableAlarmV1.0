@@ -11,6 +11,8 @@
         android:id="@+id/alarm_date_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:theme="@style/MyTimePicker"
+        style="@style/MyTimePicker"
         />
 
     <com.example.alarmsoundview.view.AlarmSoundView

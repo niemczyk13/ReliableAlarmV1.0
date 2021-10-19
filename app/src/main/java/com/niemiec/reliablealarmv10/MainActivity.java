@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide();
+
         alarmDateTimeView = findViewById(R.id.alarm_date_time);
         alarmDateTimeView.initialize(createTestAlarmDateTime(), getSupportFragmentManager());
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return new AlarmDateTime(calendar, week);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         alarmDateTimeView.setDate(year, month, day);
