@@ -38,7 +38,7 @@ public class CalendarImageButton {
     private void createLinerLayout(int weight) {
         calendarButtonLinearLayout = new LinearLayout(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.weight = weight;
+        //params.weight = weight;
         params.topMargin = 0;
         params.bottomMargin = 0;
         calendarButtonLinearLayout.setLayoutParams(params);

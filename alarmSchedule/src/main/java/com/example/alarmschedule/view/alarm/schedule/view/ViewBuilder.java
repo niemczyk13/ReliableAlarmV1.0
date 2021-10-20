@@ -56,7 +56,7 @@ public class ViewBuilder {
     }
 
     private void createViews() {
-        infoTextView = new InfoTextView(context, 350);
+        infoTextView = new InfoTextView(context, 89);
         calendarImageButton = createCalendarImageButton();
         daysButtons = new DaysButtons(context);
     }

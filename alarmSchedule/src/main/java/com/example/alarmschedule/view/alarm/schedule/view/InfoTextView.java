@@ -1,6 +1,8 @@
 package com.example.alarmschedule.view.alarm.schedule.view;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,23 +15,24 @@ public class InfoTextView {
     private final Context context;
     private TextView info;
 
-    public InfoTextView(Context context, int width) {
+    public InfoTextView(Context context, int percentage) {
         this.context = context;
-        createView(width);
+        createView(percentage);
     }
 
-    private void createView(int width) {
+    private void createView(int percentage) {
         info = new TextView(context);
-        LinearLayout.LayoutParams params = createParams(width);
+        LinearLayout.LayoutParams params = createParams(percentage);
         info.setLayoutParams(params);
     }
 
-    private LinearLayout.LayoutParams createParams(int width) {
+    private LinearLayout.LayoutParams createParams(int percentage) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final float scale = context.getResources().getDisplayMetrics().density;
 
-        params.width = (int) ((width * scale) + 0.5f);
-        //params.weight = weight;
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        double w = ((double) percentage / 100) * width;
+
+        params.width = (int) w;
         params.topMargin = 40;
         params.bottomMargin = 2;
         return params;
