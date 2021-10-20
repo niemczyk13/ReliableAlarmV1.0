@@ -1,5 +1,6 @@
 package com.example.alarmschedule.view.alarm.schedule.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -107,14 +108,17 @@ public class DaysButtons {
     }
 
     private void setCheckColorButton(MaterialButton button) {
-        button.setBackgroundColor(Color.rgb(255, 255, 255));
-        button.setTextColor(Color.rgb(0,0,0));
+        button.setBackgroundColor(context.getResources().getColor(R.color.check_button_background));
+        button.setTextColor(Color.rgb(255,255,255));
     }
 
     private void createCheckAllDaysButton() {
         checkAllDaysButton = new ImageButton(context);
         LinearLayout.LayoutParams params = getDefaultLayoutParamsForCheckAllDayButton();
         checkAllDaysButton.setLayoutParams(params);
+        checkAllDaysButton.setColorFilter(Color.BLACK);
+        checkAllDaysButton.setBackgroundColor(Color.WHITE);
+        checkAllDaysButton.setPadding(0, 0, 0, 0);
 
         checkAllDaysButton.setId(View.generateViewId());
         checkAllDaysButton.setOnClickListener(this::onAllDaysButtonClick);

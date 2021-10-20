@@ -90,6 +90,14 @@ public class CalendarImageButton {
         this.calendarImageButtonClickListener = listener;
     }
 
+    public void setColorFilter(int color) {
+        calendarButton.setColorFilter(color);
+    }
+
+    public void setBackgroundColor(int color) {
+        calendarButton.setBackgroundColor(color);
+    }
+
     public interface CalendarImageButtonClickListener {
         void updateDateTimeBeforeClick();
     }

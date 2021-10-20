@@ -17,14 +17,22 @@
 
     <com.example.alarmsoundview.view.AlarmSoundView
         android:id="@+id/alarm_sound_view"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         />
 
     <com.niemiec.risingview.view.RisingSoundView
         android:id="@+id/rising_sound_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         />
 
 </LinearLayout>

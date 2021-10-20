@@ -13,20 +13,23 @@ public class InfoTextView {
     private final Context context;
     private TextView info;
 
-    public InfoTextView(Context context, int weight) {
+    public InfoTextView(Context context, int width) {
         this.context = context;
-        createView(weight);
+        createView(width);
     }
 
-    private void createView(int weight) {
+    private void createView(int width) {
         info = new TextView(context);
-        LinearLayout.LayoutParams params = createParams(weight);
+        LinearLayout.LayoutParams params = createParams(width);
         info.setLayoutParams(params);
     }
 
-    private LinearLayout.LayoutParams createParams(int weight) {
+    private LinearLayout.LayoutParams createParams(int width) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.weight = weight;
+        final float scale = context.getResources().getDisplayMetrics().density;
+
+        params.width = (int) ((width * scale) + 0.5f);
+        //params.weight = weight;
         params.topMargin = 40;
         params.bottomMargin = 2;
         return params;

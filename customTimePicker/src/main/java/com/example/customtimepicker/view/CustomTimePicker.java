@@ -103,7 +103,8 @@ public class CustomTimePicker extends TimePicker {
     private ImageButton createKeyboardImageButton() {
         ImageButton button = new ImageButton(super.getContext());
         button.setImageResource(R.drawable.ic_baseline_keyboard_24);
-        button.setColorFilter(Color.WHITE);
+        button.setColorFilter(Color.BLACK);
+        button.setBackgroundColor(Color.parseColor("#F6F6F6"));
         //button.setDrawingCacheBackgroundColor(Color.BLACK);
         //button.setBackgroundColor(Color.BLACK);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -45,7 +45,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
     @Override
     public long getItemId(int position) { return position; }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -66,7 +65,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("Range")
     private void setValuesInViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.author.setText(getAuthor());
@@ -91,7 +89,6 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
         return playButtonManager.getSoundId() != id;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("Range")
     private String getAuthor() {
         String author = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST));

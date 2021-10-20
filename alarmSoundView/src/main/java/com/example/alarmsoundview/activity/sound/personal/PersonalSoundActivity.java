@@ -28,7 +28,6 @@ import android.widget.ListView;
 
 import com.example.alarmsoundview.R;
 
-@RequiresApi(api = Build.VERSION_CODES.R)
 public class PersonalSoundActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private MusicListAdapter adapter;
     private PlayButtonManager playButtonManager;

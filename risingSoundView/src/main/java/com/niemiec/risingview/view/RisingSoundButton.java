@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButton;
+import com.niemiec.risingview.R;
 
 public class RisingSoundButton extends MaterialButton{
     private final int value;
@@ -53,8 +54,8 @@ public class RisingSoundButton extends MaterialButton{
     }
 
     private void setCheckColorButton() {
-        super.setBackgroundColor(Color.rgb(255, 255, 255));
-        super.setTextColor(Color.rgb(0,0,0));
+        super.setBackgroundColor(super.getContext().getResources().getColor(R.color.check_button_background));
+        super.setTextColor(Color.rgb(255,255,255));
     }
 
     public int getId() {
