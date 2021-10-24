@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">ReliableAlarmV1.0</string>
+    <string name="cancel_button">Anuluj</string>
+    <string name="save_button">Zapisz</string>
+    <string name="nap_text_view">Drzemka:</string>
+
+    <string-array name="nap_values">
+        <item>1 minuta</item>
+        <item>2 minuty</item>
+        <item>3 minuty</item>
+        <item>4 minuty</item>
+        <item>5 minut</item>
+    </string-array>
 </resources>

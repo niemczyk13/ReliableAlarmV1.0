@@ -18,16 +18,16 @@ public class AlarmSoundViewBuilder {
         createNameTextView();
     }
 
+    @SuppressLint("RtlHardcoded")
     private void createNameTextView() {
         name = new TextView(context);
         LinearLayout.LayoutParams params = createNameTextViewParams();
+        name.setGravity(Gravity.RIGHT);
         name.setLayoutParams(params);
     }
 
-    @SuppressLint("RtlHardcoded")
     private LinearLayout.LayoutParams createNameTextViewParams() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.gravity = Gravity.LEFT;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return params;
     }
 
@@ -37,10 +37,9 @@ public class AlarmSoundViewBuilder {
         description.setLayoutParams(params);
     }
 
-    @SuppressLint("RtlHardcoded")
     private LinearLayout.LayoutParams createDescriptionTextViewParams() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.gravity = Gravity.RIGHT;
+        params.gravity = Gravity.START;
         return params;
     }
 
