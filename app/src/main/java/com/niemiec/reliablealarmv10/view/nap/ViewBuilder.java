@@ -2,7 +2,9 @@ package com.niemiec.reliablealarmv10.view.nap;
 
 import android.content.Context;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,21 +21,29 @@ public class ViewBuilder {
 
     private Spinner createNapSpinner(Context context) {
         Spinner spinner = new Spinner(context);
-        spinner.setGravity(Gravity.END);
+        spinner.setGravity(Gravity.RIGHT);
 
         String[] str = {NapValue.FIRST.getName(), NapValue.SECOND.getName(),
                 NapValue.THIRD.getName(), NapValue.FOURTH.getName(), NapValue.FIFTH.getName()};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, str);
         spinner.setAdapter(adapter);
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //params.width = 10;
+        //params.gravity = Gravity.RIGHT;
+        spinner.setLayoutParams(params);
+
+
         return spinner;
     }
 
     private void createNapDescriptionTextView(Context context) {
         napDescription = new TextView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //params.gravity = Gravity.START;
+        napDescription.setLayoutParams(params);
         napDescription.setText("Drzemka:");
-
-        napDescription.setGravity(Gravity.START);
+        //napDescription.setGravity(Gravity.START);
     }
 
     public TextView getNapDescription() {

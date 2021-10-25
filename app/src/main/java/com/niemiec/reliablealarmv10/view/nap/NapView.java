@@ -2,6 +2,7 @@ package com.niemiec.reliablealarmv10.view.nap;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
@@ -29,6 +30,7 @@ public class NapView extends LinearLayout {
     }
 
     private void setProperties() {
+        super.setGravity(Gravity.RIGHT);
         viewBuilder = new ViewBuilder(super.getContext());
         addViews();
     }
