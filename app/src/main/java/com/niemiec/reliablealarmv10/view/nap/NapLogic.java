@@ -16,15 +16,20 @@ public class NapLogic {
 
     public void initialize(Nap nap) {
         this.nap = nap;
-        spinner.setOnItemClickListener(this::onItemClickListener);
-    }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int[] values = {NapValue.FIRST.getValue(),
+                        NapValue.SECOND.getValue(), NapValue.THIRD.getValue(),
+                        NapValue.FOURTH.getValue(), NapValue.FIFTH.getValue()};
+                nap.setValue(values[position]);
+            }
 
-    private void onItemClickListener(AdapterView<?> adapterView, View view, int i, long l) {
-        int[] values = {NapValue.FIRST.getValue(),
-        NapValue.SECOND.getValue(), NapValue.THIRD.getValue(),
-        NapValue.FOURTH.getValue(), NapValue.FIFTH.getValue()};
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        nap.setValue(values[i]);
+            }
+        });
     }
 
     public Nap getNap() {

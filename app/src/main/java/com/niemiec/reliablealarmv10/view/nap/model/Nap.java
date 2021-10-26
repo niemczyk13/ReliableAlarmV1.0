@@ -10,4 +10,9 @@ public class Nap {
     public int getValue() {
         return time;
     }
+
+    public long getTimeInMilliseconds() {
+        //TODO
+        return time;
+    }
 }

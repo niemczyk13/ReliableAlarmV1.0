@@ -10,7 +10,6 @@ import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import androidx.annotation.Nullable;
 
 public class NapView extends LinearLayout {
-    private Nap nap;
     private NapLogic logic;
     private ViewBuilder viewBuilder;
 
@@ -30,9 +29,10 @@ public class NapView extends LinearLayout {
     }
 
     private void setProperties() {
-        super.setGravity(Gravity.RIGHT);
+        //super.setGravity(Gravity.RIGHT);
         viewBuilder = new ViewBuilder(super.getContext());
         addViews();
+        logic = new NapLogic(viewBuilder.getNapSpinner());
     }
 
     private void addViews() {

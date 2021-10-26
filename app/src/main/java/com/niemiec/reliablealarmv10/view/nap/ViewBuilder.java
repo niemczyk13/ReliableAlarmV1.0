@@ -1,6 +1,7 @@
 package com.niemiec.reliablealarmv10.view.nap;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,7 +41,11 @@ public class ViewBuilder {
     private void createNapDescriptionTextView(Context context) {
         napDescription = new TextView(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //params.gravity = Gravity.START;
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        double w = ((double) 60 / 100) * width;
+
+        params.width = (int) w;
+        //params.bottomMargin = 3;
         napDescription.setLayoutParams(params);
         napDescription.setText("Drzemka:");
         //napDescription.setGravity(Gravity.START);
