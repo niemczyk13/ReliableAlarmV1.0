@@ -27,7 +27,8 @@ public class AlarmSoundViewBuilder {
     }
 
     private LinearLayout.LayoutParams createNameTextViewParams() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.rightMargin = 20;
         return params;
     }
 
@@ -38,7 +39,8 @@ public class AlarmSoundViewBuilder {
     }
 
     private LinearLayout.LayoutParams createDescriptionTextViewParams() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.weight = 1;
         params.gravity = Gravity.START;
         return params;
     }

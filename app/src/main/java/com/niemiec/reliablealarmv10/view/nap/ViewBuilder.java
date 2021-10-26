@@ -30,10 +30,7 @@ public class ViewBuilder {
         spinner.setAdapter(adapter);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //params.width = 10;
-        //params.gravity = Gravity.RIGHT;
         spinner.setLayoutParams(params);
-
 
         return spinner;
     }
@@ -41,11 +38,8 @@ public class ViewBuilder {
     private void createNapDescriptionTextView(Context context) {
         napDescription = new TextView(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        double w = ((double) 60 / 100) * width;
 
-        params.width = (int) w;
-        //params.bottomMargin = 3;
+        params.weight = 1;
         napDescription.setLayoutParams(params);
         napDescription.setText("Drzemka:");
         //napDescription.setGravity(Gravity.START);

@@ -56,13 +56,13 @@ public class ViewBuilder {
     }
 
     private void createViews() {
-        infoTextView = new InfoTextView(context, 89);
+        infoTextView = new InfoTextView(context);
         calendarImageButton = createCalendarImageButton();
         daysButtons = new DaysButtons(context);
     }
 
     private CalendarImageButton createCalendarImageButton() {
-        CalendarImageButton button = new CalendarImageButton(context, 1);
+        CalendarImageButton button = new CalendarImageButton(context);
         button.setColorFilter(Color.BLACK);
         button.setBackgroundColor(Color.WHITE);
         return button;

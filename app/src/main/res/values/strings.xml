@@ -3,6 +3,8 @@
     <string name="cancel_button">Anuluj</string>
     <string name="save_button">Zapisz</string>
     <string name="nap_text_view">Drzemka:</string>
+    <string name="volume">Głośność</string>
+    <string name="vibration">Wibracja</string>
 
     <string-array name="nap_values">
         <item>1 minuta</item>

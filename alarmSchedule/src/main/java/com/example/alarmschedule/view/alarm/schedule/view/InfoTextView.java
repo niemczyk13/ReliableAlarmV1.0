@@ -15,24 +15,20 @@ public class InfoTextView {
     private final Context context;
     private TextView info;
 
-    public InfoTextView(Context context, int percentage) {
+    public InfoTextView(Context context) {
         this.context = context;
-        createView(percentage);
+        createView();
     }
 
-    private void createView(int percentage) {
+    private void createView() {
         info = new TextView(context);
-        LinearLayout.LayoutParams params = createParams(percentage);
+        LinearLayout.LayoutParams params = createParams();
         info.setLayoutParams(params);
     }
 
-    private LinearLayout.LayoutParams createParams(int percentage) {
+    private LinearLayout.LayoutParams createParams() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        double w = ((double) percentage / 100) * width;
-
-        params.width = (int) w;
+        params.weight = 1;
         params.topMargin = 40;
         params.bottomMargin = 2;
         return params;

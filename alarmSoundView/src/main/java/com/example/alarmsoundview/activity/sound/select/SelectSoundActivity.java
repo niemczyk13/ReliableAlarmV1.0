@@ -3,15 +3,20 @@ package com.example.alarmsoundview.activity.sound.select;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,13 +31,19 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     private SelectSoundAdapter adapter;
     private AlarmBuiltInSoundData data;
     @SuppressLint("NonConstantResourceId")
-    //@BindView(R.id.built_in_sound_list_view)
     protected ListView soundListView;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_sound);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getSupportActionBar().hide();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.BLACK);
+
         soundListView = findViewById(R.id.built_in_sound_list_view);
         addBackArrow();
         createSoundFromBundle();
@@ -129,7 +140,10 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     private void addOnClickMethods() {
         TextView addNewSound = findViewById(R.id.add_new_sound_text_view);
-        addNewSound.setOnClickListener(this::addNewSoundTextViewClick);
+        addNewSound.setOnClickListener(this::addNewSoundClick);
+
+        ImageButton addNewSoundButton = findViewById(R.id.add_new_sound_button);
+        addNewSoundButton.setOnClickListener(this::addNewSoundClick);
 
         Button saveButton = findViewById(R.id.save_button);
         saveButton.setOnClickListener(this::saveButtonClick);
@@ -138,7 +152,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         cancelButton.setOnClickListener(this::cancelButtonClick);
     }
 
-    public void addNewSoundTextViewClick(View view) {
+    public void addNewSoundClick(View view) {
         Intent intent = new Intent(this, PersonalSoundActivity.class);
         activityResultLauncher.launch(intent);
     }

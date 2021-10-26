@@ -23,24 +23,24 @@ public class CalendarImageButton {
     private ImageButton calendarButton;
     private CalendarImageButtonClickListener calendarImageButtonClickListener;
 
-    public CalendarImageButton(Context context, int weight) {
+    public CalendarImageButton(Context context) {
         this.context = context;
-        createView(weight);
+        createView();
         calendarButton.setOnClickListener(this::onClick);
     }
 
-    private void createView(int weight) {
-        createLinerLayout(weight);
+    private void createView() {
+        createLinerLayout();
         createImageButton();
         addImageButtonToLinearLayout();
     }
 
-    private void createLinerLayout(int weight) {
+    private void createLinerLayout() {
         calendarButtonLinearLayout = new LinearLayout(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //params.weight = weight;
         params.topMargin = 0;
         params.bottomMargin = 0;
+        params.rightMargin = 20;
         calendarButtonLinearLayout.setLayoutParams(params);
     }
 

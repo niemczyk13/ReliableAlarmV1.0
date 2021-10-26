@@ -8,19 +8,51 @@
 
     <TextView
         android:id="@+id/add_new_sound_text_view"
-        android:text="TEXT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="319dp"
+
+        android:layout_height="53dp"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        android:text="@string/add_personal_sound"
+        android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
-        <ListView
-            android:id="@+id/built_in_sound_list_view"
-            app:layout_constraintTop_toBottomOf="@id/add_new_sound_text_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/add_new_sound_button"
+        android:background="@drawable/ic_baseline_add_24"
+        android:layout_width="60dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintLeft_toRightOf="@+id/add_new_sound_text_view"
+        app:layout_constraintStart_toEndOf="@+id/add_new_sound_text_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#1DA1F2" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        app:layout_constraintTop_toBottomOf="@id/add_new_sound_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ListView
+        android:id="@+id/built_in_sound_list_view"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
             />
 
     <GridLayout
@@ -39,7 +71,8 @@
             android:layout_row="0"
             android:layout_column="0"
             android:text="@string/cancel"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:backgroundTint="@color/black"/>
 
         <Button
             android:id="@+id/save_button"
@@ -47,7 +80,11 @@
             android:layout_height="match_parent"
             android:layout_row="0"
             android:layout_column="1"
-            android:text="@string/save" />
+            android:text="@string/save"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/black"
+            />
     </GridLayout>
 
 
