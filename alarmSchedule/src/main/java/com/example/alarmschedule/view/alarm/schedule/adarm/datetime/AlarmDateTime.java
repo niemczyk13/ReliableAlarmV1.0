@@ -1,9 +1,12 @@
 package com.example.alarmschedule.view.alarm.schedule.adarm.datetime;
 
+import androidx.room.Embedded;
+
 import java.util.Calendar;
 
 public class AlarmDateTime {
     private Calendar dateTime;
+    @Embedded
     private Week week;
 
     public AlarmDateTime(Calendar dateTime, Week week) {

@@ -3,7 +3,7 @@ package com.niemiec.risingview.model;
 import com.niemiec.risingview.view.RisingSoundValue;
 
 public class RisingSound {
-    private final int time;
+    private int time;
 
     public RisingSound(int time) {
         this.time = time;
@@ -17,4 +17,11 @@ public class RisingSound {
         return time;
     }
 
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public long getTimeInMilliseconds() {
+        return time * 1000;
+    }
 }

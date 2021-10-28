@@ -1,12 +1,15 @@
 package com.example.alarmschedule.view.alarm.schedule.adarm.datetime;
 
+import androidx.room.Ignore;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Week {
-    private final Map<DayOfWeek, Boolean> days;
+    private Map<DayOfWeek, Boolean> days;
+    @Ignore
     private final DayOfWeek[] orderOfDays;
 
     public Week() {
@@ -69,5 +72,13 @@ public class Week {
         for (DayOfWeek day : orderOfDays) {
             days.put(day, false);
         }
+    }
+
+    public Map<DayOfWeek, Boolean> getDays() {
+        return days;
+    }
+
+    public void setDays(Map<DayOfWeek, Boolean> days) {
+        this.days = days;
     }
 }

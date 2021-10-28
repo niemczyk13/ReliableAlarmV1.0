@@ -22,7 +22,7 @@ public class NapLogic {
                 int[] values = {NapValue.FIRST.getValue(),
                         NapValue.SECOND.getValue(), NapValue.THIRD.getValue(),
                         NapValue.FOURTH.getValue(), NapValue.FIFTH.getValue()};
-                nap.setValue(values[position]);
+                nap.setTime(values[position]);
             }
 
             @Override

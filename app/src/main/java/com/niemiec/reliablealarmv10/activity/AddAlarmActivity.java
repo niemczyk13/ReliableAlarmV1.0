@@ -59,7 +59,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
 
         NapView napView = findViewById(R.id.nap_view);
         Nap nap = new Nap();
-        nap.setValue(2);
+        nap.setTime(2);
         napView.initialize(nap);
 
     }

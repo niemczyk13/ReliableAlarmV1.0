@@ -3,16 +3,16 @@ package com.niemiec.reliablealarmv10.view.nap.model;
 public class Nap {
     private int time;
 
-    public void setValue(int time) {
+    public void setTime(int time) {
         this.time = time;
     }
 
-    public int getValue() {
+    public long getTime() {
         return time;
     }
 
     public long getTimeInMilliseconds() {
         //TODO
-        return time;
+        return time / 1000;
     }
 }
