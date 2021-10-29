@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:scaleX="1.2"
                 android:scaleY="1.2"
+                android:theme="@style/SeekBarColor"
                 android:layout_gravity="right" />
 
         </LinearLayout>

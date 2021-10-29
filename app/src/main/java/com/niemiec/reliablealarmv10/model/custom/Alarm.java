@@ -15,8 +15,11 @@ public class Alarm {
     public long id;
     @Embedded
     public AlarmDateTime alarmDateTime;
+    @Embedded
     public Sound sound;
+    @Embedded
     public Nap nap;
+    @Embedded
     public RisingSound risingSound;
     public int volume;
     public boolean vibration;
