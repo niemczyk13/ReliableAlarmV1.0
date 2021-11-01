@@ -17,7 +17,7 @@ public class ViewBuilder {
 
     public ViewBuilder(Context context) {
         createNapDescriptionTextView(context);
-        napSpinner = createNapSpinner(context);
+        napSpinner = createNapSpinner(context);  
     }
 
     private Spinner createNapSpinner(Context context) {

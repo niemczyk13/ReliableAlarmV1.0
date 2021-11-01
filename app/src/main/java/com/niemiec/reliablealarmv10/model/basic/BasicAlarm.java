@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.alarmsoundview.model.Sound;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.risingview.model.RisingSound;
 
@@ -20,4 +21,11 @@ public class BasicAlarm {
     public RisingSound risingSound;
     public int volume;
     public boolean vibration;
+
+    public Alarm getAlarm() {
+        //TODO
+        //tworzy nowy alarm, dodaje właściwości
+        //tworzy teraźniejszy czas i jutrzejszą datę
+        return null;
+    }
 }
