@@ -14,12 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReliableAlarmV10"
         tools:replace="android:theme">
-        <activity android:name=".activity.MainActivity"
+        <activity android:name=".activity.main.MainActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".activity.AddAlarmActivity"
+            android:name=".activity.alarm.add.AddAlarmActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

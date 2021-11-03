@@ -68,6 +68,8 @@ public class AlarmSoundView extends LinearLayout {
         sound.setPersonal(data.getBoolean("is_personal", false));
         sound.setUri(data.getString("uri"));
         sound.setName(data.getString("sound_name"));
+        System.out.println("Sound uri: " + data.getInt("id"));
+
     }
 
     private void updateSoundName(String name) {

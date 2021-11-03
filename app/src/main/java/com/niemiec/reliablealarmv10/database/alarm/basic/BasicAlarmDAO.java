@@ -11,6 +11,6 @@ public interface BasicAlarmDAO {
     @Insert
     void insertBasiAlarm(BasicAlarm basicAlarm);
 
-    @Query("SELECT * FROM basicalarm WHERE id = :id")
-    BasicAlarm getBasicAlarm(long id);
+    @Query("SELECT * FROM basicalarm WHERE id = 1")
+    BasicAlarm getBasicAlarm();
 }

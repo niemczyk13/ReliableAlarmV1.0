@@ -6,8 +6,10 @@ import androidx.room.PrimaryKey;
 
 import com.example.alarmsoundview.model.Sound;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.view.nap.NapValue;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.risingview.model.RisingSound;
+import com.niemiec.risingview.view.RisingSoundValue;
 
 @Entity
 public class BasicAlarm {
@@ -21,6 +23,21 @@ public class BasicAlarm {
     public RisingSound risingSound;
     public int volume;
     public boolean vibration;
+
+    public BasicAlarm() {
+        sound = new Sound();
+        sound.setId(com.example.alarmsoundview.R.raw.closer);
+        sound.setName("Pierwsza");
+
+        nap = new Nap();
+        nap.setTime(NapValue.FIRST.getValue());
+
+        risingSound = new RisingSound();
+        risingSound.setTime(RisingSoundValue.SECOND.getValue());
+
+        volume = 80;
+        vibration = false;
+    }
 
     public Alarm getAlarm() {
         //TODO

@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity;
+package com.niemiec.reliablealarmv10.activity.alarm.add;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
@@ -54,7 +54,8 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
 
         RisingSoundView view = findViewById(com.niemiec.risingview.R.id.rising_sound_view);
 
-        RisingSound risingSound = new RisingSound(RisingSoundValue.SECOND.getValue());
+        RisingSound risingSound = new RisingSound();
+        risingSound.setTime(RisingSoundValue.SECOND.getValue());
         view.initialize(risingSound);
 
         NapView napView = findViewById(R.id.nap_view);

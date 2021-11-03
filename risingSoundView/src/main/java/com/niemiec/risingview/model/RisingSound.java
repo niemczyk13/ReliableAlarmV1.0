@@ -5,8 +5,7 @@ import com.niemiec.risingview.view.RisingSoundValue;
 public class RisingSound {
     private int time;
 
-    public RisingSound(int time) {
-        this.time = time;
+    public RisingSound() {
     }
 
     public boolean isOn() {

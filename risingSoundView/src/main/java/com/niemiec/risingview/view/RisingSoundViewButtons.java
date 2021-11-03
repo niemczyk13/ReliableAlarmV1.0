@@ -65,6 +65,8 @@ public class RisingSoundViewButtons {
     public RisingSound getRisingSound() {
         RisingSoundButton button = buttons.get(checkedButtonId);
         assert button != null;
-        return new RisingSound(button.getValue());
+        RisingSound risingSound = new RisingSound();
+        risingSound.setTime(button.getValue());
+        return risingSound;
     }
 }
