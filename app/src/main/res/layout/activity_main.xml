@@ -37,6 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/ic_baseline_add_24"/>
+        android:backgroundTint="@color/blue"
+        android:src="@drawable/ic_baseline_add_24"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

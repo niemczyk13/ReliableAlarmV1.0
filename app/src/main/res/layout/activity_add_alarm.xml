@@ -11,92 +11,89 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    <com.niemiec.alarmdatetimeview.view.AlarmDateTimeView
-        android:id="@+id/alarm_date_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:theme="@style/MyTimePicker"
-        style="@style/MyTimePicker"
-        />
-
-    <com.example.alarmsoundview.view.AlarmSoundView
-        android:id="@+id/alarm_sound_view"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        />
-
-        <com.niemiec.reliablealarmv10.view.nap.NapView
-            android:id="@+id/nap_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-
-    <com.niemiec.risingview.view.RisingSoundView
-        android:id="@+id/rising_sound_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:text="@string/volume"/>
-
-        <SeekBar
-            android:id="@+id/volume_seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:theme="@style/SeekBarColor"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:text="@string/vibration"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="left|center_horizontal"
-                tools:ignore="RtlHardcoded" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/vibration_switch"
+            <com.niemiec.alarmdatetimeview.view.AlarmDateTimeView
+                android:id="@+id/alarm_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="1.2"
-                android:scaleY="1.2"
+                android:focusable="true"
+                android:theme="@style/MyTimePicker"
+                style="@style/MyTimePicker"
+                />
+
+            <com.example.alarmsoundview.view.AlarmSoundView
+                android:id="@+id/alarm_sound_view"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
+
+            <com.niemiec.reliablealarmv10.view.nap.NapView
+                android:id="@+id/nap_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <com.niemiec.risingview.view.RisingSoundView
+                android:id="@+id/rising_sound_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/volume"/>
+
+            <SeekBar
+                android:id="@+id/volume_seek_bar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:theme="@style/SeekBarColor"
-                android:layout_gravity="right" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/vibration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="left|center_horizontal"
+                    tools:ignore="RtlHardcoded" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/vibration_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:theme="@style/SeekBarColor"
+                    android:layout_gravity="right" />
+
+            </LinearLayout>
         </LinearLayout>
-
-
-
-    </LinearLayout>
     </ScrollView>
 
     <LinearLayout
