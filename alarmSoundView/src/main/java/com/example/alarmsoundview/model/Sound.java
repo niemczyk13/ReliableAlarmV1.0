@@ -1,17 +1,17 @@
 package com.example.alarmsoundview.model;
 
 public class Sound {
-    private int id = 0;
+    private int soundId = 0;
     private String uri = "";
     private String soundName = "";
     private boolean isPersonal = false;
 
-    public int getId() {
-        return id;
+    public int getSoundId() {
+        return soundId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSoundId(int soundId) {
+        this.soundId = soundId;
     }
 
     public void setUri(String uri) {
@@ -22,9 +22,9 @@ public class Sound {
         isPersonal = personal;
     }
 
-    public void setName(String name) {this.soundName = name;}
+    public void setSoundName(String name) {this.soundName = name;}
 
-    public String getName() {
+    public String getSoundName() {
         return soundName;
     }
 

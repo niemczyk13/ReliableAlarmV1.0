@@ -64,12 +64,10 @@ public class AlarmSoundView extends LinearLayout {
     private void getSoundFromActivityResult(Bundle data) {
         updateSoundName(data.getString("name"));
         sound = new Sound();
-        sound.setId(data.getInt("id"));
+        sound.setSoundId(data.getInt("id"));
         sound.setPersonal(data.getBoolean("is_personal", false));
         sound.setUri(data.getString("uri"));
-        sound.setName(data.getString("sound_name"));
-        System.out.println("Sound uri: " + data.getInt("id"));
-
+        sound.setSoundName(data.getString("sound_name"));
     }
 
     private void updateSoundName(String name) {
@@ -103,10 +101,10 @@ public class AlarmSoundView extends LinearLayout {
         Intent intent = new Intent(super.getContext(), SelectSoundActivity.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("id", sound.getId());
+        bundle.putInt("id", sound.getSoundId());
         bundle.putString("uri", sound.getUri());
         bundle.putBoolean("is_personal", sound.isPersonal());
-        bundle.putString("name", sound.getName());
+        bundle.putString("name", sound.getSoundName());
         intent.putExtra("data", bundle);
 
 
@@ -120,7 +118,7 @@ public class AlarmSoundView extends LinearLayout {
 
     private void updateView() {
         description.setText(R.string.alarm_sound);
-        soundName.setText(sound.getName());
+        soundName.setText(sound.getSoundName());
     }
 
     public Sound getSound() {

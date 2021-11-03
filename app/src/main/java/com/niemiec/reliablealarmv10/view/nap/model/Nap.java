@@ -1,18 +1,18 @@
 package com.niemiec.reliablealarmv10.view.nap.model;
 
 public class Nap {
-    private int time;
+    private int napTime;
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setNapTime(int time) {
+        this.napTime = time;
     }
 
-    public long getTime() {
-        return time;
+    public int getNapTime() {
+        return napTime;
     }
 
     public long getTimeInMilliseconds() {
         //TODO
-        return time / 1000;
+        return napTime / 1000;
     }
 }

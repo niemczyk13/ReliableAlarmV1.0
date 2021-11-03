@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.fonts.SystemFonts;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -86,16 +85,16 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     }
 
     private void createAlarmBuiltInSoundData() {
-        data = new AlarmBuiltInSoundData(sound.getId());
+        data = new AlarmBuiltInSoundData(sound.getSoundId());
     }
 
     private void createSoundFromBundle() {
         Bundle bundle = getIntent().getExtras().getBundle("data");
         sound = new Sound();
-        sound.setId(bundle.getInt("id"));
+        sound.setSoundId(bundle.getInt("id"));
         sound.setPersonal(bundle.getBoolean("is_personal"));
         sound.setUri(bundle.getString("uri"));
-        sound.setName(bundle.getString("name"));
+        sound.setSoundName(bundle.getString("name"));
     }
 
     private void createSelectSoundPresenter() {
@@ -127,8 +126,8 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         this.sound = sound;
 
         Bundle bundle = new Bundle();
-        bundle.putInt("id", sound.getId());
-        bundle.putString("name", sound.getName());
+        bundle.putInt("id", sound.getSoundId());
+        bundle.putString("name", sound.getSoundName());
         bundle.putString("uri", sound.getUri());
         bundle.putBoolean("is_personal", sound.isPersonal());
 

@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface MainContractMVP {
     interface View {
-        void showAlarmList();
+        void showAlarmList(List<Alarm> alarms);
         void updateAlarmList();
         void showAlarmListForDeletion();
+        void showMainAlarmList();
     }
 
     interface Presenter {
-        void createDataBase();
         List<Alarm> getAllAlarms();
         void removeAlarms(List<Long> ids);
         void addAlarm();

@@ -43,7 +43,7 @@ public class RisingSoundViewButtons {
 
     public void setRisingSound(RisingSound risingSound) {
         for (RisingSoundButton button : buttons.values()) {
-            if (button.getValue() == risingSound.getTime()) {
+            if (button.getValue() == risingSound.getRisingSoundTime()) {
                 button.setChecked();
                 checkedButtonId = button.getId();
             }
@@ -66,7 +66,7 @@ public class RisingSoundViewButtons {
         RisingSoundButton button = buttons.get(checkedButtonId);
         assert button != null;
         RisingSound risingSound = new RisingSound();
-        risingSound.setTime(button.getValue());
+        risingSound.setRisingSoundTime(button.getValue());
         return risingSound;
     }
 }

@@ -88,8 +88,8 @@ public class SelectSoundPresenter extends BasePresenter<SelectSoundContractMVP.V
     public void okButtonClick() {
         stopMusic();
         Sound sound = new Sound();
-        sound.setId(markedSound.getId());
-        sound.setName(markedSound.getName());
+        sound.setSoundId(markedSound.getId());
+        sound.setSoundName(markedSound.getName());
         sound.setPersonal(false);
         sound.setUri("");
         view.finishActivity(sound);

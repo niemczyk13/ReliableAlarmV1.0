@@ -3,6 +3,7 @@ package com.niemiec.reliablealarmv10.database.alarm.custom;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
@@ -18,4 +19,7 @@ public interface AlarmDAO {
 
     @Query("SELECT * FROM Alarm WHERE id = :id")
     Alarm getAlarm(long id);
+
+    @Update
+    void updateAlarm(Alarm alarm);
 }

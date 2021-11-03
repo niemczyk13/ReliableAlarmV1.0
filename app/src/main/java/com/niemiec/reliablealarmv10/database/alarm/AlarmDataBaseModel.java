@@ -9,8 +9,8 @@ import com.niemiec.reliablealarmv10.database.alarm.custom.AlarmDAO;
 import com.niemiec.reliablealarmv10.model.basic.BasicAlarm;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
-//@Database(entities = {Alarm.class, BasicAlarm.class}, version = 1, exportSchema = false)
-//@TypeConverters({Converts.class})
+@Database(entities = {Alarm.class, BasicAlarm.class}, version = 1, exportSchema = false)
+@TypeConverters({Converts.class})
 public abstract class AlarmDataBaseModel extends RoomDatabase {
     public abstract AlarmDAO alarmDAO();
     public abstract BasicAlarmDAO basicAlarmDAO();

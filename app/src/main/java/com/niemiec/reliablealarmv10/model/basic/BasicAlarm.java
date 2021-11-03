@@ -4,12 +4,16 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
+import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
 import com.example.alarmsoundview.model.Sound;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.NapValue;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.risingview.model.RisingSound;
 import com.niemiec.risingview.view.RisingSoundValue;
+
+import java.util.Calendar;
 
 @Entity
 public class BasicAlarm {
@@ -26,23 +30,33 @@ public class BasicAlarm {
 
     public BasicAlarm() {
         sound = new Sound();
-        sound.setId(com.example.alarmsoundview.R.raw.closer);
-        sound.setName("Pierwsza");
+        sound.setSoundId(com.example.alarmsoundview.R.raw.closer);
+        sound.setSoundName("Pierwsza");
+        sound.setPersonal(false);
 
         nap = new Nap();
-        nap.setTime(NapValue.FIRST.getValue());
+        nap.setNapTime(NapValue.FIRST.getValue());
 
         risingSound = new RisingSound();
-        risingSound.setTime(RisingSoundValue.SECOND.getValue());
+        risingSound.setRisingSoundTime(RisingSoundValue.SECOND.getValue());
 
         volume = 80;
         vibration = false;
     }
 
     public Alarm getAlarm() {
-        //TODO
-        //tworzy nowy alarm, dodaje właściwości
-        //tworzy teraźniejszy czas i jutrzejszą datę
-        return null;
+        Alarm alarm = new Alarm();
+        Calendar dateTime = Calendar.getInstance();
+        dateTime.add(Calendar.DAY_OF_YEAR, 1);
+        Week week = new Week();
+        alarm.alarmDateTime = new AlarmDateTime(dateTime, week);
+        alarm.sound = sound;
+        alarm.nap = nap;
+        alarm.risingSound = risingSound;
+        alarm.volume = volume;
+        alarm.vibration = vibration;
+        alarm.isActive = true;
+
+        return alarm;
     }
 }

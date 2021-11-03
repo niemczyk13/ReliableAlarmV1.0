@@ -3,6 +3,7 @@ package com.niemiec.reliablealarmv10.database.alarm;
 import android.content.Context;
 
 import com.niemiec.reliablealarmv10.model.basic.BasicAlarm;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import androidx.room.Room;
 
@@ -15,8 +16,19 @@ public class AlarmDataBase {
     }
 
     private static void createBasicAlarm() {
-        dataBaseModel.basicAlarmDAO().insertBasiAlarm(new BasicAlarm());
+        BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
+        //System.out.println("BasicAlarm exist: " + basicAlarm.id);
+        if (basicAlarm == null)
+            dataBaseModel.basicAlarmDAO().insertBasicAlarm(new BasicAlarm());
     }
 
+    public static void insertAlarm(Alarm alarm) {
+        dataBaseModel.alarmDAO().insertAlarm(alarm);
+    }
+
+    public static Alarm getDefaultAlarm() {
+        BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
+        return basicAlarm.getAlarm();
+    }
 
 }
