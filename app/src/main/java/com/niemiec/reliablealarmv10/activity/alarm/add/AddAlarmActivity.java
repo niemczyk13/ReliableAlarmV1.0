@@ -9,28 +9,22 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 
-import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
-import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.DayOfWeek;
-import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
-import com.example.alarmsoundview.model.Sound;
 import com.example.alarmsoundview.view.AlarmSoundView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.NapView;
-import com.niemiec.reliablealarmv10.view.nap.model.Nap;
-import com.niemiec.risingview.model.RisingSound;
-import com.niemiec.risingview.view.RisingSoundValue;
 import com.niemiec.risingview.view.RisingSoundView;
-
-import java.util.Calendar;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddAlarmActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+import java.util.Objects;
+
+public class AddAlarmActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AddAlarmContractMVP.View {
+
+    private AddAlarmPresenter presenter;
 
     private AlarmDateTimeView alarmDateTimeView;
     private AlarmSoundView alarmSoundView;
@@ -47,45 +41,28 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alarm);
+
+        defineBasicHeaderAppearanceData();
+        getViewObjects();
+        createAddAlarmPresenter();
+        presenter.downloadAlarm(getIntent().getBundleExtra("data"));
+    }
+
+    private void defineBasicHeaderAppearanceData() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(Color.BLACK);
+    }
 
-        getViewObjects();
-
-
-        //TODO - pobieram dane z bazy w presenter
-        Alarm alarm = AlarmDataBase.getDefaultAlarm();
-        alarmDateTimeView.initialize(alarm.alarmDateTime, getSupportFragmentManager());
-        //TODO - przekazuje do metody showEditAlarm(Alarm)
-        volumeSeekBar.setMax(100);
-        volumeSeekBar.setProgress(alarm.volume);
-        //alarmDateTimeView.initialize(createTestAlarmDateTime(), getSupportFragmentManager());
-
-        Sound sound = new Sound();
-        sound.setSoundId(com.example.alarmsoundview.R.raw.creep);
-        sound.setSoundName("Piosenka");
-        sound.setUri("uri/uri");
-        sound.setPersonal(false);
-        alarmSoundView.initialize(sound);
-
-        RisingSoundView view = findViewById(com.niemiec.risingview.R.id.rising_sound_view);
-
-        RisingSound risingSound = new RisingSound();
-        risingSound.setRisingSoundTime(RisingSoundValue.SECOND.getValue());
-        view.initialize(risingSound);
-
-        NapView napView = findViewById(R.id.nap_view);
-        Nap nap = new Nap();
-        nap.setNapTime(2);
-        napView.initialize(nap);
-
+    private void createAddAlarmPresenter() {
+        presenter = new AddAlarmPresenter();
+        presenter.attach(this);
     }
 
     private void getViewObjects() {
-        alarmDateTimeView = findViewById(R.id.alarm_date_time_view);
+        alarmDateTimeView = findViewById(R.id.alarm_date_time);
         alarmSoundView = findViewById(R.id.alarm_sound_view);
         napView = findViewById(R.id.nap_view);
         risingSoundView = findViewById(R.id.rising_sound_view);
@@ -95,20 +72,20 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         saveButton = findViewById(R.id.save_button);
     }
 
-    private AlarmDateTime createTestAlarmDateTime() {
-        //TODO w ramach testu data na sztywno
-        Week week = new Week();
-        //week.activeDay(DayOfWeek.MONDAY);
-        //week.activeDay(DayOfWeek.SATURDAY);
-        week.activeDay(DayOfWeek.THURSDAY);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2021, 8, 10, 16,35, 0);
-        return new AlarmDateTime(calendar, week);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         alarmDateTimeView.setDate(year, month, day);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void showAlarm(Alarm alarm) {
+        alarmDateTimeView.initialize(alarm.alarmDateTime, getSupportFragmentManager());
+        alarmSoundView.initialize(alarm.sound);
+        napView.initialize(alarm.nap);
+        risingSoundView.initialize(alarm.risingSound);
+        volumeSeekBar.setProgress(alarm.volume);
+        vibrationSwitch.setChecked(alarm.vibration);
     }
 }

@@ -17,7 +17,6 @@ public class AlarmDataBase {
 
     private static void createBasicAlarm() {
         BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
-        //System.out.println("BasicAlarm exist: " + basicAlarm.id);
         if (basicAlarm == null)
             dataBaseModel.basicAlarmDAO().insertBasicAlarm(new BasicAlarm());
     }
@@ -29,6 +28,10 @@ public class AlarmDataBase {
     public static Alarm getDefaultAlarm() {
         BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
         return basicAlarm.getAlarm();
+    }
+
+    public static Alarm getAlarm(long id) {
+        return dataBaseModel.alarmDAO().getAlarm(id);
     }
 
 }
