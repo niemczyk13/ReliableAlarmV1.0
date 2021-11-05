@@ -34,4 +34,8 @@ public class AlarmDataBase {
         return dataBaseModel.alarmDAO().getAlarm(id);
     }
 
+    public static void updateAlarm(Alarm alarm) {
+        dataBaseModel.alarmDAO().updateAlarm(alarm);
+    }
+
 }

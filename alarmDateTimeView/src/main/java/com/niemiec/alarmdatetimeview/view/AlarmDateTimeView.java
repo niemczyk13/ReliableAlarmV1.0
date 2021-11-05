@@ -60,13 +60,13 @@ public class AlarmDateTimeView extends LinearLayout {
     }
 
     private void addListeners() {
-        customTimePicker.addClockFaceClickListener(() -> {
-            alarmSchedule.setTime(customTimePicker.getHour(), customTimePicker.getMinute());
-        });
+        customTimePicker.addClockFaceClickListener(this::setTimeToAlarmScheduleFromCustomTimePicker);
 
-        customTimePicker.addKeyboardInputListener(() -> {
-            alarmSchedule.setTime(customTimePicker.getHour(), customTimePicker.getMinute());
-        });
+        customTimePicker.addKeyboardInputListener(this::setTimeToAlarmScheduleFromCustomTimePicker);
+    }
+
+    private void setTimeToAlarmScheduleFromCustomTimePicker() {
+        alarmSchedule.setTime(customTimePicker.getHour(), customTimePicker.getMinute());
     }
 
     public AlarmDateTime getAlarmDateTime() {
@@ -81,5 +81,9 @@ public class AlarmDateTimeView extends LinearLayout {
 
     public void setDate(int year, int month, int day) {
         alarmSchedule.setDate(year, month, day);
+    }
+
+    public void calculateDateToTime() {
+        setTimeToAlarmScheduleFromCustomTimePicker();
     }
 }

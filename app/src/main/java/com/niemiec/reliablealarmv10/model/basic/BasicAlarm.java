@@ -1,5 +1,7 @@
 package com.niemiec.reliablealarmv10.model.basic;
 
+import android.content.res.Resources;
+
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -29,18 +31,23 @@ public class BasicAlarm {
     public boolean vibration;
 
     public BasicAlarm() {
+        int soundId = com.example.alarmsoundview.R.raw.closer;
+        NapValue napValue = NapValue.FIRST;
+        RisingSoundValue risingSoundValue = RisingSoundValue.SECOND;
+        int volumeValue = 80;
+
         sound = new Sound();
-        sound.setSoundId(com.example.alarmsoundview.R.raw.closer);
-        sound.setSoundName("Pierwsza");
+        sound.setSoundId(soundId);
+        sound.setSoundName(Resources.getSystem().getResourceName(soundId));
         sound.setPersonal(false);
 
         nap = new Nap();
-        nap.setNapTime(NapValue.FIRST.getValue());
+        nap.setNapTime(napValue.getValue());
 
         risingSound = new RisingSound();
-        risingSound.setRisingSoundTime(RisingSoundValue.SECOND.getValue());
+        risingSound.setRisingSoundTime(risingSoundValue.getValue());
 
-        volume = 80;
+        volume = volumeValue;
         vibration = false;
     }
 
@@ -55,6 +62,8 @@ public class BasicAlarm {
         alarm.risingSound = risingSound;
         alarm.volume = volume;
         alarm.vibration = vibration;
+        alarm.name = "";
+        alarm.note = "";
         alarm.isActive = true;
 
         return alarm;

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class AddAlarmActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AddAlarmContractMVP.View {
 
     private AddAlarmPresenter presenter;
@@ -46,6 +48,27 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         getViewObjects();
         createAddAlarmPresenter();
         presenter.downloadAlarm(getIntent().getBundleExtra("data"));
+        addOnClickMethodsToButtons();
+    }
+
+    private void addOnClickMethodsToButtons() {
+        saveButton.setOnClickListener(this::saveButtonClick);
+    }
+
+    private void saveButtonClick(View view) {
+        presenter.saveAlarm(createAlarm());
+    }
+
+    private Alarm createAlarm() {
+        Alarm alarm = new Alarm();
+        alarm.alarmDateTime = alarmDateTimeView.getAlarmDateTime();
+        alarm.sound = alarmSoundView.getSound();
+        alarm.nap = napView.getNap();
+        alarm.risingSound = risingSoundView.getRisingSound();
+        alarm.volume = volumeSeekBar.getProgress();
+        alarm.vibration = vibrationSwitch.isChecked();
+        alarm.isActive = true;
+        return alarm;
     }
 
     private void defineBasicHeaderAppearanceData() {
@@ -72,13 +95,11 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         saveButton = findViewById(R.id.save_button);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         alarmDateTimeView.setDate(year, month, day);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void showAlarm(Alarm alarm) {
         alarmDateTimeView.initialize(alarm.alarmDateTime, getSupportFragmentManager());
@@ -88,4 +109,18 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         volumeSeekBar.setProgress(alarm.volume);
         vibrationSwitch.setChecked(alarm.vibration);
     }
+
+    @Override
+    public void updateAlarmDate() {
+        alarmDateTimeView.calculateDateToTime();
+    }
+
+    @Override
+    public void goBackToPreviousActivity() {
+        //TODO w antywności Main napisać jakś metodę
+        //TODO która jest wywoływana podczas powrotu do aktywbości
+        //TODO pobrać z cyklu życia aktywności
+        finish();
+    }
+
 }

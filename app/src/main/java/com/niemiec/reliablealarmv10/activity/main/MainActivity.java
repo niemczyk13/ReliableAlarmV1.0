@@ -12,6 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
+import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
 
         Bundle bundle = new Bundle();
-        bundle.putString("type", "create");
+        bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
         intent.putExtra("data", bundle);
 
         startActivity(intent);

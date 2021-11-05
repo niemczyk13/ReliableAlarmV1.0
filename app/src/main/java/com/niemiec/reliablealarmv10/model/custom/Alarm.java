@@ -23,6 +23,8 @@ public class Alarm {
     public RisingSound risingSound;
     public int volume;
     public boolean vibration;
+    public String name;
+    public String note;
     public boolean isActive;
 
 }

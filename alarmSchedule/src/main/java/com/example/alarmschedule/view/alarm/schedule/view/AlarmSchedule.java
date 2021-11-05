@@ -67,4 +67,5 @@ public class AlarmSchedule extends LinearLayout {
     public AlarmDateTime getAlarmDateTime() {
         return logic.getAlarmDateTime();
     }
+
 }
