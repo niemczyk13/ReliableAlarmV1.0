@@ -11,6 +11,7 @@ public class RisingSoundViewLogic {
     }
 
     public void initialize(RisingSound risingSound) {
+        this.risingSound = risingSound;
         buttons.setRisingSound(risingSound);
         buttons.setRisingSoundButtonClickListener(this::onRisingButtonClick);
     }

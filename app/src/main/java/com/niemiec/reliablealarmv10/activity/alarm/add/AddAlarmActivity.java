@@ -53,10 +53,15 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
 
     private void addOnClickMethodsToButtons() {
         saveButton.setOnClickListener(this::saveButtonClick);
+        cancelButton.setOnClickListener(this::cancelButtonClick);
+    }
+
+    private void cancelButtonClick(View view) {
+        finish();
     }
 
     private void saveButtonClick(View view) {
-        presenter.saveAlarm(createAlarm());
+        presenter.saveAlarm();
     }
 
     private Alarm createAlarm() {
@@ -111,8 +116,9 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     }
 
     @Override
-    public void updateAlarmDate() {
+    public Alarm getAlarm() {
         alarmDateTimeView.calculateDateToTime();
+        return createAlarm();
     }
 
     @Override

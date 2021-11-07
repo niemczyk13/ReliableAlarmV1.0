@@ -7,12 +7,12 @@ import com.niemiec.reliablealarmv10.model.custom.Alarm;
 public interface AddAlarmContractMVP {
     interface View {
         void showAlarm(Alarm alarm);
-        void updateAlarmDate();
+        Alarm getAlarm();
         void goBackToPreviousActivity();
     }
 
     interface Presenter {
         void downloadAlarm(Bundle bundle);
-        void saveAlarm(Alarm alarm);
+        void saveAlarm();
     }
 }

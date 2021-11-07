@@ -38,7 +38,8 @@ public class BasicAlarm {
 
         sound = new Sound();
         sound.setSoundId(soundId);
-        sound.setSoundName(Resources.getSystem().getResourceName(soundId));
+        //sound.setSoundName(Resources.getSystem().getResourceName(soundId));
+        sound.setSoundName("Pierwsza");
         sound.setPersonal(false);
 
         nap = new Nap();

@@ -26,16 +26,20 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
     }
 
     @Override
-    public void saveAlarm(Alarm alarm) {
-        view.updateAlarmDate();
+    public void saveAlarm() {
+        Alarm alarm = view.getAlarm();
+        addAlarmToDatabase(alarm);
+        view.goBackToPreviousActivity();
+        //TODO aktywowanie alarmu
+    }
+
+    private void addAlarmToDatabase(Alarm alarm) {
         if (type == Type.CREATE) {
             AlarmDataBase.insertAlarm(alarm);
         } else if (type == Type.UPDATE) {
             alarm.id = id;
             AlarmDataBase.updateAlarm(alarm);
         }
-        view.goBackToPreviousActivity();
-        //TODO w view.powrót do czweśniejszej aktywności
     }
 
     public enum Type {
