@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,6 +23,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MainContractMVP.View {
     private MainPresenter presenter;
 
+    private ImageButton binImageButton;
+    private ListView alarmListView;
     private FloatingActionButton addNewAlarmButton;
 
     @Override
@@ -34,6 +38,14 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         getWindow().setStatusBarColor(Color.BLACK);
 
         createMainPresenter();
+
+        binImageButton = findViewById(R.id.bin_image_button);
+        alarmListView = findViewById(R.id.alarm_list_view);
+
+        List<Alarm> alarms = AlarmDataBase.getAllAlarms();
+        for (Alarm alarm : alarms) {
+            System.out.println("Alarm id: " + alarm.id);
+        }
 
         //TODO dodanie obsługi:
         //kliknięcie w kosz

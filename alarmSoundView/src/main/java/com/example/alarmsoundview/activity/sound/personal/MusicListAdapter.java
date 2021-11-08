@@ -3,7 +3,6 @@ package com.example.alarmsoundview.activity.sound.personal;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 
 import com.example.alarmsoundview.R;
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import com.niemiec.reliablealarmv10.model.basic.BasicAlarm;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.List;
+
 import androidx.room.Room;
 
 public class AlarmDataBase {
@@ -38,4 +40,7 @@ public class AlarmDataBase {
         dataBaseModel.alarmDAO().updateAlarm(alarm);
     }
 
+    public static List<Alarm> getAllAlarms() {
+        return dataBaseModel.alarmDAO().getAll();
+    }
 }
