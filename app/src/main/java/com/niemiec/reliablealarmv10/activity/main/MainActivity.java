@@ -15,13 +15,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListAdapter;
+import com.niemiec.reliablealarmv10.activity.main.view.toggle.ToggleBetweenDeleteAndEditViews;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MainContractMVP.View {
     private MainPresenter presenter;
+    private AlarmListAdapter adapter;
 
     private ImageButton binImageButton;
     private ListView alarmListView;
@@ -46,6 +50,20 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         for (Alarm alarm : alarms) {
             System.out.println("Alarm id: " + alarm.id);
         }
+
+        adapter = new AlarmListAdapter(this, alarms);
+
+        alarmListView.setAdapter(adapter);
+
+        ToggleBetweenDeleteAndEditViews toggle = new ToggleBetweenDeleteAndEditViews();
+        toggle.attach(adapter);
+
+        binImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle.notifyObservers();
+            }
+        });
 
         //TODO dodanie obsługi:
         //kliknięcie w kosz

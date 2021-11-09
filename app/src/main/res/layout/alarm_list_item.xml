@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,24 +10,31 @@
         android:id="@+id/radio_button_circle_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         />
 
     <TextView
         android:id="@+id/alarm_time_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_marginLeft="10dp"
         />
 
     <TextView
         android:id="@+id/alarm_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/alarm_is_active_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginRight="10dp"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 </LinearLayout>
