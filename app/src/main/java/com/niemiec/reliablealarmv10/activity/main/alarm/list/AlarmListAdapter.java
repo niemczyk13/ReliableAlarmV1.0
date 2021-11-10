@@ -28,7 +28,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements Observer {
     private List<ViewHolder> views;
 
     public AlarmListAdapter(Context context, List<Alarm> alarms) {
-        super(context, 0, alarms);
+        super(context, android.R.layout.simple_expandable_list_item_1, alarms);
         this.context = context;
         this.alarms = alarms;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

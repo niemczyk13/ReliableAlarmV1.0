@@ -20,7 +20,7 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
             id = 0;
             view.showAlarm(AlarmDataBase.getDefaultAlarm());
         } else if (type == Type.UPDATE) {
-            id = bundle.getLong("id");
+            id = bundle.getLong("alarm_id");
             view.showAlarm(AlarmDataBase.getAlarm(id));
         }
     }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -62,6 +63,19 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
             @Override
             public void onClick(View v) {
                 toggle.notifyObservers();
+            }
+        });
+
+        alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type", AddAlarmPresenter.Type.UPDATE);
+                bundle.putLong("alarm_id", alarms.get(position).id);
+                intent.putExtra("data", bundle);
+
+                startActivity(intent);
             }
         });
 
