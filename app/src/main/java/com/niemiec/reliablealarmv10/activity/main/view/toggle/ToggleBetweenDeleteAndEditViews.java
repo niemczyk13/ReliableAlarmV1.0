@@ -8,28 +8,29 @@ import java.util.List;
 
 public class ToggleBetweenDeleteAndEditViews implements Subject {
     private DisplayState displayState;
-    private List<Observer> observers;
+    private Observer observer;
 
     public ToggleBetweenDeleteAndEditViews() {
-        observers = new ArrayList<>();
     }
 
     @Override
     public void attach(Observer observer) {
-        observers.add(observer);
+        this.observer = observer;
     }
 
     @Override
     public void detach(Observer observer) {
-        int index = observers.indexOf(observer);
-        observers.remove(index);
+        this.observer = null;
     }
 
     @Override
-    public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update();
-        }
+    public void toggleView() {
+        observer.toggleView();
+    }
+
+    @Override
+    public boolean setViewSelected(int position) {
+        return observer.showSelectedItem(position);
     }
 
     public void displayTheEditView() {

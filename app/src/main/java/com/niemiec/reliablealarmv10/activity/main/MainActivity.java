@@ -7,11 +7,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
@@ -21,8 +20,9 @@ import com.niemiec.reliablealarmv10.activity.main.view.toggle.ToggleBetweenDelet
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity implements MainContractMVP.View {
     private MainPresenter presenter;
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private ImageButton binImageButton;
     private ListView alarmListView;
     private FloatingActionButton addNewAlarmButton;
+
+    private Set<Integer> selectedAlarms = new TreeSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         alarmListView = findViewById(R.id.alarm_list_view);
 
         List<Alarm> alarms = AlarmDataBase.getAllAlarms();
-        for (Alarm alarm : alarms) {
-            System.out.println("Alarm id: " + alarm.id);
-        }
 
         adapter = new AlarmListAdapter(this, alarms);
 
@@ -59,16 +58,26 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         ToggleBetweenDeleteAndEditViews toggle = new ToggleBetweenDeleteAndEditViews();
         toggle.attach(adapter);
 
-        binImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggle.notifyObservers();
+        binImageButton.setOnClickListener(v -> {
+            toggle.toggleView();
+            if (alarmListView.getChoiceMode() != AbsListView.CHOICE_MODE_MULTIPLE) {
+                alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+            } else {
+                alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
             }
         });
 
-        alarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        alarmListView.setOnItemClickListener((parent, view, position, id) -> {
+            if (alarmListView.getChoiceMode() == AbsListView.CHOICE_MODE_MULTIPLE) {
+                if (toggle.setViewSelected(position)) {
+                    selectedAlarms.add(position);
+                } else {
+                    selectedAlarms.remove(position);
+                }
+
+                //TODO zmiana widoku -> przycisku anuluj i usuń
+                //TODO Zaznacz wszystkie i ilość zaznaczonych
+            } else {
                 Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type", AddAlarmPresenter.Type.UPDATE);
@@ -110,6 +119,16 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         presenter = new MainPresenter(getApplicationContext());
         presenter.attach(this);
     }
+
+  /*  @Override
+    protected void onRestart() {
+        super.onRestart();
+        List<Alarm> alarms = AlarmDataBase.getAllAlarms();
+
+        adapter = new AlarmListAdapter(this, alarms);
+
+        alarmListView.setAdapter(adapter);
+    }*/
 
     //TODO
     @Override

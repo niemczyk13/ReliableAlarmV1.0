@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.main.observer.Observer;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
@@ -64,9 +65,10 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements Observer {
         return listItem;
     }
 
-    @SuppressLint("Range")
+    @SuppressLint({"Range", "SimpleDateFormat"})
     private void setValuesInViewHolder(ViewHolder viewHolder, Alarm alarm) {
         viewHolder.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
+        viewHolder.radioButtonCircle.setChecked(false);
         viewHolder.radioButtonCircle.setVisibility(View.GONE);
 
         Date dateTime = alarm.alarmDateTime.getDateTime().getTime();
@@ -80,9 +82,8 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements Observer {
     }
 
     @Override
-    public void update() {
+    public void toggleView() {
         for (ViewHolder view : views) {
-            //ViewHolder view = (ViewHolder) view1.getTag();
             if (view.radioButtonCircle.getVisibility() != View.GONE) {
                 view.radioButtonCircle.setVisibility(View.GONE);
                 view.isActive.setVisibility(View.VISIBLE);
@@ -93,8 +94,24 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements Observer {
         }
     }
 
+    @Override
+    public boolean showSelectedItem(int position) {
+        ViewHolder viewHolder = views.get(position);
+        CheckableImageView iv = viewHolder.radioButtonCircle;
+
+        if (iv.isChecked()) {
+            iv.setChecked(false);
+            iv.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
+            return false;
+        } else {
+            iv.setChecked(true);
+            iv.setBackgroundResource(R.drawable.ic_baseline_radio_button_checked_24);
+            return true;
+        }
+    }
+
     static class ViewHolder {
-        ImageView radioButtonCircle;
+        CheckableImageView radioButtonCircle;
         TextView alarmTime;
         TextView alarmDate;
         SwitchCompat isActive;

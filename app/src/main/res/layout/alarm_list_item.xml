@@ -6,7 +6,7 @@
     android:animateLayoutChanges="true"
     android:descendantFocusability="blocksDescendants">
 
-    <ImageView
+    <com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView
         android:id="@+id/radio_button_circle_image_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

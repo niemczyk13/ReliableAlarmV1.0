@@ -1,5 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.main.observer;
 
 public interface Observer {
-    void update();
+    void toggleView();
+    boolean showSelectedItem(int position);
 }
