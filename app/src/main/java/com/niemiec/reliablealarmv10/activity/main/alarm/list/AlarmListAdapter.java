@@ -89,6 +89,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements Observer {
                 view.isActive.setVisibility(View.VISIBLE);
             } else {
                 view.radioButtonCircle.setVisibility(View.VISIBLE);
+                view.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
                 view.isActive.setVisibility(View.GONE);
             }
         }

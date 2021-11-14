@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private ListView alarmListView;
     private FloatingActionButton addNewAlarmButton;
 
+    private ToggleBetweenDeleteAndEditViews toggle;
     private Set<Integer> selectedAlarms = new TreeSet<>();
 
     @Override
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
         alarmListView.setAdapter(adapter);
 
-        ToggleBetweenDeleteAndEditViews toggle = new ToggleBetweenDeleteAndEditViews();
+        toggle = new ToggleBetweenDeleteAndEditViews();
         toggle.attach(adapter);
 
         binImageButton.setOnClickListener(v -> {
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
                 alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
             } else {
                 alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+                selectedAlarms.clear();
             }
         });
 
@@ -120,15 +122,16 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         presenter.attach(this);
     }
 
-  /*  @Override
-    protected void onRestart() {
-        super.onRestart();
+    //TODO po ponownym wczytaniu ustawienie normalnego włączenia - jeżeli wciśnięty kosz
+    @Override
+    protected void onStart() {
+        super.onStart();
         List<Alarm> alarms = AlarmDataBase.getAllAlarms();
 
         adapter = new AlarmListAdapter(this, alarms);
-
+        toggle.attach(adapter);
         alarmListView.setAdapter(adapter);
-    }*/
+    }
 
     //TODO
     @Override
