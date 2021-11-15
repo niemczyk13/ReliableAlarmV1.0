@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private ImageButton binImageButton;
     private ListView alarmListView;
     private FloatingActionButton addNewAlarmButton;
+    private LinearLayout cancelOrDelete;
+    private Button cancelDeleteAlarmButton;
+    private Button deleteAlarmButton;
 
     private ToggleBetweenDeleteAndEditViews toggle;
     private Set<Integer> selectedAlarms = new TreeSet<>();
@@ -49,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
         binImageButton = findViewById(R.id.bin_image_button);
         alarmListView = findViewById(R.id.alarm_list_view);
+        cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
+        cancelDeleteAlarmButton = findViewById(R.id.cancel_delete_alarm_button);
+        deleteAlarmButton = findViewById(R.id.delete_alarm_button);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //params.width = 0;
+        //cancelOrDelete.setLayoutParams(params);
+        cancelOrDelete.setVisibility(View.GONE);
 
         List<Alarm> alarms = AlarmDataBase.getAllAlarms();
 
@@ -63,10 +77,21 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
             toggle.toggleView();
             if (alarmListView.getChoiceMode() != AbsListView.CHOICE_MODE_MULTIPLE) {
                 alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+                //TODO pokazanie przucisków
+                cancelOrDelete.setVisibility(View.VISIBLE);
+                addNewAlarmButton.setVisibility(View.GONE);
+                binImageButton.setVisibility(View.GONE);
             } else {
                 alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
                 selectedAlarms.clear();
+                cancelOrDelete.setVisibility(View.GONE);
+                addNewAlarmButton.setVisibility(View.VISIBLE);
+                binImageButton.setVisibility(View.VISIBLE);
             }
+        });
+
+        cancelDeleteAlarmButton.setOnClickListener(view -> {
+            binImageButton.callOnClick();
         });
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {

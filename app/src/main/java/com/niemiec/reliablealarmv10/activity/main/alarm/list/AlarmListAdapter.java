@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.main.observer.Observer;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
@@ -72,11 +73,20 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements Observer {
         viewHolder.radioButtonCircle.setVisibility(View.GONE);
 
         Date dateTime = alarm.alarmDateTime.getDateTime().getTime();
+
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
         viewHolder.alarmTime.setText(timeFormat.format(dateTime));
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        viewHolder.alarmDate.setText(dateFormat.format(dateTime));
+        if (alarm.alarmDateTime.isSchedule()) {
+            viewHolder.alarmDate.setText(DateTextGenerator.generate(alarm.alarmDateTime.getWeek()));
+        } else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            viewHolder.alarmDate.setText(dateFormat.format(dateTime));
+        }
+
+
+
+
 
         viewHolder.isActive.setChecked(alarm.isActive);
     }
