@@ -1,25 +1,21 @@
 package com.niemiec.reliablealarmv10.activity.main.view.toggle;
 
-import com.niemiec.reliablealarmv10.activity.main.observer.Observer;
-import com.niemiec.reliablealarmv10.activity.main.observer.Subject;
+import com.niemiec.reliablealarmv10.activity.main.observer.ObserverPattern;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ToggleBetweenDeleteAndEditViews implements Subject {
+public class ToggleBetweenDeleteAndEditViews implements ObserverPattern.Subject {
     private DisplayState displayState;
-    private Observer observer;
+    private ObserverPattern.Observer observer;
 
     public ToggleBetweenDeleteAndEditViews() {
     }
 
     @Override
-    public void attach(Observer observer) {
+    public void attach(ObserverPattern.Observer observer) {
         this.observer = observer;
     }
 
     @Override
-    public void detach(Observer observer) {
+    public void detach(ObserverPattern.Observer observer) {
         this.observer = null;
     }
 
