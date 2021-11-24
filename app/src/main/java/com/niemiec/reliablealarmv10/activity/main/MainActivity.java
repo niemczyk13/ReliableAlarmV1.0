@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
         createMainPresenter();
         initView();
-
+        //TODO
+        setListeners();
         //TODO
         setViews();
 
@@ -123,6 +124,10 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         // * gdy kliknięto usuń usuwa zaznaczone
         //TODO kliknięcie w przycisk dodawania nowego alarmu ("create")
         getAddNewAlarmButton();
+    }
+
+    //TODO
+    private void setListeners() {
     }
 
     private void setViews() {

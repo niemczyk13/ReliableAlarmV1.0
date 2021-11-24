@@ -23,7 +23,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void initView() {
-        
+
     }
 
     //TODO
