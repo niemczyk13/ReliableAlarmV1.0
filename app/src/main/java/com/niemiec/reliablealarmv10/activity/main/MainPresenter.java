@@ -21,6 +21,11 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
         AlarmDataBase.createDataBase(context);
     }
 
+    @Override
+    public void initView() {
+        
+    }
+
     //TODO
     @Override
     public List<Alarm> getAllAlarms() {

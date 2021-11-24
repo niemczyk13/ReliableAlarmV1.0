@@ -13,6 +13,8 @@ public interface MainContractMVP {
     }
 
     interface Presenter {
+        void initView();
+
         List<Alarm> getAllAlarms();
         void removeAlarms(List<Long> ids);
         void addAlarm();

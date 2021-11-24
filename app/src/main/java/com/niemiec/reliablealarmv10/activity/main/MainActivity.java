@@ -52,12 +52,10 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         getWindow().setStatusBarColor(Color.BLACK);
 
         createMainPresenter();
+        initView();
 
-        binImageButton = findViewById(R.id.bin_image_button);
-        alarmListView = findViewById(R.id.alarm_list_view);
-        cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
-        cancelDeleteAlarmButton = findViewById(R.id.cancel_delete_alarm_button);
-        deleteAlarmButton = findViewById(R.id.delete_alarm_button);
+        //TODO
+        setViews();
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //params.width = 0;
@@ -125,6 +123,18 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         // * gdy kliknięto usuń usuwa zaznaczone
         //TODO kliknięcie w przycisk dodawania nowego alarmu ("create")
         getAddNewAlarmButton();
+    }
+
+    private void setViews() {
+        //TODO
+    }
+
+    private void initView() {
+        binImageButton = findViewById(R.id.bin_image_button);
+        alarmListView = findViewById(R.id.alarm_list_view);
+        cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
+        cancelDeleteAlarmButton = findViewById(R.id.cancel_delete_alarm_button);
+        deleteAlarmButton = findViewById(R.id.delete_alarm_button);
     }
 
     private void getAddNewAlarmButton() {
