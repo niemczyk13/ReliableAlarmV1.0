@@ -19,7 +19,6 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListAdapter;
-import com.niemiec.reliablealarmv10.activity.main.view.toggle.ToggleBetweenDeleteAndEditViews;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private Button cancelDeleteAlarmButton;
     private Button deleteAlarmButton;
 
-    private ToggleBetweenDeleteAndEditViews toggle;
     private Set<Integer> selectedAlarms = new TreeSet<>();
 
     @Override
@@ -63,17 +61,14 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         //cancelOrDelete.setLayoutParams(params);
         cancelOrDelete.setVisibility(View.GONE);
 
-        List<Alarm> alarms = AlarmDataBase.getAllAlarms();
+        //List<Alarm> alarms = AlarmDataBase.getAllAlarms();
 
-        adapter = new AlarmListAdapter(this, alarms);
+        //adapter = new AlarmListAdapter(this, alarms);
 
         alarmListView.setAdapter(adapter);
 
-        toggle = new ToggleBetweenDeleteAndEditViews();
-        toggle.attach(adapter);
 
         binImageButton.setOnClickListener(v -> {
-            toggle.toggleView();
             if (alarmListView.getChoiceMode() != AbsListView.CHOICE_MODE_MULTIPLE) {
                 alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
                 //TODO pokazanie przucisków
@@ -95,11 +90,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
             if (alarmListView.getChoiceMode() == AbsListView.CHOICE_MODE_MULTIPLE) {
-                if (toggle.setViewSelected(position)) {
-                    selectedAlarms.add(position);
-                } else {
-                    selectedAlarms.remove(position);
-                }
+
 
                 //TODO zmiana widoku -> przycisku anuluj i usuń
                 //TODO Zaznacz wszystkie i ilość zaznaczonych
@@ -107,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
                 Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type", AddAlarmPresenter.Type.UPDATE);
-                bundle.putLong("alarm_id", alarms.get(position).id);
+                //bundle.putLong("alarm_id", alarms.get(position).id);
                 intent.putExtra("data", bundle);
 
                 startActivity(intent);
@@ -166,22 +157,15 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     @Override
     protected void onStart() {
         super.onStart();
-        List<Alarm> alarms = AlarmDataBase.getAllAlarms();
+        //List<Alarm> alarms = AlarmDataBase.getAllAlarms();
 
-        adapter = new AlarmListAdapter(this, alarms);
-        toggle.attach(adapter);
+        //adapter = new AlarmListAdapter(this, alarms);
         alarmListView.setAdapter(adapter);
     }
 
-    //TODO
-    @Override
-    public void showAlarmList(List<Alarm> alarms) {
 
-    }
-
-    //TODO ?? to samo co showAlarmList??
     @Override
-    public void updateAlarmList() {
+    public void showMainAlarmList(List<Alarm> alarms) {
 
     }
 
@@ -191,9 +175,13 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     }
 
-    //TODO
     @Override
-    public void showMainAlarmList() {
+    public void updateAlarmList(List<Alarm> alarms) {
+
+    }
+
+    @Override
+    public void showNewActivity(Intent intent) {
 
     }
 }

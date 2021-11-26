@@ -18,10 +18,10 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         type = (Type) bundle.getSerializable("type");
         if (type == Type.CREATE) {
             id = 0;
-            view.showAlarm(AlarmDataBase.getDefaultAlarm());
+            //view.showAlarm(AlarmDataBase.getDefaultAlarm());
         } else if (type == Type.UPDATE) {
             id = bundle.getLong("alarm_id");
-            view.showAlarm(AlarmDataBase.getAlarm(id));
+            //view.showAlarm(AlarmDataBase.getAlarm(id));
         }
     }
 
@@ -35,10 +35,10 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
 
     private void addAlarmToDatabase(Alarm alarm) {
         if (type == Type.CREATE) {
-            AlarmDataBase.insertAlarm(alarm);
+            //AlarmDataBase.insertAlarm(alarm);
         } else if (type == Type.UPDATE) {
             alarm.id = id;
-            AlarmDataBase.updateAlarm(alarm);
+            //AlarmDataBase.updateAlarm(alarm);
         }
     }
 

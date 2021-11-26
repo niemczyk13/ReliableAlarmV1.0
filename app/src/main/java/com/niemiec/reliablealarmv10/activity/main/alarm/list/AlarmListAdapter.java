@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.activity.main.observer.ObserverPattern;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AlarmListAdapter extends ArrayAdapter<Alarm> implements ObserverPattern.Observer {
+public class AlarmListAdapter extends ArrayAdapter<Alarm> {
     private Context context;
     private List<Alarm> alarms = new ArrayList<>();
     private LayoutInflater inflater;
@@ -90,7 +89,6 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements ObserverPat
         viewHolder.isActive.setChecked(alarm.isActive);
     }
 
-    @Override
     public void toggleView() {
         for (ViewHolder view : views) {
             if (view.radioButtonCircle.getVisibility() != View.GONE) {
@@ -104,7 +102,6 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> implements ObserverPat
         }
     }
 
-    @Override
     public boolean showSelectedItem(int position) {
         ViewHolder viewHolder = views.get(position);
         CheckableImageView iv = viewHolder.radioButtonCircle;

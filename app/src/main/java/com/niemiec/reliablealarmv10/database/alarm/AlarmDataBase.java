@@ -10,9 +10,14 @@ import java.util.List;
 import androidx.room.Room;
 
 public class AlarmDataBase {
+    private static AlarmDataBase instance;
     private static AlarmDataBaseModel dataBaseModel;
 
-    public static void createDataBase(Context context) {
+    private AlarmDataBase(Context context) {
+        createDataBase(context);
+    }
+
+    private static void createDataBase(Context context) {
         dataBaseModel = Room.databaseBuilder(context, AlarmDataBaseModel.class, "alarmDataBase").allowMainThreadQueries().build();
         createBasicAlarm();
     }
@@ -23,24 +28,31 @@ public class AlarmDataBase {
             dataBaseModel.basicAlarmDAO().insertBasicAlarm(new BasicAlarm());
     }
 
-    public static void insertAlarm(Alarm alarm) {
+    public void insertAlarm(Alarm alarm) {
         dataBaseModel.alarmDAO().insertAlarm(alarm);
     }
 
-    public static Alarm getDefaultAlarm() {
+    public Alarm getDefaultAlarm() {
         BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
         return basicAlarm.getAlarm();
     }
 
-    public static Alarm getAlarm(long id) {
+    public Alarm getAlarm(long id) {
         return dataBaseModel.alarmDAO().getAlarm(id);
     }
 
-    public static void updateAlarm(Alarm alarm) {
+    public void updateAlarm(Alarm alarm) {
         dataBaseModel.alarmDAO().updateAlarm(alarm);
     }
 
-    public static List<Alarm> getAllAlarms() {
+    public List<Alarm> getAllAlarms() {
         return dataBaseModel.alarmDAO().getAll();
+    }
+
+    public static AlarmDataBase getInstance(Context context) {
+        if (instance == null) {
+            instance = new AlarmDataBase(context);
+        }
+        return instance;
     }
 }
