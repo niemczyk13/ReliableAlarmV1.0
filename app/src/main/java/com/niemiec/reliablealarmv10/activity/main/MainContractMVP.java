@@ -1,17 +1,20 @@
 package com.niemiec.reliablealarmv10.activity.main;
 
 import android.content.Intent;
+import android.os.Bundle;
 
+import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
 
 public interface MainContractMVP {
     interface View {
-        void showMainAlarmList(List<Alarm> alarms);
+        void showActivity(List<Alarm> alarms);
         void showAlarmListForDeletion();
+        void showNormalView();
         void updateAlarmList(List<Alarm> alarms);
-        void showNewActivity(Intent intent);
+        void showCreateNewAlarmActivity();
     }
 
     interface Presenter {

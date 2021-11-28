@@ -20,32 +20,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class AlarmListAdapter extends ArrayAdapter<Alarm> {
-    private Context context;
+    private final Context context;
     private List<Alarm> alarms = new ArrayList<>();
-    private LayoutInflater inflater;
+    //private LayoutInflater inflater;
     private List<ViewHolder> views;
+    private Set<Alarm> selectedAlarms;
 
-    public AlarmListAdapter(Context context, List<Alarm> alarms) {
+    public AlarmListAdapter(Context context, List<Alarm> alarms, AlarmListContainer container) {
         super(context, android.R.layout.simple_expandable_list_item_1, alarms);
         this.context = context;
         this.alarms = alarms;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         views = new ArrayList<>();
+        selectedAlarms = new TreeSet<>();
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        //TODO przekazuje do adaptera referencję do Subject
-        //i określam funckję wyświetl??
-        //W Bin wywołanie na adapterze funkcji zmiany wyświetlanych danych
         View listItem = convertView;
         ViewHolder viewHolder;
-
-
 
         if (listItem == null) {
             listItem = LayoutInflater.from(context).inflate(R.layout.alarm_list_item, parent, false);
@@ -72,7 +70,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
         Date dateTime = alarm.alarmDateTime.getDateTime().getTime();
 
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         viewHolder.alarmTime.setText(timeFormat.format(dateTime));
 
         if (alarm.alarmDateTime.isSchedule()) {
@@ -81,10 +79,6 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             viewHolder.alarmDate.setText(dateFormat.format(dateTime));
         }
-
-
-
-
 
         viewHolder.isActive.setChecked(alarm.isActive);
     }
@@ -117,6 +111,33 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         }
     }
 
+    //TODO
+    public List<Alarm> getSelectedAlarms() {
+
+        return null;
+    }
+
+    //TODO
+    public void showDeleteList() {
+        for (ViewHolder view : views) {
+            view.radioButtonCircle.setVisibility(View.VISIBLE);
+            view.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
+            view.isActive.setVisibility(View.GONE);
+        }
+    }
+
+    public void showMainList() {
+        for (ViewHolder view : views) {
+            view.radioButtonCircle.setVisibility(View.GONE);
+            view.isActive.setVisibility(View.VISIBLE);
+            //selectedAlarms.clear();
+        }
+    }
+
+    public Alarm getAlarm(int position) {
+        return alarms.get(position);
+    }
+
     static class ViewHolder {
         CheckableImageView radioButtonCircle;
         TextView alarmTime;
@@ -129,5 +150,10 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             alarmDate = view.findViewById(R.id.alarm_date_text_view);
             isActive = view.findViewById(R.id.alarm_is_active_switch);
         }
+    }
+
+    public interface AlarmListContainer {
+        //TODO switchOnOffAlarm
+
     }
 }

@@ -1,30 +1,36 @@
 package com.niemiec.reliablealarmv10.activity.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
+import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
+import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
 
 public class MainPresenter extends BasePresenter<MainContractMVP.View> implements MainContractMVP.Presenter {
-    private Model model;
+    private Context context;
+    private TypeView typeView;
+    private final Model model;
 
     public MainPresenter(Context context) {
         super();
         model = new Model(context);
+        typeView = TypeView.NORMAL;
     }
-
 
     @Override
     public void initView() {
-        //TODO wywołanie showMainList(List<Alarm>) -> to idzie do adaptera
+        view.showActivity(model.getAllAlarms());
     }
 
     @Override
     public void onBinButtonClick() {
-
+        view.showAlarmListForDeletion();
+        typeView = TypeView.DELETE;
     }
 
     @Override
@@ -34,12 +40,13 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onCancelButtonClick() {
-
+        view.showNormalView();
+        typeView = TypeView.NORMAL;
     }
 
     @Override
     public void onCreateAlarmButtonClick() {
-
+        view.showCreateNewAlarmActivity();
     }
 
     @Override
@@ -52,4 +59,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     }
 
+    enum TypeView {
+        NORMAL, DELETE;
+    }
 }

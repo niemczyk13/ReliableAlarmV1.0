@@ -85,7 +85,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     }
 
     private void createAddAlarmPresenter() {
-        presenter = new AddAlarmPresenter();
+        presenter = new AddAlarmPresenter(this);
         presenter.attach(this);
     }
 

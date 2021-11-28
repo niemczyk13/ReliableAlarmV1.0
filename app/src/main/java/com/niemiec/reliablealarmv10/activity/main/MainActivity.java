@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class MainActivity extends AppCompatActivity implements MainContractMVP.View {
+public class MainActivity extends AppCompatActivity implements MainContractMVP.View, AlarmListAdapter.AlarmListContainer {
     private MainPresenter presenter;
     private AlarmListAdapter adapter;
 
@@ -37,55 +37,38 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private Button cancelDeleteAlarmButton;
     private Button deleteAlarmButton;
 
-    private Set<Integer> selectedAlarms = new TreeSet<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
-
         createMainPresenter();
         initView();
-        //TODO
         setListeners();
-        //TODO
         setViews();
+    }
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //params.width = 0;
-        //cancelOrDelete.setLayoutParams(params);
-        cancelOrDelete.setVisibility(View.GONE);
+    private void createMainPresenter() {
+        presenter = new MainPresenter(getApplicationContext());
+        presenter.attach(this);
+    }
 
-        //List<Alarm> alarms = AlarmDataBase.getAllAlarms();
+    private void initView() {
+        binImageButton = findViewById(R.id.bin_image_button);
+        alarmListView = findViewById(R.id.alarm_list_view);
+        addNewAlarmButton = findViewById(R.id.add_alarm_button);
+        cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
+        cancelDeleteAlarmButton = findViewById(R.id.cancel_delete_alarm_button);
+        deleteAlarmButton = findViewById(R.id.delete_alarm_button);
+    }
 
-        //adapter = new AlarmListAdapter(this, alarms);
-
-        alarmListView.setAdapter(adapter);
-
-
+    //TODO
+    private void setListeners() {
         binImageButton.setOnClickListener(v -> {
-            if (alarmListView.getChoiceMode() != AbsListView.CHOICE_MODE_MULTIPLE) {
-                alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-                //TODO pokazanie przucisków
-                cancelOrDelete.setVisibility(View.VISIBLE);
-                addNewAlarmButton.setVisibility(View.GONE);
-                binImageButton.setVisibility(View.GONE);
-            } else {
-                alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-                selectedAlarms.clear();
-                cancelOrDelete.setVisibility(View.GONE);
-                addNewAlarmButton.setVisibility(View.VISIBLE);
-                binImageButton.setVisibility(View.VISIBLE);
-            }
+            presenter.onBinButtonClick();
         });
 
         cancelDeleteAlarmButton.setOnClickListener(view -> {
-            binImageButton.callOnClick();
+            presenter.onCancelButtonClick();
         });
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
@@ -98,59 +81,21 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
                 Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type", AddAlarmPresenter.Type.UPDATE);
-                //bundle.putLong("alarm_id", alarms.get(position).id);
+                bundle.putLong("alarm_id", adapter.getAlarm(position).id);
                 intent.putExtra("data", bundle);
 
                 startActivity(intent);
             }
         });
 
-        //TODO dodanie obsługi:
-        //kliknięcie w kosz
-        //kliknięcie w alarm --> edycja alarmu ("update" i "id")
-        //kliknięcie w alarm podczas kosza --> zaznaczenie
-        //podczas kliknięcie w kosz:
-        // * aktualizacja listy
-        // * pojawienie się przycisków anuluj i usuń
-        // * gdy kliknięto usuń usuwa zaznaczone
-        //TODO kliknięcie w przycisk dodawania nowego alarmu ("create")
-        getAddNewAlarmButton();
-    }
+        addNewAlarmButton.setOnClickListener(view -> {
+            presenter.onCreateAlarmButtonClick();
+        });
 
-    //TODO
-    private void setListeners() {
     }
 
     private void setViews() {
-        //TODO
-    }
-
-    private void initView() {
-        binImageButton = findViewById(R.id.bin_image_button);
-        alarmListView = findViewById(R.id.alarm_list_view);
-        cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
-        cancelDeleteAlarmButton = findViewById(R.id.cancel_delete_alarm_button);
-        deleteAlarmButton = findViewById(R.id.delete_alarm_button);
-    }
-
-    private void getAddNewAlarmButton() {
-        addNewAlarmButton = findViewById(R.id.add_alarm_button);
-        addNewAlarmButton.setOnClickListener(this::addNewAlarmButtonClick);
-    }
-
-    private void addNewAlarmButtonClick(View view) {
-        Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
-        intent.putExtra("data", bundle);
-
-        startActivity(intent);
-    }
-
-    private void createMainPresenter() {
-        presenter = new MainPresenter(getApplicationContext());
-        presenter.attach(this);
+        presenter.initView();
     }
 
     //TODO po ponownym wczytaniu ustawienie normalnego włączenia - jeżeli wciśnięty kosz
@@ -158,30 +103,78 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     protected void onStart() {
         super.onStart();
         //List<Alarm> alarms = AlarmDataBase.getAllAlarms();
-
         //adapter = new AlarmListAdapter(this, alarms);
-        alarmListView.setAdapter(adapter);
+        presenter.initView();
     }
 
 
     @Override
-    public void showMainAlarmList(List<Alarm> alarms) {
+    public void showActivity(List<Alarm> alarms) {
+        changeDefaultAppSettings();
+        changeTheVisibilityOfDeleteViewItems(View.GONE);
+        changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
+        createAlarmListAdapter(alarms);
+        adapter.showMainList();
+    }
 
+    private void changeDefaultAppSettings() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.BLACK);
+    }
+
+    private void changeTheVisibilityOfDeleteViewItems(int visibility) {
+        cancelOrDelete.setVisibility(visibility);
+    }
+
+    private void changeTheVisibilityOfBrowsingViewItems(int visibility) {
+        addNewAlarmButton.setVisibility(visibility);
+        binImageButton.setVisibility(visibility);
+        setTheAbilityToSelectListItems(visibility);
+    }
+
+    private void setTheAbilityToSelectListItems(int visibility) {
+        if (visibility == View.VISIBLE) {
+            alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+        } else {
+            alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        }
+    }
+
+    private void createAlarmListAdapter(List<Alarm> alarms) {
+        adapter = new AlarmListAdapter(this, alarms, this);
+        alarmListView.setAdapter(adapter);
     }
 
     //TODO
     @Override
     public void showAlarmListForDeletion() {
+        changeTheVisibilityOfDeleteViewItems(View.VISIBLE);
+        changeTheVisibilityOfBrowsingViewItems(View.GONE);
+        adapter.showDeleteList();
+    }
 
+    @Override
+    public void showNormalView() {
+        changeTheVisibilityOfDeleteViewItems(View.GONE);
+        changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
+        adapter.showMainList();
     }
 
     @Override
     public void updateAlarmList(List<Alarm> alarms) {
-
+        adapter = new AlarmListAdapter(this, alarms, this);
+        alarmListView.setAdapter(adapter);
     }
 
     @Override
-    public void showNewActivity(Intent intent) {
-
+    public void showCreateNewAlarmActivity() {
+        Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
+        intent.putExtra("data", bundle);
+        startActivity(intent);
     }
+
 }
