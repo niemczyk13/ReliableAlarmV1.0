@@ -2,6 +2,7 @@ package com.niemiec.reliablealarmv10.activity.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
@@ -11,6 +12,9 @@ import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
+
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class MainPresenter extends BasePresenter<MainContractMVP.View> implements MainContractMVP.Presenter {
     private Context context;
     private TypeView typeView;
@@ -24,7 +28,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void initView() {
-        view.showActivity(model.getAllAlarms());
+        view.showActivity(model.getAllAlarmsSortedByTimeIncrement());
     }
 
     @Override

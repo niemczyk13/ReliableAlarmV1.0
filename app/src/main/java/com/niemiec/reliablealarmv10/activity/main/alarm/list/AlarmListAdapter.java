@@ -2,6 +2,7 @@ package com.niemiec.reliablealarmv10.activity.main.alarm.list;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.text.SimpleDateFormat;
@@ -22,14 +24,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class AlarmListAdapter extends ArrayAdapter<Alarm> {
     private final Context context;
+    //TODO lista alarmów posegregowana godzinami
     private List<Alarm> alarms = new ArrayList<>();
     //private LayoutInflater inflater;
     private List<ViewHolder> views;
     private Set<Alarm> selectedAlarms;
+    private AlarmListContainer alarmListContainer;
+    private AlarmsList alarmsList;
+    private TypeView typeView;
 
+    private int deleteItem = 0;
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public AlarmListAdapter(Context context, List<Alarm> alarms, AlarmListContainer container) {
         super(context, android.R.layout.simple_expandable_list_item_1, alarms);
         this.context = context;
@@ -37,6 +49,10 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         views = new ArrayList<>();
         selectedAlarms = new TreeSet<>();
+        this.alarmListContainer = container;
+        typeView = TypeView.NORMAL;
+        alarmsList = new AlarmsList(alarms);
+
     }
 
     @NonNull
@@ -53,17 +69,37 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             viewHolder = (ViewHolder) listItem.getTag();
         }
 
-        if (views.indexOf(viewHolder) < 0) {
+        //TODO
+        views.clear();
+        //if (views.indexOf(viewHolder) < 0) {
             views.add(viewHolder);
-        }
+        //}
 
         Alarm currentAlarm = alarms.get(position);
         setValuesInViewHolder(viewHolder, currentAlarm);
+        setVisibilityToViewsInViewHolder();
         return listItem;
+    }
+
+    //TODO - robić to w taki sposób? wtedy trzeba załadować listę od początku
+    private void setVisibilityToViewsInViewHolder() {
+        if (typeView == TypeView.NORMAL) {
+
+        } else if (typeView == TypeView.DELETE) {
+
+        }
     }
 
     @SuppressLint({"Range", "SimpleDateFormat"})
     private void setValuesInViewHolder(ViewHolder viewHolder, Alarm alarm) {
+        if (typeView == TypeView.NORMAL) {
+
+        } else if (typeView == TypeView.DELETE) {
+            //TODO - sprawdzamy czy zaznaczony i odpowiedni przycisk radio
+            ++deleteItem;
+        }
+        System.out.println("TYPE VIEW: " + typeView + ", delete: " + deleteItem);
+
         viewHolder.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
         viewHolder.radioButtonCircle.setChecked(false);
         viewHolder.radioButtonCircle.setVisibility(View.GONE);
@@ -124,6 +160,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             view.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
             view.isActive.setVisibility(View.GONE);
         }
+        typeView = TypeView.DELETE;
     }
 
     public void showMainList() {
@@ -132,6 +169,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             view.isActive.setVisibility(View.VISIBLE);
             //selectedAlarms.clear();
         }
+        typeView = TypeView.NORMAL;
     }
 
     public Alarm getAlarm(int position) {
@@ -152,8 +190,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         }
     }
 
-    public interface AlarmListContainer {
-        //TODO switchOnOffAlarm
-
+    private enum TypeView {
+        NORMAL, DELETE;
     }
 }

@@ -1,9 +1,11 @@
 package com.niemiec.reliablealarmv10.activity.main;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListAdapter;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListContainer;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
@@ -26,7 +29,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class MainActivity extends AppCompatActivity implements MainContractMVP.View, AlarmListAdapter.AlarmListContainer {
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class MainActivity extends AppCompatActivity implements MainContractMVP.View, AlarmListContainer {
     private MainPresenter presenter;
     private AlarmListAdapter adapter;
 
