@@ -23,8 +23,16 @@ public class Model {
         return alarmDataBase.getAllAlarms();
     }
 
-    public List<Alarm> getAllAlarmsSortedByTimeIncrement() {
+    public Alarm getAlarm(long id) {
+        return alarmDataBase.getAlarm(id);
+    }
+
+    public void updateAlarm(Alarm alarm) {
+        alarmDataBase.updateAlarm(alarm);
+    }
+
+    /*public List<Alarm> getAllAlarmsSortedByTimeIncrement() {
         List<Alarm> alarms = alarmDataBase.getAllAlarms();
         return alarms.stream().sorted(Alarm::compareTimeTo).collect(Collectors.toList());
-    }
+    }*/
 }

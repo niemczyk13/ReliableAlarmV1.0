@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -20,17 +19,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListAdapter;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListContainer;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MainActivity extends AppCompatActivity implements MainContractMVP.View, AlarmListContainer {
+public class MainActivity extends AppCompatActivity implements MainContractMVP.View, AlarmListListener {
     private MainPresenter presenter;
     private AlarmListAdapter adapter;
 
@@ -147,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     private void createAlarmListAdapter(List<Alarm> alarms) {
-        adapter = new AlarmListAdapter(this, alarms, this);
+        adapter = new AlarmListAdapter(this, new AlarmsList(alarms), this);
         alarmListView.setAdapter(adapter);
     }
 
@@ -168,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     @Override
     public void updateAlarmList(List<Alarm> alarms) {
-        adapter = new AlarmListAdapter(this, alarms, this);
+        adapter = new AlarmListAdapter(this, new AlarmsList(alarms), this);
         alarmListView.setAdapter(adapter);
     }
 
@@ -181,4 +178,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         startActivity(intent);
     }
 
+    @Override
+    public void switchOnOffClick(long id) {
+        presenter.onSwitchOnOffAlarmClick(id);
+    }
 }

@@ -23,7 +23,7 @@ public interface MainContractMVP {
         void onDeleteButtonClick(List<Alarm> alarms);
         void onCancelButtonClick();
         void onCreateAlarmButtonClick();
-        void onSwitchOnOffAlarmClick();
+        void onSwitchOnOffAlarmClick(long id);
         void onUpdateAlarmClick();
     }
 }

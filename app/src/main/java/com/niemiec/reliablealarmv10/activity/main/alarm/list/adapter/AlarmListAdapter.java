@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.main.alarm.list;
+package com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
@@ -22,18 +26,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmListAdapter extends ArrayAdapter<Alarm> {
     private final Context context;
-    //TODO lista alarmów posegregowana godzinami
-    private List<Alarm> alarms = new ArrayList<>();
     //private LayoutInflater inflater;
     private List<ViewHolder> views;
-    private Set<Alarm> selectedAlarms;
-    private AlarmListContainer alarmListContainer;
+    private AlarmListListener alarmListContainer;
     private AlarmsList alarmsList;
     private TypeView typeView;
 
@@ -41,17 +40,14 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public AlarmListAdapter(Context context, List<Alarm> alarms, AlarmListContainer container) {
-        super(context, android.R.layout.simple_expandable_list_item_1, alarms);
+    public AlarmListAdapter(Context context, AlarmsList alarmsList, AlarmListListener container) {
+        super(context, android.R.layout.simple_expandable_list_item_1, alarmsList.getAlarms());
         this.context = context;
-        this.alarms = alarms;
         //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         views = new ArrayList<>();
-        selectedAlarms = new TreeSet<>();
         this.alarmListContainer = container;
         typeView = TypeView.NORMAL;
-        alarmsList = new AlarmsList(alarms);
+        this.alarmsList = alarmsList;
 
     }
 
@@ -75,7 +71,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             views.add(viewHolder);
         //}
 
-        Alarm currentAlarm = alarms.get(position);
+        Alarm currentAlarm = alarmsList.get(position);
         setValuesInViewHolder(viewHolder, currentAlarm);
         setVisibilityToViewsInViewHolder();
         return listItem;
@@ -89,6 +85,8 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
         }
     }
+
+    //TODO - gdy włączę alarm to aktualizacja w bazie i animacja przenosząca alarm do góry
 
     @SuppressLint({"Range", "SimpleDateFormat"})
     private void setValuesInViewHolder(ViewHolder viewHolder, Alarm alarm) {
@@ -117,6 +115,19 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         }
 
         viewHolder.isActive.setChecked(alarm.isActive);
+        viewHolder.isActive.setOnClickListener(this::isActiveClick);
+    }
+
+    private void isActiveClick(View view) {
+        SwitchCompat switchCompat = (SwitchCompat) view;
+        LinearLayout linearLayout = (LinearLayout) switchCompat.getParent();
+        ListView lv = (ListView) linearLayout.getParent();
+        int position = lv.getPositionForView(linearLayout);
+
+        alarmListContainer.switchOnOffClick(alarmsList.get(position).id);
+
+        //TODO ewentualna aktualizacja listy z animacją
+        //alarmsList.get(position).isActive = !alarmsList.get(position).isActive;
     }
 
     public void toggleView() {
@@ -173,7 +184,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
     }
 
     public Alarm getAlarm(int position) {
-        return alarms.get(position);
+        return alarmsList.get(position);
     }
 
     static class ViewHolder {

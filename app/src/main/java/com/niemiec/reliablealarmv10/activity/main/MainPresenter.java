@@ -28,7 +28,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void initView() {
-        view.showActivity(model.getAllAlarmsSortedByTimeIncrement());
+        view.showActivity(model.getAllAlarms());
     }
 
     @Override
@@ -54,8 +54,13 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
     }
 
     @Override
-    public void onSwitchOnOffAlarmClick() {
-
+    public void onSwitchOnOffAlarmClick(long id) {
+        Alarm alarm = model.getAlarm(id);
+        alarm.isActive = !alarm.isActive;
+        model.updateAlarm(alarm);
+        //TODO to lub animacja w adapterze
+        view.updateAlarmList(model.getAllAlarms());
+        //TODO URUCHOMIENIE ALARMU!!!!
     }
 
     @Override
