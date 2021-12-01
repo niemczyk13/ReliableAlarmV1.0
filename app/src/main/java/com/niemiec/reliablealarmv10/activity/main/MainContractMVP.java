@@ -15,6 +15,8 @@ public interface MainContractMVP {
         void showNormalView();
         void updateAlarmList(List<Alarm> alarms);
         void showCreateNewAlarmActivity();
+        void showUpdateAlarmActivity(int position);
+        void checkOrUncheckAlarm(int position);
     }
 
     interface Presenter {
@@ -24,6 +26,6 @@ public interface MainContractMVP {
         void onCancelButtonClick();
         void onCreateAlarmButtonClick();
         void onSwitchOnOffAlarmClick(long id);
-        void onUpdateAlarmClick();
+        void onAlarmListItemClick(int position);
     }
 }

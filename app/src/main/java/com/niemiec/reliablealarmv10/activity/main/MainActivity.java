@@ -73,20 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         });
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
-            if (alarmListView.getChoiceMode() == AbsListView.CHOICE_MODE_MULTIPLE) {
-
-
-                //TODO zmiana widoku -> przycisku anuluj i usuń
-                //TODO Zaznacz wszystkie i ilość zaznaczonych
-            } else {
-                Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("type", AddAlarmPresenter.Type.UPDATE);
-                bundle.putLong("alarm_id", adapter.getAlarm(position).id);
-                intent.putExtra("data", bundle);
-
-                startActivity(intent);
-            }
+            presenter.onAlarmListItemClick(position);
         });
 
         addNewAlarmButton.setOnClickListener(view -> {
@@ -114,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         changeDefaultAppSettings();
         changeTheVisibilityOfDeleteViewItems(View.GONE);
         changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
-        createAlarmListAdapter(alarms);
+        createAlarmListWithAdapter(alarms);
         adapter.showMainList();
     }
 
@@ -143,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         }
     }
 
-    private void createAlarmListAdapter(List<Alarm> alarms) {
+    private void createAlarmListWithAdapter(List<Alarm> alarms) {
         adapter = new AlarmListAdapter(this, new AlarmsList(alarms), this);
         alarmListView.setAdapter(adapter);
     }
@@ -165,8 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     @Override
     public void updateAlarmList(List<Alarm> alarms) {
-        adapter = new AlarmListAdapter(this, new AlarmsList(alarms), this);
-        alarmListView.setAdapter(adapter);
+        createAlarmListWithAdapter(alarms);
     }
 
     @Override
@@ -176,6 +162,21 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
         intent.putExtra("data", bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void showUpdateAlarmActivity(int position) {
+        Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("type", AddAlarmPresenter.Type.UPDATE);
+        bundle.putLong("alarm_id", adapter.getAlarm(position).id);
+        intent.putExtra("data", bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public void checkOrUncheckAlarm(int position) {
+        //TODO tutaj odwołanie do adaptera
     }
 
     @Override

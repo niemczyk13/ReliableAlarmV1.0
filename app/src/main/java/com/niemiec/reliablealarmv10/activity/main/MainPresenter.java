@@ -39,7 +39,11 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onDeleteButtonClick(List<Alarm> alarms) {
-
+        //TODO
+        model.deleteAlarms(alarms);
+        view.showNormalView();
+        view.updateAlarmList(model.getAllAlarms());
+        typeView = TypeView.NORMAL;
     }
 
     @Override
@@ -64,8 +68,12 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
     }
 
     @Override
-    public void onUpdateAlarmClick() {
-
+    public void onAlarmListItemClick(int position) {
+        if (typeView == TypeView.NORMAL) {
+            view.showUpdateAlarmActivity(position);
+        } else if (typeView == TypeView.DELETE) {
+            view.checkOrUncheckAlarm(position);
+        }
     }
 
     enum TypeView {

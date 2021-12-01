@@ -19,7 +19,7 @@ public class Model {
         alarmDataBase = AlarmDataBase.getInstance(context);
     }
 
-    List<Alarm> getAllAlarms() {
+    public List<Alarm> getAllAlarms() {
         return alarmDataBase.getAllAlarms();
     }
 
@@ -29,6 +29,10 @@ public class Model {
 
     public void updateAlarm(Alarm alarm) {
         alarmDataBase.updateAlarm(alarm);
+    }
+
+    public void deleteAlarms(List<Alarm> alarms) {
+        //TODO
     }
 
     /*public List<Alarm> getAllAlarmsSortedByTimeIncrement() {

@@ -54,6 +54,9 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (position == 0) {
+            views.clear();
+        }
         View listItem = convertView;
         ViewHolder viewHolder;
 
@@ -66,7 +69,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         }
 
         //TODO
-        views.clear();
+        //views.clear();
         //if (views.indexOf(viewHolder) < 0) {
             views.add(viewHolder);
         //}
