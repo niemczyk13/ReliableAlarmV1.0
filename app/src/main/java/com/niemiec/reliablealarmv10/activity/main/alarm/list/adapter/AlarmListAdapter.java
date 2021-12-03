@@ -72,6 +72,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         //views.clear();
         //if (views.indexOf(viewHolder) < 0) {
             views.add(viewHolder);
+        System.out.println("VIEWS SIZE: " + views.size());
         //}
 
         Alarm currentAlarm = alarmsList.get(position);

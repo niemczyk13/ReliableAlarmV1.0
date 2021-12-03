@@ -14,28 +14,37 @@ import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmsList {
-    private AlarmsListBinder alarmsListBinder;
-    private AlarmListComponent activeAlarms;
-    private AlarmListComponent inactiveAlarms;
+    private List<Alarm> alarms;
+    private List<Boolean> selected;
 
     public AlarmsList(List<Alarm> alarms) {
-        activeAlarms = new AlarmListComponent(alarms.stream().filter(alarm -> alarm.isActive).collect(Collectors.toList()));
-        inactiveAlarms = new AlarmListComponent(alarms.stream().filter(alarm -> !alarm.isActive).collect(Collectors.toList()));
-        alarmsListBinder = new AlarmsListBinder(connectAlarmsList());
+        createAlarmsList(alarms);
+        createSelectedAlarmsList();
     }
 
-    private List<Alarm> connectAlarmsList() {
-        return activeAlarms.concat(inactiveAlarms);
+    private void createSelectedAlarmsList() {
+        selected = new ArrayList<>();
+        for (int i = 0; i < alarms.size(); i++) {
+            selected.add(false);
+        }
+    }
+
+    private void createAlarmsList(List<Alarm> alarms) {
+        List<Alarm> activeAlarms = alarms.stream().filter(alarm -> alarm.isActive).sorted(Alarm::compareTimeTo).collect(Collectors.toList());
+        List<Alarm> inactiveAlarms = alarms.stream().filter(alarm -> !alarm.isActive).sorted(Alarm::compareTimeTo).collect(Collectors.toList());
+        this.alarms = Stream.concat(activeAlarms.stream(), inactiveAlarms.stream()).collect(Collectors.toList());
     }
 
     //TODO
     public List<Alarm> getAlarms() {
-        return alarmsListBinder.getAlarms();
+        return alarms;
     }
 
     public Alarm get(int index) {
-        return alarmsListBinder.getAlarm(index);
+        return alarms.get(index);
     }
 
-
+    public void checkOrUncheckAlarm(int index) {
+        selected.set(index, !selected.get(index));
+    }
 }
