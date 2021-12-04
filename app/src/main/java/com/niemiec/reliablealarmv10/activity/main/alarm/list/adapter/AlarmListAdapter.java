@@ -50,7 +50,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         this.alarmsList = alarmsList;
 
     }
-
+    ///TODO jeżeli kliknę kosz to zamieniam wszystkie istniejące viewHolder i w getView również zmieniam sposób tworzenia listy !!!!!!!!!!!!!!
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -72,7 +72,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         //views.clear();
         //if (views.indexOf(viewHolder) < 0) {
             views.add(viewHolder);
-        System.out.println("VIEWS SIZE: " + views.size());
+        System.out.println("VIEWS SIZE: " + views.size() + ", POSITION: " + position);
         //}
 
         Alarm currentAlarm = alarmsList.get(position);
@@ -94,12 +94,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
     @SuppressLint({"Range", "SimpleDateFormat"})
     private void setValuesInViewHolder(ViewHolder viewHolder, Alarm alarm) {
-        if (typeView == TypeView.NORMAL) {
 
-        } else if (typeView == TypeView.DELETE) {
-            //TODO - sprawdzamy czy zaznaczony i odpowiedni przycisk radio
-            ++deleteItem;
-        }
         System.out.println("TYPE VIEW: " + typeView + ", delete: " + deleteItem);
 
         viewHolder.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
@@ -120,6 +115,14 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
         viewHolder.isActive.setChecked(alarm.isActive);
         viewHolder.isActive.setOnClickListener(this::isActiveClick);
+
+        if (typeView == TypeView.NORMAL) {
+
+        } else if (typeView == TypeView.DELETE) {
+            //TODO - sprawdzamy czy zaznaczony i odpowiedni przycisk radio
+            viewHolder.alarmTime.setText("USUN");
+            ++deleteItem;
+        }
     }
 
     private void isActiveClick(View view) {
@@ -170,12 +173,13 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
     //TODO
     public void showDeleteList() {
-        for (ViewHolder view : views) {
+        /*for (ViewHolder view : views) {
             view.radioButtonCircle.setVisibility(View.VISIBLE);
             view.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
             view.isActive.setVisibility(View.GONE);
-        }
+        }*/
         typeView = TypeView.DELETE;
+        this.notifyDataSetChanged();
     }
 
     public void showMainList() {
@@ -185,6 +189,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
             //selectedAlarms.clear();
         }
         typeView = TypeView.NORMAL;
+        this.notifyDataSetChanged();
     }
 
     public Alarm getAlarm(int position) {

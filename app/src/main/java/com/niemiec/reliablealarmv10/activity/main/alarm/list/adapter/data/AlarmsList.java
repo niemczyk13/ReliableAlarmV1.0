@@ -47,4 +47,8 @@ public class AlarmsList {
     public void checkOrUncheckAlarm(int index) {
         selected.set(index, !selected.get(index));
     }
+
+    public void clearSelected() {
+        createSelectedAlarmsList();
+    }
 }
