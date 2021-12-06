@@ -2,6 +2,7 @@ package com.niemiec.reliablealarmv10.activity.main;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.AlarmManagerCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
+import com.niemiec.reliablealarmv10.activity.alarm.launch.AlarmClockActivity;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
@@ -162,7 +164,9 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         Bundle bundle = new Bundle();
         bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
         intent.putExtra("data", bundle);
-        startActivity(intent);
+        Intent intent1 = new Intent(getApplicationContext(), AlarmClockActivity.class);
+
+        startActivity(intent1);
     }
 
     @Override

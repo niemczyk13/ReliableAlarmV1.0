@@ -6,6 +6,7 @@
     <string name="volume">Głośność</string>
     <string name="vibration">Wibracja</string>
     <string name="delete">Usuń</string>
+    <string name="nap">DRZEMKA</string>
 
     <string-array name="nap_values">
         <item>1 minuta</item>
