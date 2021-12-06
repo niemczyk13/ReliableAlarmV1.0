@@ -35,7 +35,6 @@ public class AlarmsList {
         this.alarms = Stream.concat(activeAlarms.stream(), inactiveAlarms.stream()).collect(Collectors.toList());
     }
 
-    //TODO
     public List<Alarm> getAlarms() {
         return alarms;
     }
@@ -44,11 +43,25 @@ public class AlarmsList {
         return alarms.get(index);
     }
 
+    public boolean isSelected(int index) {
+        return selected.get(index);
+    }
+
     public void checkOrUncheckAlarm(int index) {
         selected.set(index, !selected.get(index));
     }
 
     public void clearSelected() {
         createSelectedAlarmsList();
+    }
+
+    public List<Alarm> getSelectedAlarms() {
+        List<Alarm> selectedAlarms = new ArrayList<>();
+        for (int i = 0; i < alarms.size(); i++) {
+            if (selected.get(i)) {
+                selectedAlarms.add(alarms.get(i));
+            }
+        }
+        return selectedAlarms;
     }
 }

@@ -1,6 +1,7 @@
 package com.niemiec.reliablealarmv10.database.alarm.custom;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -22,4 +23,7 @@ public interface AlarmDAO {
 
     @Update
     void updateAlarm(Alarm alarm);
+
+    @Delete
+    void deleteAlarm(Alarm alarm);
 }

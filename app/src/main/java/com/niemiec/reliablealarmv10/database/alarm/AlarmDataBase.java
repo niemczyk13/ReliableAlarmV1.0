@@ -55,4 +55,8 @@ public class AlarmDataBase {
         }
         return instance;
     }
+
+    public void deleteAlarm(Alarm alarm) {
+        dataBaseModel.alarmDAO().deleteAlarm(alarm);
+    }
 }

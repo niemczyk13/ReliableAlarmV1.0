@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         deleteAlarmButton = findViewById(R.id.delete_alarm_button);
     }
 
-    //TODO
     private void setListeners() {
         binImageButton.setOnClickListener(v -> {
             presenter.onBinButtonClick();
@@ -80,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
             presenter.onCreateAlarmButtonClick();
         });
 
+        deleteAlarmButton.setOnClickListener(view -> {
+            presenter.onDeleteButtonClick(adapter.getSelectedAlarms());
+        });
     }
 
     private void setViews() {
@@ -135,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         alarmListView.setAdapter(adapter);
     }
 
-    //TODO
     @Override
     public void showAlarmListForDeletion() {
         changeTheVisibilityOfDeleteViewItems(View.VISIBLE);
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     @Override
     public void checkOrUncheckAlarm(int position) {
-        //TODO tutaj odwołanie do adaptera
+        adapter.checkOnUncheckAlarm(position);
     }
 
     @Override

@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:animateLayoutChanges="true"
     android:descendantFocusability="blocksDescendants">
 
     <com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView
         android:id="@+id/radio_button_circle_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginRight="10dp" />
 
     <TextView

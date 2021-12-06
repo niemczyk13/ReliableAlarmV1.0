@@ -32,11 +32,9 @@ public class Model {
     }
 
     public void deleteAlarms(List<Alarm> alarms) {
-        //TODO
+        for (Alarm alarm : alarms) {
+            alarmDataBase.deleteAlarm(alarm);
+        }
     }
 
-    /*public List<Alarm> getAllAlarmsSortedByTimeIncrement() {
-        List<Alarm> alarms = alarmDataBase.getAllAlarms();
-        return alarms.stream().sorted(Alarm::compareTimeTo).collect(Collectors.toList());
-    }*/
 }

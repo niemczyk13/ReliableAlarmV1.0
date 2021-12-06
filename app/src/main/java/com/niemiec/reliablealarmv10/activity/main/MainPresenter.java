@@ -39,7 +39,6 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onDeleteButtonClick(List<Alarm> alarms) {
-        //TODO
         model.deleteAlarms(alarms);
         view.showNormalView();
         view.updateAlarmList(model.getAllAlarms());
@@ -62,7 +61,6 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
         Alarm alarm = model.getAlarm(id);
         alarm.isActive = !alarm.isActive;
         model.updateAlarm(alarm);
-        //TODO to lub animacja w adapterze
         view.updateAlarmList(model.getAllAlarms());
         //TODO URUCHOMIENIE ALARMU!!!!
     }
