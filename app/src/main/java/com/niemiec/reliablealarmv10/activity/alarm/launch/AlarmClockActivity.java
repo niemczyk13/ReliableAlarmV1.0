@@ -53,11 +53,11 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
 
     private void setListeners() {
         napButton.setOnClickListener(view -> {
-            //TODO
+            presenter.onNapButtonClick();
         });
 
         turnOffButton.setOnClickListener(view -> {
-            //TODO
+            presenter.onTurnOffButtonClick();
         });
     }
 

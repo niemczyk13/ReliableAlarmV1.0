@@ -11,5 +11,7 @@ public interface AlarmClockContractMVP {
 
     interface Presenter {
         void initView(Long id);
+        void onNapButtonClick();
+        void onTurnOffButtonClick();
     }
 }
