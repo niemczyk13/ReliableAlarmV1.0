@@ -41,6 +41,7 @@ public class AlarmDateTimeUpdater {
         alarmDateTime.getDateTime().set(Calendar.YEAR, now.get(Calendar.YEAR));
         alarmDateTime.getDateTime().set(Calendar.WEEK_OF_YEAR, now.get(Calendar.WEEK_OF_YEAR));
         alarmDateTime.getDateTime().set(Calendar.DAY_OF_WEEK, days.get(0).getValue());
+        //TODO ewentualna zmiana roku przy alarmie w sylwestra i nowy rok !!!!!!!!!! - do sprawdzenia
         alarmDateTime.getDateTime().add(Calendar.DAY_OF_YEAR, ONE_WEEK);
     }
 

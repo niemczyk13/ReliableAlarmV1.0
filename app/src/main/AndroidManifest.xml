@@ -26,6 +26,8 @@
         <activity
             android:name=".activity.alarm.add.AddAlarmActivity"
             android:exported="true" />
+
+        <receiver android:name=".activity.alarm.manager.AlarmReceiver"/>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

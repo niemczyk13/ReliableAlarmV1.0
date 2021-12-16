@@ -14,6 +14,7 @@ import com.example.alarmsoundview.view.AlarmSoundView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
 import com.niemiec.reliablealarmv10.R;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.NapView;
 import com.niemiec.risingview.view.RisingSoundView;
@@ -127,6 +128,16 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         //która jest wywoływana podczas powrotu do aktywbości
         //pobrać z cyklu życia aktywności
         finish();
+    }
+
+    @Override
+    public void startAlarm(Alarm alarm) {
+        AlarmManagerManagement.startAlarm(alarm, getApplicationContext());
+    }
+
+    @Override
+    public void stopAlarm(Alarm alarm) {
+        AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
     }
 
 }

@@ -24,7 +24,7 @@ public class ViewBuilder {
         Spinner spinner = new Spinner(context);
         spinner.setGravity(Gravity.RIGHT);
 
-        String[] str = {NapValue.FIRST.getName(), NapValue.SECOND.getName(),
+        String[] str = {NapValue.LACK.getName(), NapValue.FIRST.getName(), NapValue.SECOND.getName(),
                 NapValue.THIRD.getName(), NapValue.FOURTH.getName(), NapValue.FIFTH.getName()};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, str);
         spinner.setAdapter(adapter);

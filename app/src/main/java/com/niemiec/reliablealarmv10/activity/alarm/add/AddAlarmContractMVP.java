@@ -9,6 +9,8 @@ public interface AddAlarmContractMVP {
         void showAlarm(Alarm alarm);
         Alarm getAlarm();
         void goBackToPreviousActivity();
+        void startAlarm(Alarm alarm);
+        void stopAlarm(Alarm alarm);
     }
 
     interface Presenter {

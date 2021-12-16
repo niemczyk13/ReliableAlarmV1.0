@@ -15,4 +15,8 @@ public class Nap {
         //TODO
         return napTime / 1000;
     }
+
+    public boolean isActive() {
+        return napTime != 0;
+    }
 }

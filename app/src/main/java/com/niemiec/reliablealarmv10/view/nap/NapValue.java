@@ -3,6 +3,7 @@ package com.niemiec.reliablealarmv10.view.nap;
 import com.niemiec.reliablealarmv10.R;
 
 public enum NapValue {
+    LACK("BRAK", 0),
     FIRST("1 minuta", 1),
     SECOND("2 minuty", 2),
     THIRD("3 minuty", 3),

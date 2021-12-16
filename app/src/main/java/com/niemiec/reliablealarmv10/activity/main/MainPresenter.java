@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
@@ -62,7 +63,10 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
         alarm.isActive = !alarm.isActive;
         model.updateAlarm(alarm);
         view.updateAlarmList(model.getAllAlarms());
-        //TODO URUCHOMIENIE ALARMU!!!!
+        if (alarm.isActive)
+            view.startAlarm(alarm);
+        else
+            view.stopAlarm(alarm);
     }
 
     @Override

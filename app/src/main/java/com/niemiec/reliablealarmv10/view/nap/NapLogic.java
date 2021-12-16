@@ -19,7 +19,7 @@ public class NapLogic {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int[] values = {NapValue.FIRST.getValue(),
+                int[] values = {NapValue.LACK.getValue(), NapValue.FIRST.getValue(),
                         NapValue.SECOND.getValue(), NapValue.THIRD.getValue(),
                         NapValue.FOURTH.getValue(), NapValue.FIFTH.getValue()};
                 nap.setNapTime(values[position]);

@@ -17,6 +17,8 @@ public interface MainContractMVP {
         void showCreateNewAlarmActivity();
         void showUpdateAlarmActivity(int position);
         void checkOrUncheckAlarm(int position);
+        void startAlarm(Alarm alarm);
+        void stopAlarm(Alarm alarm);
     }
 
     interface Presenter {

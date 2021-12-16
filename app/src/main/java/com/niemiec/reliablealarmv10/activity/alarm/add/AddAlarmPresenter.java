@@ -36,6 +36,10 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         addAlarmToDatabase(alarm);
         view.goBackToPreviousActivity();
         //TODO aktywowanie alarmu - to samo co w MainPresenter
+        if (alarm.isActive)
+            view.startAlarm(alarm);
+        else
+            view.stopAlarm(alarm);
     }
 
     private void addAlarmToDatabase(Alarm alarm) {

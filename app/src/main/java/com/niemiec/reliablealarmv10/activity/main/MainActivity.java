@@ -21,6 +21,7 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.AlarmClockActivity;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
@@ -164,9 +165,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         Bundle bundle = new Bundle();
         bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
         intent.putExtra("data", bundle);
-        Intent intent1 = new Intent(getApplicationContext(), AlarmClockActivity.class);
 
-        startActivity(intent1);
+        startActivity(intent);
     }
 
     @Override
@@ -182,6 +182,16 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     @Override
     public void checkOrUncheckAlarm(int position) {
         adapter.checkOnUncheckAlarm(position);
+    }
+
+    @Override
+    public void startAlarm(Alarm alarm) {
+        AlarmManagerManagement.startAlarm(alarm, getApplicationContext());
+    }
+
+    @Override
+    public void stopAlarm(Alarm alarm) {
+        AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
     }
 
     @Override
