@@ -5,8 +5,8 @@ import com.niemiec.reliablealarmv10.model.custom.Alarm;
 public interface AlarmClockContractMVP {
     interface View {
         void startAlarm(Alarm alarm);
-        void showAlarmClockWithNap();
-        void showAlarmClockWithoutNap();
+        void showAlarmClockWithNap(int hour, int minute);
+        void showAlarmClockWithoutNap(int hour, int minute);
     }
 
     interface Presenter {

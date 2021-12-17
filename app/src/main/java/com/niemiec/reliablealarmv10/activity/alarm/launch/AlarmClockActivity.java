@@ -72,12 +72,14 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     }
 
     @Override
-    public void showAlarmClockWithNap() {
+    public void showAlarmClockWithNap(int hour, int minute) {
+        clockTextView.setText(hour + ":" + minute);
         napButton.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showAlarmClockWithoutNap() {
+    public void showAlarmClockWithoutNap(int hour, int minute) {
+        clockTextView.setText(hour + ":" + minute);
         napButton.setVisibility(View.GONE);
     }
 }

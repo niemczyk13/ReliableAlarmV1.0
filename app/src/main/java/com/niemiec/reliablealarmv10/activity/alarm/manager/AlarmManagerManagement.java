@@ -27,16 +27,16 @@ public class AlarmManagerManagement {
 
     private static void addToAlarmManager(Alarm alarm, PendingIntent sender, Context context) {
         Calendar now2 = Calendar.getInstance();
-        now2.add(Calendar.SECOND, 10);
+        now2.add(Calendar.SECOND, 3);
 
         long alarmTime = alarm.alarmDateTime.getDateTime().getTimeInMillis();
         long now = Calendar.getInstance().getTimeInMillis();
 
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        //mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
+        mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
 
         if (alarmTime > now) {
-            mgr.set(AlarmManager.RTC_WAKEUP, alarm.alarmDateTime.getDateTime().getTimeInMillis(), sender);
+            //mgr.set(AlarmManager.RTC_WAKEUP, alarm.alarmDateTime.getDateTime().getTimeInMillis(), sender);
         }
     }
 
