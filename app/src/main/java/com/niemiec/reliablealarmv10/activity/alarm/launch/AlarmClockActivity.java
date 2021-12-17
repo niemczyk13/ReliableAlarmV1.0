@@ -59,6 +59,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
         turnOffButton.setOnClickListener(view -> {
             presenter.onTurnOffButtonClick();
         });
+        //TODO dodać obsługę przcisków głośności i blokady
     }
 
     private void setViews() {
