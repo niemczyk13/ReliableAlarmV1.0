@@ -41,7 +41,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     }
 
     private void createAlarmClockPresenter() {
-        presenter = new AlarmClockPresenter(getApplicationContext());
+        presenter = new AlarmClockPresenter(this);
         presenter.attach(this);
     }
 
@@ -54,10 +54,15 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     private void setListeners() {
         napButton.setOnClickListener(view -> {
             presenter.onNapButtonClick();
+            finish();
+//            android.os.Process.killProcess(android.os.Process.myPid());
         });
 
         turnOffButton.setOnClickListener(view -> {
             presenter.onTurnOffButtonClick();
+            finish();
+//            android.os.Process.killProcess(android.os.Process.myPid());
+
         });
         //TODO dodać obsługę przcisków głośności i blokady
     }
@@ -74,13 +79,24 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
 
     @Override
     public void showAlarmClockWithNap(int hour, int minute) {
-        clockTextView.setText(hour + ":" + minute);
+        showHourAndMinute(hour, minute);
         napButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showAlarmClockWithoutNap(int hour, int minute) {
-        clockTextView.setText(hour + ":" + minute);
+        showHourAndMinute(hour, minute);
         napButton.setVisibility(View.GONE);
+    }
+
+    private void showHourAndMinute(int hour, int minute) {
+        clockTextView.setText(getTime(hour) + ":" + getTime(minute));
+    }
+
+    private String getTime(int time) {
+        if (time >= 0 && time <= 9) {
+            return "0" + time;
+        }
+        return Integer.toString(time);
     }
 }

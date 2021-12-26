@@ -1,18 +1,28 @@
 package com.niemiec.reliablealarmv10.activity.alarm.launch;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
+import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
+import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.audio.AlarmClockAudioManager;
+import com.niemiec.reliablealarmv10.activity.alarm.launch.vibration.AlarmClockVibrationManager;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.Calendar;
 
+import androidx.annotation.RequiresApi;
+
 public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.View> implements AlarmClockContractMVP.Presenter {
     private Context context;
     private AlarmDataBase alarmDataBase;
     private AlarmClockAudioManager alarmClockAudioManager;
+    private AlarmClockVibrationManager alarmClockVibrationManager;
     private Alarm alarm;
 
     public AlarmClockPresenter(Context context) {
@@ -20,6 +30,7 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
         this.context = context;
         alarmDataBase = AlarmDataBase.getInstance(context);
         alarmClockAudioManager = new AlarmClockAudioManager(context);
+        alarmClockVibrationManager = new AlarmClockVibrationManager(context);
     }
 
     public void initView(Long id) {
@@ -39,8 +50,6 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     }
 
     private void callUpAlarm() {
-        //TODO
-        //2. wibracji
         turnOnTheAlarmSound();
         turnOnVibration();
     }
@@ -54,22 +63,38 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     }
 
     private void turnOnVibration() {
+        alarmClockVibrationManager.startVibration(alarm.vibration);
     }
 
     @Override
     public void onNapButtonClick() {
-        //TODO
-        //1. wywołanie nowego alarmu
-        //2. zamknięcie aktywności
-        alarmClockAudioManager.stopAlarm();
+        stopAlarm();
+
+        alarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, alarm.nap.getNapTime());
+        alarmDataBase.updateAlarm(alarm);
+        AlarmManagerManagement.startAlarm(alarm, context);
     }
 
     @Override
     public void onTurnOffButtonClick() {
-        //TODO
-        //1. zaktualizowanie alarmu - jeżeli harmonogram to kolejna data i wywołanie alarmu
-        // jeżeli pojedyńcza data to aktualizacja isActive na false w bazie danych
-        // zamknięcie aktywności
-        alarmClockAudioManager.stopAlarm();
+        stopAlarm();
+        startNewAlarmOrSetNoActive();
     }
+
+    private void stopAlarm() {
+        alarmClockAudioManager.stopAlarm();
+        alarmClockVibrationManager.stopVibration();
+    }
+
+    private void startNewAlarmOrSetNoActive() {
+        if (alarm.alarmDateTime.isSchedule()) {
+            AlarmDateTime adt = AlarmDateTimeUpdater.update(alarm.alarmDateTime);
+            alarm.alarmDateTime = adt;
+            AlarmManagerManagement.startAlarm(alarm, context);
+        } else {
+            alarm.isActive = false;
+        }
+        alarmDataBase.updateAlarm(alarm);
+    }
+
 }

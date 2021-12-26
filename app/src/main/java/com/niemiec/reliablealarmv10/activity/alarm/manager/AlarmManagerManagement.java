@@ -33,10 +33,10 @@ public class AlarmManagerManagement {
         long now = Calendar.getInstance().getTimeInMillis();
 
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
+        //mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
 
         if (alarmTime > now) {
-            //mgr.set(AlarmManager.RTC_WAKEUP, alarm.alarmDateTime.getDateTime().getTimeInMillis(), sender);
+            mgr.set(AlarmManager.RTC_WAKEUP, alarm.alarmDateTime.getDateTime().getTimeInMillis(), sender);
         }
     }
 
@@ -44,6 +44,10 @@ public class AlarmManagerManagement {
     public static void stopAlarm(Alarm alarm, Context context) {
         PendingIntent sender = createAlarmReceiverPendingIntent(alarm, context);
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        mgr.cancel(sender);
+        try {
+            mgr.cancel(sender);
+        } catch (RuntimeException exception) {
+
+        }
     }
 }

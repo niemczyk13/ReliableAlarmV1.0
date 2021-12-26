@@ -33,6 +33,7 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
     @Override
     public void saveAlarm() {
         Alarm alarm = view.getAlarm();
+        view.stopAlarm(alarm);
         addAlarmToDatabase(alarm);
         view.goBackToPreviousActivity();
         //TODO aktywowanie alarmu - to samo co w MainPresenter

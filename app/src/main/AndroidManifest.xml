@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.niemiec.reliablealarmv10">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,10 +14,16 @@
         tools:replace="android:theme">
         <activity
             android:name=".activity.alarm.launch.AlarmClockActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:allowTaskReparenting="false"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""/>
         <activity
             android:name=".activity.main.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,12 +32,12 @@
         </activity>
         <activity
             android:name=".activity.alarm.add.AddAlarmActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
 
         <receiver android:name=".activity.alarm.manager.AlarmReceiver"/>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>
