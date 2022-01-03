@@ -5,6 +5,7 @@ import android.content.Context;
 import com.niemiec.reliablealarmv10.model.basic.BasicAlarm;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.room.Room;
@@ -47,6 +48,10 @@ public class AlarmDataBase {
 
     public List<Alarm> getAllAlarms() {
         return dataBaseModel.alarmDAO().getAll();
+    }
+
+    public List<Alarm> getAlarmsBefore(Calendar date) {
+        return dataBaseModel.alarmDAO().getAlarmsBefore(date);
     }
 
     public static AlarmDataBase getInstance(Context context) {

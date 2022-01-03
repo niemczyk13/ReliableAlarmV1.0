@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Dao
@@ -26,4 +27,7 @@ public interface AlarmDAO {
 
     @Delete
     void deleteAlarm(Alarm alarm);
+
+    @Query("SELECT * FROM Alarm WHERE dateTime <= :date")
+    List<Alarm> getAlarmsBefore(Calendar date);
 }
