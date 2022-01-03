@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
@@ -34,6 +35,8 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     }
 
     public void initView(Long id) {
+        Log.println(Log.ASSERT, "", "ID: " + id);
+        System.out.println("ID: " + id);
         alarm = alarmDataBase.getAlarm(id);
         showAlarmData();
         callUpAlarm();

@@ -1,9 +1,9 @@
 package com.niemiec.reliablealarmv10.activity.alarm.manager;
 
-import android.app.AlarmManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
@@ -25,7 +25,7 @@ public class AlarmStartupSystemService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-
+        Toast.makeText(getApplicationContext(), "JESTEM!", Toast.LENGTH_LONG).show();
         // TODO: //pobieramy teraźniejszą datę
         //        //z bazy pobieramy alarmy, które miały taką datę wywołania
         //        //usuwamy je z AlarmManagera
@@ -36,8 +36,13 @@ public class AlarmStartupSystemService extends Service {
             AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
             if (!alarm.alarmDateTime.isSchedule()) {
                 alarm.isActive = false;
+                alarmDataBase.updateAlarm(alarm);
+            } else {
+                //TODO ustawiamy nową datę alarmu
             }
         }
+
+        //TODO ewentualne ponowne dodatnie do alarmmanagera pozostałych alarmów
         return null;
     }
 }

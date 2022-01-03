@@ -32,15 +32,39 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
 
     @Override
     public void saveAlarm() {
+        if (type == Type.CREATE)
+            saveNewAlarm();
+        else if (type == Type.UPDATE)
+            updateAlarm();
+
+//        Alarm alarm = view.getAlarm();
+//        view.stopAlarm(alarm);
+//        addAlarmToDatabase(alarm);
+//        alarm = alarmDataBase.getLastAlarm();
+//        view.goBackToPreviousActivity();
+//        //TODO aktywowanie alarmu - to samo co w MainPresenter
+//        if (alarm.isActive)
+//            view.startAlarm(alarm);
+//        else
+//            view.stopAlarm(alarm);
+    }
+
+    private void saveNewAlarm() {
         Alarm alarm = view.getAlarm();
-        view.stopAlarm(alarm);
-        addAlarmToDatabase(alarm);
+        alarmDataBase.insertAlarm(alarm);
+        alarm.id = alarmDataBase.getLastAlarm().id;
+        view.startAlarm(alarm);
         view.goBackToPreviousActivity();
-        //TODO aktywowanie alarmu - to samo co w MainPresenter
-        if (alarm.isActive)
-            view.startAlarm(alarm);
-        else
-            view.stopAlarm(alarm);
+    }
+
+    private void updateAlarm() {
+        Alarm alarm = alarmDataBase.getAlarm(id);
+        view.stopAlarm(alarm);
+        Alarm updateAlarm = view.getAlarm();
+        updateAlarm.id = id;
+        alarmDataBase.updateAlarm(updateAlarm);
+        view.startAlarm(updateAlarm);
+        view.goBackToPreviousActivity();
     }
 
     private void addAlarmToDatabase(Alarm alarm) {

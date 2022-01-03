@@ -20,6 +20,7 @@ public class AlarmManagerManagement {
     private static PendingIntent createAlarmReceiverPendingIntent(Alarm alarm, Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
+        System.out.println("ALARM ID: " + alarm.id);
         bundle.putLong("id", alarm.id);
         intent.putExtra("data", bundle);
         return PendingIntent.getBroadcast(context, (int) alarm.id, intent, 0);
@@ -33,7 +34,7 @@ public class AlarmManagerManagement {
         long now = Calendar.getInstance().getTimeInMillis();
 
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        //mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
+//        mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
 
         if (alarmTime > now) {
             mgr.set(AlarmManager.RTC_WAKEUP, alarm.alarmDateTime.getDateTime().getTimeInMillis(), sender);

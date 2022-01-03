@@ -51,7 +51,7 @@ public class AlarmDataBase {
     }
 
     public List<Alarm> getAlarmsBefore(Calendar date) {
-        return dataBaseModel.alarmDAO().getAlarmsBefore(date);
+        return dataBaseModel.alarmDAO().getAlarmsBefore(date.getTimeInMillis());
     }
 
     public static AlarmDataBase getInstance(Context context) {
@@ -64,4 +64,6 @@ public class AlarmDataBase {
     public void deleteAlarm(Alarm alarm) {
         dataBaseModel.alarmDAO().deleteAlarm(alarm);
     }
+
+    public Alarm getLastAlarm() {return dataBaseModel.alarmDAO().getLastAlarm();}
 }
