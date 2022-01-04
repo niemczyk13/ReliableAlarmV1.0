@@ -11,14 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReliableAlarmV10"
         tools:replace="android:theme">
-        <activity
-            android:name=".activity.alarm.launch.AlarmClockActivity"
-            android:allowTaskReparenting="false"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"
-            android:taskAffinity="" />
 
         <activity
             android:name=".activity.main.MainActivity"
@@ -30,40 +22,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.alarm.add.AddAlarmActivity"
             android:exported="true"
             android:screenOrientation="fullSensor" />
-        <receiver
-            android:name=".activity.alarm.manager.AlarmStartupSystemReceiver"
-            android:process=":stocks_background"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
         <receiver
             android:name=".activity.alarm.manager.AlarmReceiver"
             android:process=":stock_background"
             android:enabled="true"
             android:exported="true">
+        </receiver>
+        <activity
+            android:name=".activity.alarm.launch.AlarmClockActivity"
+            android:allowTaskReparenting="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor"
+            android:taskAffinity="" />
+
+        <receiver
+            android:name=".activity.alarm.manager.AlarmStartupSystemReceiver"
+            android:exported="true">
+<!--            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">-->
+
             <intent-filter>
+                <action android:name="android.intent.action.REBOOT" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
         <service
             android:name=".activity.alarm.manager.AlarmStartupSystemService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="true"/>
     </application>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE"
+        tools:ignore="ManifestOrder" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<!--    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
 </manifest>
