@@ -66,4 +66,6 @@ public class AlarmDataBase {
     }
 
     public Alarm getLastAlarm() {return dataBaseModel.alarmDAO().getLastAlarm();}
+
+    public List<Alarm> getActiveAlarms() {return dataBaseModel.alarmDAO().getActiveAlarms();}
 }

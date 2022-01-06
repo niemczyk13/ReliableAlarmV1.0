@@ -32,4 +32,7 @@ public interface AlarmDAO {
 
     @Query("SELECT * FROM Alarm ORDER BY id DESC LIMIT 1")
     Alarm getLastAlarm();
+
+    @Query("SELECT * FROM Alarm WHERE isActive = 'true'")
+    List<Alarm> getActiveAlarms();
 }
