@@ -37,4 +37,7 @@ public class Model {
         }
     }
 
+    public List<Alarm> getActiveAlarms() {
+        return alarmDataBase.getActiveAlarms();
+    }
 }

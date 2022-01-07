@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.Calendar;
 import java.util.List;
 
 public interface MainContractMVP {
@@ -19,6 +20,7 @@ public interface MainContractMVP {
         void checkOrUncheckAlarm(int position);
         void startAlarm(Alarm alarm);
         void stopAlarm(Alarm alarm);
+        void updateNotification(List<Alarm> activeAlarms);
     }
 
     interface Presenter {

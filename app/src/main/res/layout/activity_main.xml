@@ -6,29 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".activity.main.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/menu_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/bin_image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_baseline_delete_24" />
-    </LinearLayout>
-
     <ListView
         android:id="@+id/alarm_list_view"
         android:layout_width="wrap_content"
         android:layout_height="500dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menu_linear_layout" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_alarm_button"

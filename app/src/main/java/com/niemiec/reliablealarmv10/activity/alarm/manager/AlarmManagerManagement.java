@@ -1,11 +1,16 @@
 package com.niemiec.reliablealarmv10.activity.alarm.manager;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
+
+import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.Calendar;
@@ -15,6 +20,11 @@ public class AlarmManagerManagement {
     public static void startAlarm(Alarm alarm, Context context) {
         PendingIntent sender = createAlarmReceiverPendingIntent(alarm, context);
         addToAlarmManager(alarm, sender, context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext()).setSmallIcon(R.drawable.ic_baseline_access_alarm_24);
+        builder.setContentIntent(sender);
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = builder.build();
+        manager.notify(1, notification);
     }
 
     private static PendingIntent createAlarmReceiverPendingIntent(Alarm alarm, Context context) {

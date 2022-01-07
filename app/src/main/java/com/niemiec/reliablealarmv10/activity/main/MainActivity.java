@@ -2,17 +2,16 @@ package com.niemiec.reliablealarmv10.activity.main;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.AlarmManagerCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -20,14 +19,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
-import com.niemiec.reliablealarmv10.activity.alarm.launch.AlarmClockActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmStartupSystemService;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.Calendar;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private MainPresenter presenter;
     private AlarmListAdapter adapter;
 
-    private ImageButton binImageButton;
     private ListView alarmListView;
     private FloatingActionButton addNewAlarmButton;
     private LinearLayout cancelOrDelete;
@@ -50,8 +48,16 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         initView();
         setListeners();
         setViews();
-//        Intent intent = new Intent(this, AlarmStartupSystemService.class);
-//        startService(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        menu.getItem(0).setOnMenuItemClickListener(item -> {
+            presenter.onBinButtonClick();
+            return false;
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void createMainPresenter() {
@@ -60,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     private void initView() {
-        binImageButton = findViewById(R.id.bin_image_button);
         alarmListView = findViewById(R.id.alarm_list_view);
         addNewAlarmButton = findViewById(R.id.add_alarm_button);
         cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
@@ -69,10 +74,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     private void setListeners() {
-        binImageButton.setOnClickListener(v -> {
-            presenter.onBinButtonClick();
-        });
-
         cancelDeleteAlarmButton.setOnClickListener(view -> {
             presenter.onCancelButtonClick();
         });
@@ -126,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     private void changeTheVisibilityOfBrowsingViewItems(int visibility) {
         addNewAlarmButton.setVisibility(visibility);
-        binImageButton.setVisibility(visibility);
         setTheAbilityToSelectListItems(visibility);
     }
 
@@ -196,6 +196,12 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     public void stopAlarm(Alarm alarm) {
         AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
     }
+
+    @Override
+    public void updateNotification(List<Alarm> activeAlarms) {
+        AlarmNotificationManager.updateNotification(getApplicationContext(), activeAlarms);
+    }
+
 
     @Override
     public void switchOnOffClick(long id) {

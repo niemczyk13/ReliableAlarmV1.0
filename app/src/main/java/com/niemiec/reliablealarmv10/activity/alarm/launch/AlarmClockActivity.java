@@ -1,7 +1,9 @@
 package com.niemiec.reliablealarmv10.activity.alarm.launch;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,8 +12,12 @@ import android.widget.TextView;
 
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.List;
+
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmClockActivity extends AppCompatActivity implements AlarmClockContractMVP.View {
     private AlarmClockPresenter presenter;
     private TextView clockTextView;
@@ -87,6 +93,11 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     public void showAlarmClockWithoutNap(int hour, int minute) {
         showHourAndMinute(hour, minute);
         napButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateNotification(List<Alarm> activeAlarms) {
+        AlarmNotificationManager.updateNotification(getApplicationContext(), activeAlarms);
     }
 
     private void showHourAndMinute(int hour, int minute) {

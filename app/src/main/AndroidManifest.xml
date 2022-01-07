@@ -43,7 +43,7 @@
             android:taskAffinity="" />
 
         <receiver
-            android:name=".activity.alarm.manager.AlarmStartupSystemReceiver"
+            android:name=".activity.alarm.manager.startup.AlarmStartupSystemReceiver"
             android:exported="false" >
 <!--            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">-->
 
@@ -52,7 +52,7 @@
             </intent-filter>
         </receiver>
         <service
-            android:name=".activity.alarm.manager.AlarmStartupSystemService"
+            android:name=".activity.alarm.manager.startup.AlarmStartupSystemService"
             android:enabled="true"
             android:exported="false" />
 

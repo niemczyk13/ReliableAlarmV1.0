@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     public MainPresenter(Context context) {
         super();
+        this.context = context;
         model = new Model(context);
         typeView = TypeView.NORMAL;
     }
@@ -34,8 +38,13 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onBinButtonClick() {
-        view.showAlarmListForDeletion();
-        typeView = TypeView.DELETE;
+        if (typeView == TypeView.DELETE) {
+            view.showNormalView();
+            typeView = TypeView.NORMAL;
+        } else if (typeView == TypeView.NORMAL) {
+            view.showAlarmListForDeletion();
+            typeView = TypeView.DELETE;
+        }
     }
 
     @Override
@@ -44,6 +53,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
         view.showNormalView();
         view.updateAlarmList(model.getAllAlarms());
         typeView = TypeView.NORMAL;
+        view.updateNotification(model.getActiveAlarms());
     }
 
     @Override
@@ -60,13 +70,17 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
     @Override
     public void onSwitchOnOffAlarmClick(long id) {
         Alarm alarm = model.getAlarm(id);
+        alarm.alarmDateTime = AlarmDateTimeUpdater.update(alarm.alarmDateTime);
         alarm.isActive = !alarm.isActive;
         model.updateAlarm(alarm);
         view.updateAlarmList(model.getAllAlarms());
-        if (alarm.isActive)
+
+        if (alarm.isActive) {
             view.startAlarm(alarm);
-        else
+        } else {
             view.stopAlarm(alarm);
+        }
+        view.updateNotification(model.getActiveAlarms());
     }
 
     @Override

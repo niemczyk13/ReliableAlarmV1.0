@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.alarm.manager;
+package com.niemiec.reliablealarmv10.activity.alarm.manager.startup;
 
 import android.app.Service;
 import android.content.Intent;
@@ -21,7 +21,7 @@ public class AlarmStartupSystemService extends Service {
         super.onCreate();
 //        alarmDataBase = AlarmDataBase.getInstance(getApplicationContext());
 //        Toast.makeText(getApplicationContext(), "URUCHAMIAM SERVICE 232323", Toast.LENGTH_LONG).show();
-        Toast.makeText(this, "JESTEM! 3333333", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "JESTEM! 3333333", Toast.LENGTH_LONG).show();
 
     }
 
@@ -49,7 +49,7 @@ public class AlarmStartupSystemService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Toast.makeText(this, "JESTEM! 22222", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "JESTEM! 22222", Toast.LENGTH_LONG).show();
         // TODO: //pobieramy teraźniejszą datę
         //        //z bazy pobieramy alarmy, które miały taką datę wywołania
         //        //usuwamy je z AlarmManagera

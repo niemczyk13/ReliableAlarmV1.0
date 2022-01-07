@@ -36,7 +36,7 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
             saveNewAlarm();
         else if (type == Type.UPDATE)
             updateAlarm();
-
+        view.updateNotification(alarmDataBase.getActiveAlarms());
 //        Alarm alarm = view.getAlarm();
 //        view.stopAlarm(alarm);
 //        addAlarmToDatabase(alarm);

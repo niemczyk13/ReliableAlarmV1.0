@@ -15,6 +15,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.NapView;
 import com.niemiec.risingview.view.RisingSoundView;
@@ -22,9 +23,10 @@ import com.niemiec.risingview.view.RisingSoundView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.M)
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AddAlarmActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AddAlarmContractMVP.View {
 
     private AddAlarmPresenter presenter;
@@ -39,7 +41,6 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     private Button cancelButton;
     private Button saveButton;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +139,12 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     @Override
     public void stopAlarm(Alarm alarm) {
         AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void updateNotification(List<Alarm> activeAlarms) {
+        AlarmNotificationManager.updateNotification(getApplicationContext(), activeAlarms);
     }
 
 }
