@@ -31,17 +31,14 @@ public class AlarmClockAudioManager {
     }
 
     private void createMediaPlayer(Sound sound) {
-        if (sound.isPersonal() && fileSoundExist(sound))
-            player = MediaPlayer.create(context, Uri.parse(sound.getUri()));
-        else if (sound.isPersonal())
-            player = MediaPlayer.create(context, com.example.alarmsoundview.R.raw.closer);
+        if (sound.isPersonal())
+            try {
+                player = MediaPlayer.create(context, Uri.parse(sound.getUri()));
+            } catch (RuntimeException exception) {
+                player = MediaPlayer.create(context, com.example.alarmsoundview.R.raw.closer);
+            }
         else
             player = MediaPlayer.create(context, sound.getSoundId());
-    }
-
-    private boolean fileSoundExist(Sound sound) {
-        File file = new File(sound.getUri());
-        return file.exists();
     }
 
     private void setVolume(int volume) {

@@ -17,20 +17,20 @@ public class AlarmSchedule extends LinearLayout {
 
     public AlarmSchedule(Context context) {
         super(context);
-        setProperties();
+        init();
     }
 
     public AlarmSchedule(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setProperties();
+        init();
     }
 
     public AlarmSchedule(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setProperties();
+        init();
     }
 
-    private void setProperties() {
+    private void init() {
         viewBuilder = new ViewBuilder(super.getContext());
         setPropertiesToMainLinearLayout();
         addViewsToMainLinearLayout();

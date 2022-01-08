@@ -15,10 +15,9 @@
         <activity
             android:name=".activity.main.MainActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,7 +25,7 @@
         <activity
             android:name=".activity.alarm.add.AddAlarmActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".activity.alarm.manager.AlarmReceiver"
@@ -39,7 +38,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:taskAffinity="" />
 
         <receiver

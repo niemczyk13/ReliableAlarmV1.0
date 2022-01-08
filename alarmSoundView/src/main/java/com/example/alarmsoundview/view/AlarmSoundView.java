@@ -3,6 +3,8 @@ package com.example.alarmsoundview.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,10 +16,12 @@ import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.alarmsoundview.R;
 import com.example.alarmsoundview.activity.sound.select.SelectSoundActivity;
 import com.example.alarmsoundview.model.Sound;
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 
 public class AlarmSoundView extends LinearLayout {
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -26,23 +30,26 @@ public class AlarmSoundView extends LinearLayout {
     private ComponentActivity componentActivity;
     private TextView description;
     private TextView soundName;
+    private TypedArray options;
 
     public AlarmSoundView(Context context) {
         super(context);
-        setProperties();
+        init();
     }
 
     public AlarmSoundView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setProperties();
+        options = context.obtainStyledAttributes(attrs, R.styleable.AlarmSoundView, 0, 0);
+        init();
     }
 
     public AlarmSoundView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setProperties();
+        options = context.obtainStyledAttributes(attrs, R.styleable.AlarmSoundView, 0, 0);
+        init();
     }
 
-    private void setProperties() {
+    private void init() {
         this.componentActivity = (ComponentActivity) super.getContext();
         setParamsToMainLinearLayout();
         createViews();
@@ -67,7 +74,7 @@ public class AlarmSoundView extends LinearLayout {
         sound.setSoundId(data.getInt("id"));
         sound.setPersonal(data.getBoolean("is_personal", false));
         sound.setUri(data.getString("uri"));
-        sound.setSoundName(data.getString("sound_name"));
+        sound.setSoundName(data.getString("name"));
     }
 
     private void updateSoundName(String name) {
@@ -86,7 +93,7 @@ public class AlarmSoundView extends LinearLayout {
     }
 
     private void createViews() {
-        AlarmSoundViewBuilder alarmSoundViewBuilder = new AlarmSoundViewBuilder(super.getContext());
+        AlarmSoundViewBuilder alarmSoundViewBuilder = new AlarmSoundViewBuilder(super.getContext(), options);
         description = alarmSoundViewBuilder.getDescriptionTextView();
         soundName = alarmSoundViewBuilder.getNameTextView();
     }
@@ -107,7 +114,6 @@ public class AlarmSoundView extends LinearLayout {
         bundle.putString("name", sound.getSoundName());
         intent.putExtra("data", bundle);
 
-
         activityResultLauncher.launch(intent);
     }
 
@@ -117,7 +123,7 @@ public class AlarmSoundView extends LinearLayout {
     }
 
     private void updateView() {
-        description.setText(R.string.alarm_sound);
+        //description.setText(R.string.alarm_sound);
         soundName.setText(sound.getSoundName());
     }
 
