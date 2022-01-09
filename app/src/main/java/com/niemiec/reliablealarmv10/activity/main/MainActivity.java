@@ -2,6 +2,7 @@ package com.niemiec.reliablealarmv10.activity.main;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     private void initView() {
+        setTitle(R.string.title);
         alarmListView = findViewById(R.id.alarm_list_view);
         addNewAlarmButton = findViewById(R.id.add_alarm_button);
         cancelOrDelete = findViewById(R.id.cancel_or_delete_linear_layout);
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private void setListeners() {
         cancelDeleteAlarmButton.setOnClickListener(view -> {
             presenter.onCancelButtonClick();
+            alarmListView.setClickable(false);
         });
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         //List<Alarm> alarms = AlarmDataBase.getAllAlarms();
         //adapter = new AlarmListAdapter(this, alarms);
         presenter.initView();
+        alarmListView.setClickable(true);
     }
 
 

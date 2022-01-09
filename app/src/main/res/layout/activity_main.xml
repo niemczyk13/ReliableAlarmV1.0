@@ -9,11 +9,11 @@
     <ListView
         android:id="@+id/alarm_list_view"
         android:layout_width="wrap_content"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="1dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_alarm_button"
@@ -38,12 +38,14 @@
         <Button
             android:id="@+id/cancel_delete_alarm_button"
             android:text="@string/cancel_button"
+            android:backgroundTint="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/delete_alarm_button"
             android:text="@string/delete"
+            android:backgroundTint="@color/blue"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -72,7 +72,6 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     @Override
     public void onNapButtonClick() {
         stopAlarm();
-
         alarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, alarm.nap.getNapTime());
         alarmDataBase.updateAlarm(alarm);
         AlarmManagerManagement.startAlarm(alarm, context);
@@ -84,6 +83,11 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
         stopAlarm();
         startNewAlarmOrSetNoActive();
         view.updateNotification(alarmDataBase.getActiveAlarms());
+    }
+
+    @Override
+    public void onPowerKeyClick() {
+        onTurnOffButtonClick();
     }
 
     private void stopAlarm() {

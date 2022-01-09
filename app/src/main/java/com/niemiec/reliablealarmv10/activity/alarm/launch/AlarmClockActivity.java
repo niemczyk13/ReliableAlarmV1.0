@@ -3,8 +3,10 @@ package com.niemiec.reliablealarmv10.activity.alarm.launch;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNot
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmClockActivity extends AppCompatActivity implements AlarmClockContractMVP.View {
@@ -29,6 +32,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_clock);
         setWindowFlags();
+        defineBasicHeaderAppearanceData();
         createAlarmClockPresenter();
         initView();
         setListeners();
@@ -44,6 +48,24 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
                         WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    }
+
+    private void defineBasicHeaderAppearanceData() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.BLACK);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_POWER) {
+            presenter.onPowerKeyClick();
+            event.startTracking();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void createAlarmClockPresenter() {

@@ -14,6 +14,7 @@
 
         <activity
             android:name=".activity.main.MainActivity"
+            android:theme="@style/MainAppTheme"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -60,6 +61,7 @@
         tools:ignore="ManifestOrder" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />

@@ -16,5 +16,6 @@ public interface AlarmClockContractMVP {
         void initView(Long id);
         void onNapButtonClick();
         void onTurnOffButtonClick();
+        void onPowerKeyClick();
     }
 }

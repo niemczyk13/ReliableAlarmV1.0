@@ -30,7 +30,7 @@ public class AlarmsList {
     }
 
     private void createAlarmsList(List<Alarm> alarms) {
-        List<Alarm> activeAlarms = alarms.stream().filter(alarm -> alarm.isActive).sorted(Alarm::compareTimeTo).collect(Collectors.toList());
+        List<Alarm> activeAlarms = alarms.stream().filter(alarm -> alarm.isActive).sorted(Alarm::compareDateTimeTo).collect(Collectors.toList());
         List<Alarm> inactiveAlarms = alarms.stream().filter(alarm -> !alarm.isActive).sorted(Alarm::compareTimeTo).collect(Collectors.toList());
         this.alarms = Stream.concat(activeAlarms.stream(), inactiveAlarms.stream()).collect(Collectors.toList());
     }

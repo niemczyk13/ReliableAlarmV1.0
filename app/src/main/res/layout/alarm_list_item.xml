@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    android:gravity="center_vertical"
     android:animateLayoutChanges="true"
     android:descendantFocusability="blocksDescendants">
 
@@ -14,14 +15,19 @@
 
     <TextView
         android:id="@+id/alarm_time_text_view"
+        android:textSize="20dp"
+        android:textFontWeight="@integer/material_motion_duration_long_2"
+        android:gravity="center_vertical"
         android:layout_width="86dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_weight="0" />
 
     <TextView
         android:id="@+id/alarm_date_text_view"
         android:layout_width="165dp"
+        android:textSize="16dp"
+        android:gravity="center_vertical"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />

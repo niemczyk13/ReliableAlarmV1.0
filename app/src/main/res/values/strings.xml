@@ -8,6 +8,7 @@
     <string name="delete">Usuń</string>
     <string name="nap">DRZEMKA</string>
     <string name="turn_off_the_alarm">Wyłącz alarm</string>
+    <string name="title">Budzik</string>
 
     <string-array name="nap_values">
         <item>1 minuta</item>

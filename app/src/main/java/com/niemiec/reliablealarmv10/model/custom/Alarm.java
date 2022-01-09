@@ -30,6 +30,23 @@ public class Alarm {
     public boolean isActive;
 
     public int compareTimeTo(Alarm alarm) {
+        int thisHour = alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
+        int thisMinute = alarmDateTime.getDateTime().get(Calendar.MINUTE);
+        int hour = alarm.alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
+        int minute = alarm.alarmDateTime.getDateTime().get(Calendar.MINUTE);
+        if (thisHour < hour)
+            return -1;
+        else if (thisHour > hour)
+            return 1;
+        else if (thisMinute < minute)
+            return -1;
+        else if (thisMinute > minute)
+            return 1;
+        else
+            return 0;
+    }
+
+    public int compareDateTimeTo(Alarm alarm) {
         return this.alarmDateTime.getDateTime().compareTo(alarm.alarmDateTime.getDateTime());
     }
 }
