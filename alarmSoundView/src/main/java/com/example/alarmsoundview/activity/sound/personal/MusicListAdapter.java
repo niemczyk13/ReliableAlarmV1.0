@@ -72,9 +72,10 @@ public class MusicListAdapter extends BaseAdapter implements Filterable {
 
     private void setImageResource(ViewHolder viewHolder, int position) {
         if (theSongIsNotPlaying()) {
-            viewHolder.playButton.setImageResource(R.drawable.ic_baseline_play_circle_outline_24);
+            viewHolder.playButton.setBackgroundResource(R.drawable.ic_baseline_play_circle_outline_24);
+
         } else {
-            viewHolder.playButton.setImageResource(R.drawable.ic_baseline_stop_circle_24);
+            viewHolder.playButton.setBackgroundResource(R.drawable.ic_baseline_stop_circle_24);
             playButtonManager.setImageButton(viewHolder.playButton);
             playButtonManager.setPlayingSoundPosition(position);
         }

@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -48,6 +50,8 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_sound);
+        setTitle(R.string.add_personal_sound);
+        getWindow().setStatusBarColor(Color.BLACK);
         ButterKnife.bind(this);
         filesListView = findViewById(R.id.sounds_list_view);
         searchView = findViewById(R.id.sound_search_view);
@@ -131,6 +135,14 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
     private void addBackArrow() {
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: onBackPressed(); return false;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @NonNull

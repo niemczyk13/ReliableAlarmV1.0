@@ -70,7 +70,7 @@ public class PlayButtonManager {
     }
 
     private void stopTheMusic() {
-        playingImageButton.setImageResource(R.drawable.ic_baseline_play_circle_outline_24);
+        playingImageButton.setBackgroundResource(R.drawable.ic_baseline_play_circle_outline_24);
         mediaPlayer.stop();
         playingSong = false;
         playingSoundId = -1;
@@ -102,7 +102,7 @@ public class PlayButtonManager {
     }
 
     private void startMediaPlayer(Uri uri) {
-        imageButtonClicked.setImageResource(R.drawable.ic_baseline_stop_circle_24);
+        imageButtonClicked.setBackgroundResource(R.drawable.ic_baseline_stop_circle_24);
         mediaPlayer = MediaPlayer.create(context, uri);
         mediaPlayer.start();
         playingSong = true;

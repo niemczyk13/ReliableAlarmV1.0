@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ReliableAlarmV1.0</string>
+    <string name="app_name">Budzik</string>
     <string name="cancel_button">Anuluj</string>
     <string name="save_button">Zapisz</string>
     <string name="nap_text_view">Drzemka:</string>

@@ -11,14 +11,12 @@
         android:id="@+id/sound_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         />
 
     <ListView
         android:id="@+id/sounds_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginLeft="5dp" />
 
 </LinearLayout>

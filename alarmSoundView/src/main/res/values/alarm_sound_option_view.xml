@@ -3,6 +3,8 @@
     <declare-styleable name="AlarmSoundView">
         <attr name="descriptionWidth" format="dimension" />
         <attr name="descriptionText" format="string" />
+        <attr name="descriptionTextSize" format="dimension" />
+        <attr name="titleTextSize" format="dimension" />
     </declare-styleable>
     <dimen name="defaultValue">20dp</dimen>
 </resources>

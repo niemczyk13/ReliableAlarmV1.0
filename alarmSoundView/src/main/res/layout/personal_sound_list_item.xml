@@ -5,7 +5,8 @@
     android:descendantFocusability = "blocksDescendants"
     android:layout_height="match_parent"
     android:columnCount="2"
-    android:rowCount="2">
+    android:rowCount="2"
+    >
 
     <TextView
         android:id="@+id/title_text_view"
@@ -14,6 +15,7 @@
         android:layout_gravity="fill_horizontal"
         android:layout_row="0"
         android:layout_column="0"
+        android:textSize="16dp"
         />
 
     <TextView
@@ -23,15 +25,17 @@
         android:layout_gravity="fill_horizontal"
         android:layout_row="1"
         android:layout_column="0"
+        android:textSize="12dp"
         />
 
     <ImageButton
         android:id="@+id/play_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_row="0"
         android:layout_column="1"
         android:layout_rowSpan="2"
+        android:layout_marginRight="5dp"
         />
 
 
