@@ -15,8 +15,8 @@ public class AlarmBuiltInSoundData {
     }
 
     private void createSoundsList() {
-        sounds.add(new BuiltInSound("Pierwszy", R.raw.closer));
-        sounds.add(new BuiltInSound("Drugi", R.raw.creep));
+        sounds.add(new BuiltInSound("Closer", R.raw.closer));
+        sounds.add(new BuiltInSound("Creep", R.raw.creep));
     }
 
     private void checkCheckedSound(int soundId) {
