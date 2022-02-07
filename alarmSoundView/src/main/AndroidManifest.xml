@@ -10,8 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmSoundView">
         <activity android:name=".activity.sound.personal.PersonalSoundActivity"
-            android:theme="@style/MainAppTheme"></activity>
-        <activity android:name=".activity.sound.select.SelectSoundActivity" />
+            android:theme="@style/MainAppTheme"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.sound.select.SelectSoundActivity"
+            android:screenOrientation="portrait"/>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

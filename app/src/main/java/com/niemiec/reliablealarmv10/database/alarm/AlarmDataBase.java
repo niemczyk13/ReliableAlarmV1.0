@@ -19,7 +19,7 @@ public class AlarmDataBase {
     }
 
     private static void createDataBase(Context context) {
-        dataBaseModel = Room.databaseBuilder(context, AlarmDataBaseModel.class, "alarmDataBase").allowMainThreadQueries().build();
+        dataBaseModel = Room.databaseBuilder(context, AlarmDataBaseModel.class, "alarmDataBase").fallbackToDestructiveMigration().allowMainThreadQueries().build();
         createBasicAlarm();
     }
 

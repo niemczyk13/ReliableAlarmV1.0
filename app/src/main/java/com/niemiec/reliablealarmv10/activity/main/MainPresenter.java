@@ -14,6 +14,7 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagemen
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
@@ -73,14 +74,21 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
         alarm.alarmDateTime = AlarmDateTimeUpdater.update(alarm.alarmDateTime);
         alarm.isActive = !alarm.isActive;
         model.updateAlarm(alarm);
-        view.updateAlarmList(model.getAllAlarms());
 
         if (alarm.isActive) {
             view.startAlarm(alarm);
         } else {
+            updateAlarmTimeAfterNap(alarm);
             view.stopAlarm(alarm);
         }
+        view.updateAlarmList(model.getAllAlarms());
         view.updateNotification(model.getActiveAlarms());
+    }
+
+    private void updateAlarmTimeAfterNap(Alarm alarm) {
+        if (alarm.nap.isActive()) {
+            alarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, -alarm.nap.getTheSumOfTheNapTimes());
+        }
     }
 
     @Override
