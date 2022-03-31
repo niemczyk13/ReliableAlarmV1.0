@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import com.google.android.material.button.MaterialButton;
 import com.niemiec.risingview.R;
 
-public class RisingSoundButton extends MaterialButton{
+public class RisingSoundButton extends MaterialButton {
     private final int value;
     private RisingSoundButtonClickListener listener;
 
