@@ -32,7 +32,6 @@ public class RisingSoundButton extends MaterialButton {
         super.setCheckable(true);
         super.setId(View.generateViewId());
         setUncheckColorButton();
-
     }
 
     private LinearLayout.LayoutParams getDefaultLayoutParamsForDayButton() {
