@@ -70,6 +70,10 @@ public class SafeAlarmLaunchButton extends MaterialButton {
         setUncheckColorButton();
     }
 
+    public int getPercentageValue() {
+        return percentageValue;
+    }
+
     private void onClick(View view) {
         listener.onClick(super.getId());
     }
