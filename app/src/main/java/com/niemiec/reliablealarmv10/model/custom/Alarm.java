@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmsoundview.model.Sound;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
+import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
 import com.niemiec.risingview.model.RisingSound;
 
 import java.util.Calendar;
@@ -23,6 +24,8 @@ public class Alarm {
     public Nap nap;
     @Embedded
     public RisingSound risingSound;
+    @Embedded
+    public SafeAlarmLaunch safeAlarmLaunch;
     public int volume;
     public boolean vibration;
     public String name;

@@ -12,6 +12,8 @@ import com.example.alarmsoundview.model.Sound;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.NapValue;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
+import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
+import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.view.SafeAlarmLaunchValue;
 import com.niemiec.risingview.model.RisingSound;
 import com.niemiec.risingview.view.RisingSoundValue;
 
@@ -27,6 +29,8 @@ public class BasicAlarm {
     public Nap nap;
     @Embedded
     public RisingSound risingSound;
+    @Embedded
+    public SafeAlarmLaunch safeAlarmLaunch;
     public int volume;
     public boolean vibration;
 
@@ -41,6 +45,8 @@ public class BasicAlarm {
         //sound.setSoundName(Resources.getSystem().getResourceName(soundId));
         sound.setSoundName("Pierwsza");
         sound.setPersonal(false);
+
+        safeAlarmLaunch.setSafeAlarmLaunchPercentage(SafeAlarmLaunchValue.SECOND.getValue());
 
         nap = new Nap();
         nap.setNapTime(napValue.getValue());
@@ -66,7 +72,7 @@ public class BasicAlarm {
         alarm.name = "";
         alarm.note = "";
         alarm.isActive = true;
-
+        alarm.safeAlarmLaunch = safeAlarmLaunch;
         return alarm;
     }
 }
