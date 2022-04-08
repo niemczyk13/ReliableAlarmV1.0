@@ -6,6 +6,7 @@ import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 //TODO
 public class SafeAlarmLaunchViewButtons {
@@ -20,9 +21,8 @@ public class SafeAlarmLaunchViewButtons {
     }
 
     private void createSafeAlarmLaunchButtons() {
-        buttons = new HashMap<>();
-        SafeAlarmLaunchValue[] values = SafeAlarmLaunchValue.values();
-        for (SafeAlarmLaunchValue value : values) {
+        buttons = new TreeMap<>();
+        for (SafeAlarmLaunchValue value : SafeAlarmLaunchValue.values()) {
             SafeAlarmLaunchButton button = new SafeAlarmLaunchButton(value.getName(), value.getValue(), context);
             button.addClickSafeAlarmLaunchButtonClickListener(this::onClick);
             buttons.put(button.getId(), button);

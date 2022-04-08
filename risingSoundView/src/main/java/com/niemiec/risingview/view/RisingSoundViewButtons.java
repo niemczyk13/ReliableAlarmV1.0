@@ -6,6 +6,7 @@ import com.niemiec.risingview.model.RisingSound;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class RisingSoundViewButtons {
     private final Context context;
@@ -19,7 +20,7 @@ public class RisingSoundViewButtons {
     }
 
     private void createRisingSoundButtons() {
-        buttons = new HashMap<>();
+        buttons = new TreeMap<>();
         RisingSoundValue[] values = RisingSoundValue.values();
         for (RisingSoundValue value : values) {
             RisingSoundButton button = new RisingSoundButton(value.getName(), value.getValue(), context);

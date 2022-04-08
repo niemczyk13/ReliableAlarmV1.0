@@ -18,6 +18,7 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagemen
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.NapView;
+import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.view.SafeAlarmLaunchView;
 import com.niemiec.risingview.view.RisingSoundView;
 
 import androidx.annotation.RequiresApi;
@@ -35,6 +36,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     private AlarmSoundView alarmSoundView;
     private NapView napView;
     private RisingSoundView risingSoundView;
+    private SafeAlarmLaunchView safeAlarmLaunchView;
     private SeekBar volumeSeekBar;
     private SwitchMaterial vibrationSwitch;
 
@@ -72,6 +74,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         alarm.sound = alarmSoundView.getSound();
         alarm.nap = napView.getNap();
         alarm.risingSound = risingSoundView.getRisingSound();
+        alarm.safeAlarmLaunch = safeAlarmLaunchView.getSafeAlarmLaunch();
         alarm.volume = volumeSeekBar.getProgress();
         alarm.vibration = vibrationSwitch.isChecked();
         alarm.isActive = true;
@@ -96,6 +99,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         alarmSoundView = findViewById(R.id.alarm_sound_view);
         napView = findViewById(R.id.nap_view);
         risingSoundView = findViewById(R.id.rising_sound_view);
+        safeAlarmLaunchView = findViewById(R.id.safe_alarm_launch_view);
         volumeSeekBar = findViewById(R.id.volume_seek_bar);
         vibrationSwitch = findViewById(R.id.vibration_switch);
         cancelButton = findViewById(R.id.cancel_button);
@@ -113,6 +117,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         alarmSoundView.initialize(alarm.sound);
         napView.initialize(alarm.nap);
         risingSoundView.initialize(alarm.risingSound);
+        safeAlarmLaunchView.initialize(alarm.safeAlarmLaunch);
         volumeSeekBar.setProgress(alarm.volume);
         vibrationSwitch.setChecked(alarm.vibration);
     }

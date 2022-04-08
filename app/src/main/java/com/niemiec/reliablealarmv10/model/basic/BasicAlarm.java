@@ -46,6 +46,7 @@ public class BasicAlarm {
         sound.setSoundName("Pierwsza");
         sound.setPersonal(false);
 
+        safeAlarmLaunch = new SafeAlarmLaunch();
         safeAlarmLaunch.setSafeAlarmLaunchPercentage(SafeAlarmLaunchValue.SECOND.getValue());
 
         nap = new Nap();
