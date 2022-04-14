@@ -19,10 +19,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alarmsoundview.R;
 import com.example.alarmsoundview.activity.sound.personal.PersonalSoundActivity;
 import com.example.alarmsoundview.model.Sound;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 public class SelectSoundActivity extends AppCompatActivity implements SelectSoundContractMVP.View {
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -65,6 +67,8 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
                         intent.putExtra("data", bundle);
                         setResult(RESULT_OK, intent);
                         finish();
+                    } else {
+                        Toast.makeText(this, R.string.info_about_null_personal_sounds, Toast.LENGTH_LONG).show();
                     }
 
         });
@@ -142,8 +146,8 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         TextView addNewSound = findViewById(R.id.add_new_sound_text_view);
         addNewSound.setOnClickListener(this::addNewSoundClick);
 
-        ImageButton addNewSoundButton = findViewById(R.id.add_new_sound_button);
-        addNewSoundButton.setOnClickListener(this::addNewSoundClick);
+        ExtendedFloatingActionButton addPersonalSoundButton = findViewById(R.id.add_personal_sound_button);
+        addPersonalSoundButton.setOnClickListener(this::addNewSoundClick);
 
         Button saveButton = findViewById(R.id.save_button);
         saveButton.setOnClickListener(this::saveButtonClick);

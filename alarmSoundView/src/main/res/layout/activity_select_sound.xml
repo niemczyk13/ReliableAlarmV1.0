@@ -11,31 +11,16 @@
         android:layout_width="322dp"
 
         android:layout_height="52dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:paddingBottom="10dp"
         android:paddingTop="15dp"
-        android:text="@string/add_personal_sound"
+        android:text="@string/select_sound_title_text_view"
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="9dp" />
-
-    <ImageButton
-        android:id="@+id/add_new_sound_button"
-        android:layout_width="60dp"
-        android:layout_height="54dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_baseline_add_24"
-        app:layout_constraintEnd_toStartOf="@+id/add_new_sound_text_view"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/add_new_sound_text_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="#1DA1F2" />
 
     <View
         android:id="@+id/line"
@@ -92,8 +77,18 @@
             />
     </GridLayout>
 
-
-
-
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/add_personal_sound_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/blue"
+        android:text="@string/add_personal_sound"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RtlCompat,UnusedAttribute" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

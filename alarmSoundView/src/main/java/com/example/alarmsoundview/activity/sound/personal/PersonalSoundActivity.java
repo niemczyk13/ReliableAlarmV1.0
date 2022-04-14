@@ -46,6 +46,7 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
     private Cursor cursor;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +62,9 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         playButtonManager = new PlayButtonManager(this, cursor);
         //playButtonManager.setContext(getApplicationContext());
         //playButtonManager.setCursor(cursor);
+        if (!tryCreateMusicLoader()) {
+            setResultCanceledAndCloseActivity();
+        }
         showMusicList();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -82,9 +86,19 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
 
     }
+
+    private void setResultCanceledAndCloseActivity() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private boolean tryCreateMusicLoader() {
+        Loader<Cursor> loader = LoaderManager.getInstance(this).initLoader(1, null, this);
+        return loader.isStarted();
+    }
+
     @SuppressLint("Range")
     private void showMusicList() {
-        LoaderManager.getInstance(this).initLoader(1, null, this);
 
         filesListView.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
             adapter.stopMusic();
@@ -149,8 +163,9 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        CursorLoader cl =  new CursorLoader(this, uri, null, filter, null, null);
-        cl.setSortOrder(MediaStore.MediaColumns.TITLE + " ASC" );
+        CursorLoader cl = new CursorLoader(this, uri, null, filter, null, null);
+        cl.setSortOrder(MediaStore.MediaColumns.TITLE + " ASC");
+
         return cl;
     }
 
