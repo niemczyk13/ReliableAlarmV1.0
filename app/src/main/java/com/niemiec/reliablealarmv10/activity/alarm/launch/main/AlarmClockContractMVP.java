@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.alarm.launch;
+package com.niemiec.reliablealarmv10.activity.alarm.launch.main;
 
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 

@@ -4,15 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
-import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
-import com.niemiec.reliablealarmv10.activity.alarm.launch.AlarmClockActivity;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
-
-import java.util.Calendar;
+import com.niemiec.reliablealarmv10.activity.alarm.launch.main.AlarmClockActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override

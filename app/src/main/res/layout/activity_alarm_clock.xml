@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.alarm.launch.AlarmClockActivity">
+    tools:context=".activity.alarm.launch.main.AlarmClockActivity">
 
     <TextView
         android:id="@+id/clock_text_view"

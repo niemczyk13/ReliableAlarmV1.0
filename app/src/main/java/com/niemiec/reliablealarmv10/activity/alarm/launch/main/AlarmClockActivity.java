@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.alarm.launch;
+package com.niemiec.reliablealarmv10.activity.alarm.launch.main;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
