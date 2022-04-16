@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReliableAlarmV10"
         tools:replace="android:theme">
-        <activity android:name=".activity.alarm.launch.safe.SafeAlarmActivity"></activity>
+        <activity android:name=".activity.alarm.launch.safe.SafeAlarmActivity" />
+
         <activity
             android:name=".activity.main.MainActivity"
             android:exported="true"
@@ -27,7 +28,6 @@
             android:name=".activity.alarm.add.AddAlarmActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.alarm.launch.main.AlarmClockActivity"
             android:allowTaskReparenting="false"
@@ -36,11 +36,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="" />
-
         <receiver
             android:name=".activity.alarm.manager.AlarmReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <receiver
             android:name=".activity.alarm.manager.startup.AlarmStartupSystemReceiver"
@@ -52,15 +51,16 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <service
+            android:name=".activity.alarm.launch.safe.service.SafeAlarmService"
+            android:enabled="true"
+            android:exported="true"></service>
 
         <service
             android:name=".activity.alarm.manager.startup.AlarmStartupSystemService"
             android:enabled="true"
             android:exported="false" />
     </application>
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -69,9 +69,12 @@
     <uses-permission
         android:name="android.permission.SET_DEBUG_APP"
         tools:ignore="ProtectedPermissions" />
-
     <uses-permission
         android:name="android.permission.VIBRATE"
         tools:ignore="ManifestOrder" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
 </manifest>
