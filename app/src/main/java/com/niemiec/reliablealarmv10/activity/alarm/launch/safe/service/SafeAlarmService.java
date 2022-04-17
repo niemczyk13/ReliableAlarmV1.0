@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.BatteryManager;
 import android.os.Bundle;
 
+import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.SafeAlarmActivity;
+
 import androidx.annotation.Nullable;
 
 public class SafeAlarmService extends IntentService {
@@ -32,16 +34,26 @@ public class SafeAlarmService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         getValuesFromIntent(intent);
-        while (true) {
+        boolean wait = true;
+        while (wait) {
             synchronized (this) {
                 try {
                     updateActualBatteryPercentageValue();
                     if (batteryPercentageValue <= percentageSafeAlarmValue) {
                         //TODO wywołać aktywność SafeAlarmActivity
+                        Intent safeAlarm = new Intent(getApplicationContext(), SafeAlarmActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("id", alarmId);
+                        intent.putExtra("data", bundle);
+                        startActivity(safeAlarm);
+
                         //TODO zakończyć tę usługę
+                        wait = false;
+                    } else {
+                        setWaitTime();
+                        wait(waitTime);
                     }
-                    setWaitTime();
-                    wait(waitTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

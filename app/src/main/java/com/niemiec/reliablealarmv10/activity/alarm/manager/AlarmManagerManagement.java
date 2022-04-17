@@ -22,12 +22,10 @@ public class AlarmManagerManagement {
         PendingIntent sender = createAlarmReceiverPendingIntent(alarm, context);
         addToAlarmManager(alarm, sender, context);
         startSafeAlarmService(alarm, context);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext()).setSmallIcon(R.drawable.ic_baseline_access_alarm_24);
-        builder.setContentIntent(sender);
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = builder.build();
-        manager.notify(1, notification);
+        notifyAlarmNotification(context, sender);
     }
+
+
 
     private static PendingIntent createAlarmReceiverPendingIntent(Alarm alarm, Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
@@ -68,6 +66,14 @@ public class AlarmManagerManagement {
         if (alarm.safeAlarmLaunch.isOn()) {
             context.startService(createSafeAlarmServiceIntent(alarm, context));
         }
+    }
+
+    private static void notifyAlarmNotification(Context context, PendingIntent sender) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext()).setSmallIcon(R.drawable.ic_baseline_access_alarm_24);
+        builder.setContentIntent(sender);
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = builder.build();
+        manager.notify(1, notification);
     }
 
     private static Intent createSafeAlarmServiceIntent(Alarm alarm, Context context) {
