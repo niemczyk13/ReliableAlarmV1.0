@@ -12,6 +12,8 @@
     <string name="safe_alarm_launch_descrption">Bezpieczny alarm:</string>
     <string name="header_text_in_safe_alarm">Twój alarm może się nie włączyć o</string>
     <string name="ok_button">OK</string>
+    <string name="left_word">Pozostało</string>
+    <string name="battery_word">baterii</string>
 
     <string-array name="nap_values">
         <item>1 minuta</item>
