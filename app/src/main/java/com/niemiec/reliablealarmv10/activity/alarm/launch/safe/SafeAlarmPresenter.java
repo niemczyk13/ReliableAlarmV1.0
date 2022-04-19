@@ -37,7 +37,6 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
         showAlarmClock();
         showActualClock();
         showPercentageInformation();
-        //TODO
     }
 
     private void showAlarmClock() {
@@ -56,5 +55,30 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     }
 
     private void callUpAlarm() {
+        turnOnAlarmSound();
+        turnOnVibration();
+    }
+
+    private void turnOnAlarmSound() {
+        if (alarm.risingSound.isOn()) {
+            alarmClockAudioManager.startRisingAlarm(alarm.sound, alarm.volume, alarm.risingSound.getTimeInMilliseconds());
+        } else {
+            alarmClockAudioManager.startAlarm(alarm.sound, alarm.volume);
+        }
+    }
+
+    private void turnOnVibration() {
+        alarmClockVibrationManager.startVibration(alarm.vibration);
+    }
+
+    @Override
+    public void onOkButtonClick() {
+        stopAlarm();
+        view.closeActivity();
+    }
+
+    private void stopAlarm() {
+        alarmClockAudioManager.stopAlarm();
+        alarmClockVibrationManager.stopVibration();
     }
 }

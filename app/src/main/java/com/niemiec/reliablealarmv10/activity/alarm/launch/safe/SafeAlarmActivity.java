@@ -62,8 +62,10 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
         okButton = findViewById(R.id.ok_button);
     }
 
-    //TODO
     private void setListeners() {
+        okButton.setOnClickListener(view -> {
+            presenter.onOkButtonClick();
+        });
     }
 
     private void setViews() {
@@ -84,6 +86,11 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
     @Override
     public void showBatteryPercentageInfo(String info) {
         batteryPercentageInfoTextView.setText(info);
+    }
+
+    @Override
+    public void closeActivity() {
+        finish();
     }
 
     private String getTime(int time) {
