@@ -50,11 +50,20 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onDeleteButtonClick(List<Alarm> alarms) {
+        stopDeletedAlarms(alarms);
         model.deleteAlarms(alarms);
         view.showNormalView();
         view.updateAlarmList(model.getAllAlarms());
         typeView = TypeView.NORMAL;
         view.updateNotification(model.getActiveAlarms());
+    }
+
+    private void stopDeletedAlarms(List<Alarm> alarms) {
+        for (Alarm alarm : alarms) {
+            if (alarm.isActive) {
+                view.stopAlarm(alarm);
+            }
+        }
     }
 
     @Override

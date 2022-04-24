@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.SafeAlarmActivity;
 
@@ -26,8 +27,8 @@ public class SafeAlarmService extends IntentService {
     private int batteryPercentageValue;
     private long waitTime;
 
-    public SafeAlarmService(String name) {
-        super(name);
+    public SafeAlarmService() {
+        super("SafeAlarmActivity");
     }
 
 
@@ -35,23 +36,26 @@ public class SafeAlarmService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         getValuesFromIntent(intent);
         boolean wait = true;
+        System.out.println("TIIIIII");
+        waitTime = 3000;
         while (wait) {
             synchronized (this) {
                 try {
                     updateActualBatteryPercentageValue();
                     if (batteryPercentageValue <= percentageSafeAlarmValue) {
-                        //TODO wywołać aktywność SafeAlarmActivity
+//                        //TODO wywołać aktywność SafeAlarmActivity
                         Intent safeAlarm = new Intent(getApplicationContext(), SafeAlarmActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        safeAlarm.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Bundle bundle = new Bundle();
                         bundle.putLong("id", alarmId);
-                        intent.putExtra("data", bundle);
-                        startActivity(safeAlarm);
-
-                        //TODO zakończyć tę usługę
+                        safeAlarm.putExtra("data", bundle);
+                        getApplication().startActivity(safeAlarm);
+    //
+    //                        //TODO zakończyć tę usługę
                         wait = false;
                     } else {
                         setWaitTime();
+
                         wait(waitTime);
                     }
                 } catch (InterruptedException e) {

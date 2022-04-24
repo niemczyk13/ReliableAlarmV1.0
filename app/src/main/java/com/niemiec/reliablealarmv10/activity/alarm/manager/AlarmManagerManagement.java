@@ -53,9 +53,9 @@ public class AlarmManagerManagement {
 
     public static void stopAlarm(Alarm alarm, Context context) {
         PendingIntent sender = createAlarmReceiverPendingIntent(alarm, context);
+        stopSafeAlarmService(alarm, context);
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         try {
-            stopSafeAlarmService(alarm, context);
             mgr.cancel(sender);
         } catch (RuntimeException exception) {
 

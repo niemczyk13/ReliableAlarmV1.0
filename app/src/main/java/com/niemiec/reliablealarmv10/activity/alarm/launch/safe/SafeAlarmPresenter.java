@@ -51,7 +51,7 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     }
 
     private void showPercentageInformation() {
-        view.showBatteryPercentageInfo(R.string.left_word + " " + alarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage() + "% " + R.string.battery_word);
+        view.showBatteryPercentageInfo(context.getResources().getString(R.string.left_word) + " " + alarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage() + "% " + context.getResources().getString(R.string.battery_word));
     }
 
     private void callUpAlarm() {

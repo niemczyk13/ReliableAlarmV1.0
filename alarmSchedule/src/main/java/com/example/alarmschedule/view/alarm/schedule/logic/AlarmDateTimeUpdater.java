@@ -11,6 +11,7 @@ public class AlarmDateTimeUpdater {
     private static final int ONE_DAY = 1;
     private static final int ONE_WEEK = 7;
     private static AlarmDateTime alarmDateTime;
+    private static boolean dateIsSelect = false;
 
     public static AlarmDateTime update(AlarmDateTime adt) {
         alarmDateTime = adt;
@@ -52,14 +53,35 @@ public class AlarmDateTimeUpdater {
     }
 
     private static void calculateOrdinaryDate() {
-        //TODO dodać, że jeżeli mniej niż 1 dzień różnicy to nie dodawać
-        if (alarmIsBeforeNow()) {
+//        if (alarmIsBeforeNow()) {
+//            int date = getCalendarInstance().get(Calendar.DATE);
+//            alarmDateTime.getDateTime().set(Calendar.DATE, date);
+//            if (alarmIsBeforeNow()) {
+//                alarmDateTime.getDateTime().add(Calendar.DATE, ONE_DAY);
+//            }
+//        }
+        if (!dateIsSelect) {
             int date = getCalendarInstance().get(Calendar.DATE);
-            alarmDateTime.getDateTime().set(Calendar.DATE, date);
-            if (alarmIsBeforeNow()) {
-                alarmDateTime.getDateTime().add(Calendar.DATE, ONE_DAY);
+            if (alarmClockIsBeforeNow()) {
+                alarmDateTime.getDateTime().set(Calendar.DATE, date + ONE_DAY);
+            } else {
+                alarmDateTime.getDateTime().set(Calendar.DATE, date);
             }
         }
+    }
+
+    private static boolean alarmClockIsBeforeNow() {
+        int alarmHour = alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
+        int alarmMinute = alarmDateTime.getDateTime().get(Calendar.MINUTE);
+        Calendar now = getCalendarInstance();
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        if (alarmHour < hour) {
+            return true;
+        } else if (alarmHour == hour && alarmMinute <= minute) {
+            return true;
+        }
+        return false;
     }
 
     private static boolean alarmIsBeforeNow() {
@@ -78,8 +100,18 @@ public class AlarmDateTimeUpdater {
         alarmDateTime.getDateTime().set(Calendar.MONTH, month);
         alarmDateTime.getDateTime().set(Calendar.DAY_OF_MONTH, day);
         alarmDateTime.getWeek().clear();
+        setDateIsSelect(year, month, day);
 
         return alarmDateTime;
+    }
+
+    private static void setDateIsSelect(int year, int month, int day) {
+        Calendar now = getCalendarInstance();
+        if (now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == month && now.get(Calendar.DAY_OF_MONTH) == day) {
+            dateIsSelect = false;
+        } else {
+            dateIsSelect = true;
+        }
     }
 
     public static AlarmDateTime getAlarmDateTime() {

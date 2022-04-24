@@ -63,7 +63,7 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         //playButtonManager.setContext(getApplicationContext());
         //playButtonManager.setCursor(cursor);
         if (!tryCreateMusicLoader()) {
-            setResultCanceledAndCloseActivity();
+         //   setResultCanceledAndCloseActivity();
         }
         showMusicList();
 
@@ -93,8 +93,8 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     }
 
     private boolean tryCreateMusicLoader() {
-        Loader<Cursor> loader = LoaderManager.getInstance(this).initLoader(1, null, this);
-        return loader.isStarted();
+        LoaderManager.getInstance(this).initLoader(1, null, this);
+        return cursor != null;
     }
 
     @SuppressLint("Range")
@@ -171,7 +171,9 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-        cursor.moveToFirst();
+        if (!cursor.moveToFirst()) {
+            setResultCanceledAndCloseActivity();
+        }
         this.cursor = cursor;
         playButtonManager.setCursor(cursor);
         adapter = new MusicListAdapter(this, cursor, playButtonManager);
@@ -182,4 +184,5 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
+
 }
