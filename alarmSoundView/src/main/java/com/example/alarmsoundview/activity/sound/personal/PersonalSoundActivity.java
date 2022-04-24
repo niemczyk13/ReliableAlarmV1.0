@@ -19,7 +19,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.provider.MediaStore;
@@ -37,11 +36,9 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     private String filter;
 
     @SuppressLint("NonConstantResourceId")
-    //@BindView(R.id.sounds_list_view)
     ListView filesListView;
 
     @SuppressLint("NonConstantResourceId")
-    //@BindView(R.id.sound_search_view)
     SearchView searchView;
 
     private Cursor cursor;
@@ -54,71 +51,49 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         setTitle(R.string.add_personal_sound);
         getWindow().setStatusBarColor(Color.BLACK);
         ButterKnife.bind(this);
-        filesListView = findViewById(R.id.sounds_list_view);
-        searchView = findViewById(R.id.sound_search_view);
-
-        actionBar = getSupportActionBar();
+        getViews();
         addBackArrow();
         playButtonManager = new PlayButtonManager(this, cursor);
-        //playButtonManager.setContext(getApplicationContext());
-        //playButtonManager.setCursor(cursor);
-        if (!tryCreateMusicLoader()) {
-         //   setResultCanceledAndCloseActivity();
-        }
+        createMusicLoader();
         showMusicList();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
-                filter = MediaStore.MediaColumns.TITLE + " LIKE '%" + query + "%' OR " + MediaStore.Audio.AlbumColumns.ARTIST + " LIKE '%" + query + "%'";
-                LoaderManager.getInstance(PersonalSoundActivity.this).restartLoader(1, null, PersonalSoundActivity.this);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter = MediaStore.MediaColumns.TITLE + " LIKE '%" + newText + "%' OR " + MediaStore.Audio.AlbumColumns.ARTIST + " LIKE '%" + newText + "%'";
-                LoaderManager.getInstance(PersonalSoundActivity.this).restartLoader(1, null, PersonalSoundActivity.this);
-                return false;
-            }
-        });
-
-
+        setOnQueryTextListenerInSearchView();
     }
 
-    private void setResultCanceledAndCloseActivity() {
-        setResult(RESULT_CANCELED);
-        finish();
+    private void getViews() {
+        filesListView = findViewById(R.id.sounds_list_view);
+        searchView = findViewById(R.id.sound_search_view);
+        actionBar = getSupportActionBar();
     }
 
-    private boolean tryCreateMusicLoader() {
+    private void addBackArrow() {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void createMusicLoader() {
         LoaderManager.getInstance(this).initLoader(1, null, this);
-        return cursor != null;
     }
 
     @SuppressLint("Range")
     private void showMusicList() {
-
         filesListView.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
             adapter.stopMusic();
             cursor.moveToPosition(position);
             Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
-
-            String name = createName();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("uri", uri.toString());
-            bundle.putString("name", name);
-
-            Intent intent = new Intent();
-            intent.putExtra("data", bundle);
-            setResult(RESULT_OK, intent);
-            finish();
-
+            createIntentWithSelectMusic(uri);
         });
+    }
 
+    private void createIntentWithSelectMusic(Uri uri) {
+        String name = createName();
 
+        Bundle bundle = new Bundle();
+        bundle.putString("uri", uri.toString());
+        bundle.putString("name", name);
+
+        Intent intent = new Intent();
+        intent.putExtra("data", bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @SuppressLint("Range")
@@ -141,20 +116,36 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         return author;
     }
 
+    private void setOnQueryTextListenerInSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                filter = MediaStore.MediaColumns.TITLE + " LIKE '%" + query + "%' OR " + MediaStore.Audio.AlbumColumns.ARTIST + " LIKE '%" + query + "%'";
+                LoaderManager.getInstance(PersonalSoundActivity.this).restartLoader(1, null, PersonalSoundActivity.this);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter = MediaStore.MediaColumns.TITLE + " LIKE '%" + newText + "%' OR " + MediaStore.Audio.AlbumColumns.ARTIST + " LIKE '%" + newText + "%'";
+                LoaderManager.getInstance(PersonalSoundActivity.this).restartLoader(1, null, PersonalSoundActivity.this);
+                return false;
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         adapter.stopMusic();
     }
 
-    private void addBackArrow() {
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: onBackPressed(); return false;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return false;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -178,6 +169,11 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         playButtonManager.setCursor(cursor);
         adapter = new MusicListAdapter(this, cursor, playButtonManager);
         filesListView.setAdapter(adapter);
+    }
+
+    private void setResultCanceledAndCloseActivity() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     @Override

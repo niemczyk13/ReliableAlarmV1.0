@@ -130,9 +130,6 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
 
     @Override
     public void goBackToPreviousActivity() {
-        //TODO w antywności Main napisać jakś metodę
-        //która jest wywoływana podczas powrotu do aktywbości
-        //pobrać z cyklu życia aktywności
         finish();
     }
 

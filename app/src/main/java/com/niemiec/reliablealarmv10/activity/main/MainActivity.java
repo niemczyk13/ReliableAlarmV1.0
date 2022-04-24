@@ -2,7 +2,6 @@ package com.niemiec.reliablealarmv10.activity.main;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,7 +26,6 @@ import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
-import java.util.Calendar;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -40,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private LinearLayout cancelOrDelete;
     private Button cancelDeleteAlarmButton;
     private Button deleteAlarmButton;
+    private boolean isAddNewAlarmButtonIsClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,29 +82,29 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
             presenter.onAlarmListItemClick(position);
+            alarmListView.setClickable(false);
         });
 
         addNewAlarmButton.setOnClickListener(view -> {
-            presenter.onCreateAlarmButtonClick();
+            if (!isAddNewAlarmButtonIsClicked) {
+                presenter.onCreateAlarmButtonClick();
+                isAddNewAlarmButtonIsClicked = true;
+            }
         });
 
-        deleteAlarmButton.setOnClickListener(view -> {
-            presenter.onDeleteButtonClick(adapter.getSelectedAlarms());
-        });
+        deleteAlarmButton.setOnClickListener(view -> presenter.onDeleteButtonClick(adapter.getSelectedAlarms()));
     }
 
     private void setViews() {
         presenter.initView();
     }
 
-    //TODO po ponownym wczytaniu ustawienie normalnego włączenia - jeżeli wciśnięty kosz
     @Override
     protected void onStart() {
         super.onStart();
-        //List<Alarm> alarms = AlarmDataBase.getAllAlarms();
-        //adapter = new AlarmListAdapter(this, alarms);
         presenter.initView();
         alarmListView.setClickable(true);
+        isAddNewAlarmButtonIsClicked = false;
     }
 
 

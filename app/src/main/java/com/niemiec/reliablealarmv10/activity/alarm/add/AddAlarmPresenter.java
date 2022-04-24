@@ -7,10 +7,8 @@ import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
-import java.util.Calendar;
-
 public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> implements AddAlarmContractMVP.Presenter {
-    private AlarmDataBase alarmDataBase;
+    private final AlarmDataBase alarmDataBase;
     private Type type;
     private long id;
 
@@ -37,16 +35,6 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         else if (type == Type.UPDATE)
             updateAlarm();
         view.updateNotification(alarmDataBase.getActiveAlarms());
-//        Alarm alarm = view.getAlarm();
-//        view.stopAlarm(alarm);
-//        addAlarmToDatabase(alarm);
-//        alarm = alarmDataBase.getLastAlarm();
-//        view.goBackToPreviousActivity();
-//        //TODO aktywowanie alarmu - to samo co w MainPresenter
-//        if (alarm.isActive)
-//            view.startAlarm(alarm);
-//        else
-//            view.stopAlarm(alarm);
     }
 
     private void saveNewAlarm() {
@@ -67,16 +55,7 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         view.goBackToPreviousActivity();
     }
 
-    private void addAlarmToDatabase(Alarm alarm) {
-        if (type == Type.CREATE) {
-            alarmDataBase.insertAlarm(alarm);
-        } else if (type == Type.UPDATE) {
-            alarm.id = id;
-            alarmDataBase.updateAlarm(alarm);
-        }
-    }
-
     public enum Type {
-        CREATE, UPDATE;
+        CREATE, UPDATE
     }
 }

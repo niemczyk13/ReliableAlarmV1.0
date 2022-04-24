@@ -7,13 +7,12 @@ import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Model {
-    private AlarmDataBase alarmDataBase;
+    private final AlarmDataBase alarmDataBase;
 
     public Model(Context context) {
         alarmDataBase = AlarmDataBase.getInstance(context);

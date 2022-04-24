@@ -7,8 +7,6 @@ import android.net.Uri;
 
 import com.example.alarmsoundview.model.Sound;
 
-import java.io.File;
-
 public class AlarmClockAudioManager {
     private Context context;
     private AudioManager audioManager;

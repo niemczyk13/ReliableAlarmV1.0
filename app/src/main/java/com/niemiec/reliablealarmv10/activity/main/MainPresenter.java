@@ -1,17 +1,10 @@
 package com.niemiec.reliablealarmv10.activity.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 
 import java.util.Calendar;
@@ -21,13 +14,11 @@ import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MainPresenter extends BasePresenter<MainContractMVP.View> implements MainContractMVP.Presenter {
-    private Context context;
     private TypeView typeView;
     private final Model model;
 
     public MainPresenter(Context context) {
         super();
-        this.context = context;
         model = new Model(context);
         typeView = TypeView.NORMAL;
     }
@@ -110,6 +101,6 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
     }
 
     enum TypeView {
-        NORMAL, DELETE;
+        NORMAL, DELETE
     }
 }
