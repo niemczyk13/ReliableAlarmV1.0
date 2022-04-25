@@ -16,6 +16,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent1.putExtra("data", bundle);
         context.startActivity(intent1);
-        //TODO zktualizowanie listy alarmów - ten alarm juz jest neikatywny, jeżeli był jednorazowy, jezeli nie to ustalamy datę kolejnego alarmu
     }
 }
