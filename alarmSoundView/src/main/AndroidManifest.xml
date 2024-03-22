@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.alarmsoundview">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -9,9 +8,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmSoundView">
-        <activity android:name=".activity.sound.personal.PersonalSoundActivity"
+        <activity
+            android:name=".activity.sound.personal.PersonalSoundActivity"
             android:theme="@style/MainAppTheme"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.sound.select.SelectSoundActivity"
             android:screenOrientation="portrait"/>
     </application>

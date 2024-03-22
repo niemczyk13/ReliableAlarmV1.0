@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.niemiec.reliablealarmv10">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -58,10 +57,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".activity.alarm.launch.safe.service.SafeAlarmService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <service
             android:name=".activity.alarm.manager.startup.AlarmStartupSystemService"
