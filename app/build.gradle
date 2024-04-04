@@ -28,6 +28,10 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     namespace 'com.niemiec.reliablealarmv10'
+
+    kotlinOptions {
+        jvmTarget = "11" // Ustawia wersję JVM dla kompilatora Kotlin na 17
+    }
 }
 
 dependencies {
