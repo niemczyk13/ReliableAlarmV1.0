@@ -17,14 +17,14 @@ import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
+import com.niemiec.reliablealarmv10.activity.singleAlarm.add.AddAlarmActivity;
+import com.niemiec.reliablealarmv10.activity.singleAlarm.add.AddAlarmPresenter;
+import com.niemiec.reliablealarmv10.activity.singleAlarm.manager.AlarmManagerManagement;
+import com.niemiec.reliablealarmv10.activity.singleAlarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarm;
 
 import java.util.List;
 
@@ -109,11 +109,11 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
 
     @Override
-    public void showActivity(List<Alarm> alarms) {
+    public void showActivity(List<SingleAlarm> singleAlarms) {
         changeDefaultAppSettings();
         changeTheVisibilityOfDeleteViewItems(View.GONE);
         changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
-        createAlarmListWithAdapter(alarms);
+        createAlarmListWithAdapter(singleAlarms);
         adapter.showMainList();
     }
 
@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         }
     }
 
-    private void createAlarmListWithAdapter(List<Alarm> alarms) {
-        adapter = new AlarmListAdapter(this, new AlarmsList(alarms), this);
+    private void createAlarmListWithAdapter(List<SingleAlarm> singleAlarms) {
+        adapter = new AlarmListAdapter(this, new AlarmsList(singleAlarms), this);
         alarmListView.setAdapter(adapter);
     }
 
@@ -161,13 +161,13 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     @Override
-    public void updateAlarmList(List<Alarm> alarms) {
-        createAlarmListWithAdapter(alarms);
+    public void updateAlarmList(List<SingleAlarm> singleAlarms) {
+        createAlarmListWithAdapter(singleAlarms);
     }
 
     @Override
     public void showCreateNewAlarmActivity() {
-        Intent intent = new Intent(getApplicationContext(), AddAlarmActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddAlarmActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("type", AddAlarmPresenter.Type.CREATE);
         intent.putExtra("data", bundle);
@@ -191,18 +191,18 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     @Override
-    public void startAlarm(Alarm alarm) {
-        AlarmManagerManagement.startAlarm(alarm, getApplicationContext());
+    public void startAlarm(SingleAlarm singleAlarm) {
+        AlarmManagerManagement.startAlarm(singleAlarm, getApplicationContext());
     }
 
     @Override
-    public void stopAlarm(Alarm alarm) {
-        AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
+    public void stopAlarm(SingleAlarm singleAlarm) {
+        AlarmManagerManagement.stopAlarm(singleAlarm, getApplicationContext());
     }
 
     @Override
-    public void updateNotification(List<Alarm> activeAlarms) {
-        AlarmNotificationManager.updateNotification(getApplicationContext(), activeAlarms);
+    public void updateNotification(List<SingleAlarm> activeSingleAlarms) {
+        AlarmNotificationManager.updateNotification(getApplicationContext(), activeSingleAlarms);
     }
 
 

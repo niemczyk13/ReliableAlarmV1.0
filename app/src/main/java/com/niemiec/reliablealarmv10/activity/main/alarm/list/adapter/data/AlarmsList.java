@@ -2,9 +2,8 @@ package com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data;
 
 import android.os.Build;
 
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarm;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,33 +13,33 @@ import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmsList {
-    private List<Alarm> alarms;
+    private List<SingleAlarm> singleAlarms;
     private List<Boolean> selected;
 
-    public AlarmsList(List<Alarm> alarms) {
-        createAlarmsList(alarms);
+    public AlarmsList(List<SingleAlarm> singleAlarms) {
+        createAlarmsList(singleAlarms);
         createSelectedAlarmsList();
     }
 
     private void createSelectedAlarmsList() {
         selected = new ArrayList<>();
-        for (int i = 0; i < alarms.size(); i++) {
+        for (int i = 0; i < singleAlarms.size(); i++) {
             selected.add(false);
         }
     }
 
-    private void createAlarmsList(List<Alarm> alarms) {
-        List<Alarm> activeAlarms = alarms.stream().filter(alarm -> alarm.isActive).sorted(Alarm::compareDateTimeTo).collect(Collectors.toList());
-        List<Alarm> inactiveAlarms = alarms.stream().filter(alarm -> !alarm.isActive).sorted(Alarm::compareTimeTo).collect(Collectors.toList());
-        this.alarms = Stream.concat(activeAlarms.stream(), inactiveAlarms.stream()).collect(Collectors.toList());
+    private void createAlarmsList(List<SingleAlarm> singleAlarms) {
+        List<SingleAlarm> activeSingleAlarms = singleAlarms.stream().filter(alarm -> alarm.isActive).sorted(SingleAlarm::compareDateTimeTo).collect(Collectors.toList());
+        List<SingleAlarm> inactiveSingleAlarms = singleAlarms.stream().filter(alarm -> !alarm.isActive).sorted(SingleAlarm::compareTimeTo).collect(Collectors.toList());
+        this.singleAlarms = Stream.concat(activeSingleAlarms.stream(), inactiveSingleAlarms.stream()).collect(Collectors.toList());
     }
 
-    public List<Alarm> getAlarms() {
-        return alarms;
+    public List<SingleAlarm> getAlarms() {
+        return singleAlarms;
     }
 
-    public Alarm get(int index) {
-        return alarms.get(index);
+    public SingleAlarm get(int index) {
+        return singleAlarms.get(index);
     }
 
     public boolean isSelected(int index) {
@@ -55,13 +54,13 @@ public class AlarmsList {
         createSelectedAlarmsList();
     }
 
-    public List<Alarm> getSelectedAlarms() {
-        List<Alarm> selectedAlarms = new ArrayList<>();
-        for (int i = 0; i < alarms.size(); i++) {
+    public List<SingleAlarm> getSelectedAlarms() {
+        List<SingleAlarm> selectedSingleAlarms = new ArrayList<>();
+        for (int i = 0; i < singleAlarms.size(); i++) {
             if (selected.get(i)) {
-                selectedAlarms.add(alarms.get(i));
+                selectedSingleAlarms.add(singleAlarms.get(i));
             }
         }
-        return selectedAlarms;
+        return selectedSingleAlarms;
     }
 }

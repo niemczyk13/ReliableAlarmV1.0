@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +12,7 @@
         android:theme="@style/Theme.ReliableAlarmV10"
         tools:replace="android:theme">
         <activity
-            android:name=".activity.alarm.launch.safe.SafeAlarmActivity"
+            android:name=".activity.singleAlarm.launch.safe.SafeAlarmActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:allowTaskReparenting="false"
@@ -31,11 +32,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.alarm.add.AddAlarmActivity"
+            android:name=".activity.singleAlarm.add.AddAlarmActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.alarm.launch.main.AlarmClockActivity"
+            android:name=".activity.singleAlarm.launch.main.AlarmClockActivity"
             android:allowTaskReparenting="false"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -43,12 +44,12 @@
             android:screenOrientation="portrait"
             android:taskAffinity="" />
         <receiver
-            android:name=".activity.alarm.manager.AlarmReceiver"
+            android:name=".activity.singleAlarm.manager.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".activity.alarm.manager.startup.AlarmStartupSystemReceiver"
+            android:name=".activity.singleAlarm.manager.startup.AlarmStartupSystemReceiver"
             android:exported="false">
 
             <!-- android:permission="android.permission.RECEIVE_BOOT_COMPLETED"> -->
@@ -59,12 +60,12 @@
         </receiver>
 
         <service
-            android:name=".activity.alarm.launch.safe.service.SafeAlarmService"
+            android:name=".activity.singleAlarm.launch.safe.service.SafeAlarmService"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name=".activity.alarm.manager.startup.AlarmStartupSystemService"
+            android:name=".activity.singleAlarm.manager.startup.AlarmStartupSystemService"
             android:enabled="true"
             android:exported="false" />
     </application>

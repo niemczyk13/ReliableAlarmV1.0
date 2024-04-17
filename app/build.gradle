@@ -44,7 +44,9 @@ dependencies {
     implementation project(path: ':alarmSoundView')
     implementation project(path: ':risingSoundView')
     implementation 'androidx.core:core-ktx:+'
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation group: 'io.quarkus', name: 'quarkus-junit5', version: '3.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 

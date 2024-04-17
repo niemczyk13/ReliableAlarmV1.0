@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".activity.alarm.add.AddAlarmActivity">
+    tools:context=".activity.singleAlarm.add.AddAlarmActivity">
 
     <ScrollView
         android:layout_width="wrap_content"

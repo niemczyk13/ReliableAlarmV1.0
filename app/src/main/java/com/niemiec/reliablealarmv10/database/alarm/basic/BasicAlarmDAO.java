@@ -5,16 +5,16 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.niemiec.reliablealarmv10.model.basic.BasicAlarm;
+import com.niemiec.reliablealarmv10.model.basic.BasicAlarmSettings;
 
 @Dao
 public interface BasicAlarmDAO {
     @Insert
-    void insertBasicAlarm(BasicAlarm basicAlarm);
+    void insertBasicAlarm(BasicAlarmSettings basicAlarmSettings);
 
-    @Query("SELECT * FROM basicalarm WHERE id = 1")
-    BasicAlarm getBasicAlarm();
+    @Query("SELECT * FROM BasicAlarmSettings WHERE id = 1")
+    BasicAlarmSettings getBasicAlarm();
 
     @Update
-    void updateBasicAlarm(BasicAlarm basicAlarm);
+    void updateBasicAlarm(BasicAlarmSettings basicAlarmSettings);
 }
