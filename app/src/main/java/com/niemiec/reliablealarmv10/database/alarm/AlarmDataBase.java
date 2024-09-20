@@ -2,13 +2,11 @@ package com.niemiec.reliablealarmv10.database.alarm;
 
 import android.content.Context;
 
-import com.niemiec.reliablealarmv10.model.basic.BasicAlarm;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.basic.BasicAlarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 import java.util.List;
-
-import androidx.room.Room;
 
 public class AlarmDataBase {
     private static AlarmDataBase instance;
@@ -19,7 +17,7 @@ public class AlarmDataBase {
     }
 
     private static void createDataBase(Context context) {
-        dataBaseModel = Room.databaseBuilder(context, AlarmDataBaseModel.class, "alarmDataBase").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+        dataBaseModel = AlarmDataBaseModel.getInstance(context);
         createBasicAlarm();
     }
 
@@ -29,28 +27,28 @@ public class AlarmDataBase {
             dataBaseModel.basicAlarmDAO().insertBasicAlarm(new BasicAlarm());
     }
 
-    public void insertAlarm(Alarm alarm) {
-        dataBaseModel.alarmDAO().insertAlarm(alarm);
+    public void insertAlarm(SingleAlarmEntity singleAlarm) {
+        dataBaseModel.alarmDAO().insertAlarm(singleAlarm);
     }
 
-    public Alarm getDefaultAlarm() {
+    public SingleAlarmEntity getDefaultAlarm() {
         BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
         return basicAlarm.getAlarm();
     }
 
-    public Alarm getAlarm(long id) {
+    public SingleAlarmEntity getAlarm(long id) {
         return dataBaseModel.alarmDAO().getAlarm(id);
     }
 
-    public void updateAlarm(Alarm alarm) {
-        dataBaseModel.alarmDAO().updateAlarm(alarm);
+    public void updateAlarm(SingleAlarmEntity singleAlarm) {
+        dataBaseModel.alarmDAO().updateAlarm(singleAlarm);
     }
 
-    public List<Alarm> getAllAlarms() {
+    public List<SingleAlarmEntity> getAllAlarms() {
         return dataBaseModel.alarmDAO().getAll();
     }
 
-    public List<Alarm> getAlarmsBefore(Calendar date) {
+    public List<SingleAlarmEntity> getAlarmsBefore(Calendar date) {
         return dataBaseModel.alarmDAO().getAlarmsBefore(date.getTimeInMillis());
     }
 
@@ -61,11 +59,11 @@ public class AlarmDataBase {
         return instance;
     }
 
-    public void deleteAlarm(Alarm alarm) {
-        dataBaseModel.alarmDAO().deleteAlarm(alarm);
+    public void deleteAlarm(SingleAlarmEntity singleAlarm) {
+        dataBaseModel.alarmDAO().deleteAlarm(singleAlarm);
     }
 
-    public Alarm getLastAlarm() {return dataBaseModel.alarmDAO().getLastAlarm();}
+    public SingleAlarmEntity getLastAlarm() {return dataBaseModel.alarmDAO().getLastAlarm();}
 
-    public List<Alarm> getActiveAlarms() {return dataBaseModel.alarmDAO().getActiveAlarms();}
+    public List<SingleAlarmEntity> getActiveAlarms() {return dataBaseModel.alarmDAO().getActiveAlarms();}
 }

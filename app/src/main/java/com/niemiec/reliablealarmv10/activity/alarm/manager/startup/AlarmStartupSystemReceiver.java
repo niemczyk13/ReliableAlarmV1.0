@@ -10,7 +10,7 @@ import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 import java.util.List;
@@ -21,23 +21,23 @@ public class AlarmStartupSystemReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         AlarmDataBase alarmDataBase = AlarmDataBase.getInstance(context);
 
-        List<Alarm> alarms = alarmDataBase.getActiveAlarms();
+        List<SingleAlarmEntity> singleAlarms = alarmDataBase.getActiveAlarms();
         Toast.makeText(context.getApplicationContext(), "Odświeżono alarmy", Toast.LENGTH_LONG).show();
 
         Calendar now = Calendar.getInstance();
-        for (Alarm alarm : alarms) {
-            if (!alarm.alarmDateTime.getDateTime().after(now)) {
-                if (!alarm.alarmDateTime.isSchedule()) {
-                    alarm.isActive = false;
-                    alarmDataBase.updateAlarm(alarm);
+        for (SingleAlarmEntity singleAlarm : singleAlarms) {
+            if (!singleAlarm.alarmDateTime.getDateTime().after(now)) {
+                if (!singleAlarm.alarmDateTime.isSchedule()) {
+                    singleAlarm.isActive = false;
+                    alarmDataBase.updateAlarm(singleAlarm);
                 } else {
                     //TODO
-                    alarm.alarmDateTime = AlarmDateTimeUpdater.update(alarm.alarmDateTime);
-                    alarmDataBase.updateAlarm(alarm);
-                    AlarmManagerManagement.startAlarm(alarm, context);
+                    singleAlarm.alarmDateTime = AlarmDateTimeUpdater.update(singleAlarm.alarmDateTime);
+                    alarmDataBase.updateAlarm(singleAlarm);
+                    AlarmManagerManagement.startAlarm(singleAlarm, context);
                 }
             } else {
-                AlarmManagerManagement.startAlarm(alarm, context);
+                AlarmManagerManagement.startAlarm(singleAlarm, context);
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
