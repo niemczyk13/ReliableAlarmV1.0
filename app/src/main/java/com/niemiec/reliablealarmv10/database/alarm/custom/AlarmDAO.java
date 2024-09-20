@@ -6,33 +6,33 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.List;
 
 @Dao
 public interface AlarmDAO {
     @Insert
-    void insertAlarm(Alarm alarm);
+    void insertAlarm(SingleAlarmEntity singleAlarm);
 
-    @Query("SELECT * FROM Alarm")
-    List<Alarm> getAll();
+    @Query("SELECT * FROM SingleAlarmEntity")
+    List<SingleAlarmEntity> getAll();
 
-    @Query("SELECT * FROM Alarm WHERE id = :id")
-    Alarm getAlarm(long id);
+    @Query("SELECT * FROM SingleAlarmEntity WHERE id = :id")
+    SingleAlarmEntity getAlarm(long id);
 
     @Update
-    void updateAlarm(Alarm alarm);
+    void updateAlarm(SingleAlarmEntity singleAlarm);
 
     @Delete
-    void deleteAlarm(Alarm alarm);
+    void deleteAlarm(SingleAlarmEntity singleAlarm);
 
-    @Query("SELECT * FROM Alarm WHERE dateTime <= :dateInMillis")
-    List<Alarm> getAlarmsBefore(long dateInMillis);
+    @Query("SELECT * FROM SingleAlarmEntity WHERE dateTime <= :dateInMillis")
+    List<SingleAlarmEntity> getAlarmsBefore(long dateInMillis);
 
-    @Query("SELECT * FROM Alarm ORDER BY id DESC LIMIT 1")
-    Alarm getLastAlarm();
+    @Query("SELECT * FROM SingleAlarmEntity ORDER BY id DESC LIMIT 1")
+    SingleAlarmEntity getLastAlarm();
 
-    @Query("SELECT * FROM Alarm WHERE isActive = 1")
-    List<Alarm> getActiveAlarms();
+    @Query("SELECT * FROM SingleAlarmEntity WHERE isActive = 1")
+    List<SingleAlarmEntity> getActiveAlarms();
 }

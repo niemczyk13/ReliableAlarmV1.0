@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.alarmschedule.view.alarm.schedule.view.AlarmSchedule
+    <com.example.alarmschedule.view.singleAlarm.schedule.view.AlarmSchedule
         android:id="@+id/alarm_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

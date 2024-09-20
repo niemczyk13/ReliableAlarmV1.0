@@ -7,7 +7,7 @@ import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.audio.AlarmClockAudioManager;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.vibration.AlarmClockVibrationManager;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 
@@ -16,7 +16,7 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     private AlarmDataBase alarmDataBase;
     private AlarmClockAudioManager alarmClockAudioManager;
     private AlarmClockVibrationManager alarmClockVibrationManager;
-    private Alarm alarm;
+    private SingleAlarmEntity singleAlarm;
 
     public SafeAlarmPresenter(Context context) {
         super();
@@ -28,7 +28,7 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
 
     @Override
     public void initView(long id) {
-        alarm = alarmDataBase.getAlarm(id);
+        singleAlarm = alarmDataBase.getAlarm(id);
         showAlarmData();
         callUpAlarm();
     }
@@ -40,8 +40,8 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     }
 
     private void showAlarmClock() {
-        int hour = alarm.alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
-        int minute = alarm.alarmDateTime.getDateTime().get(Calendar.MINUTE);
+        int hour = singleAlarm.alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
+        int minute = singleAlarm.alarmDateTime.getDateTime().get(Calendar.MINUTE);
         view.showAlarmClock(hour, minute);
     }
 
@@ -51,7 +51,7 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     }
 
     private void showPercentageInformation() {
-        view.showBatteryPercentageInfo(context.getResources().getString(R.string.left_word) + " " + alarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage() + "% " + context.getResources().getString(R.string.battery_word));
+        view.showBatteryPercentageInfo(context.getResources().getString(R.string.left_word) + " " + singleAlarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage() + "% " + context.getResources().getString(R.string.battery_word));
     }
 
     private void callUpAlarm() {
@@ -60,15 +60,15 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     }
 
     private void turnOnAlarmSound() {
-        if (alarm.risingSound.isOn()) {
-            alarmClockAudioManager.startRisingAlarm(alarm.sound, alarm.volume, alarm.risingSound.getTimeInMilliseconds());
+        if (singleAlarm.risingSound.isOn()) {
+            alarmClockAudioManager.startRisingAlarm(singleAlarm.sound, singleAlarm.volume, singleAlarm.risingSound.getTimeInMilliseconds());
         } else {
-            alarmClockAudioManager.startAlarm(alarm.sound, alarm.volume);
+            alarmClockAudioManager.startAlarm(singleAlarm.sound, singleAlarm.volume);
         }
     }
 
     private void turnOnVibration() {
-        alarmClockVibrationManager.startVibration(alarm.vibration);
+        alarmClockVibrationManager.startVibration(singleAlarm.vibration);
     }
 
     @Override

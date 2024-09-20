@@ -5,7 +5,7 @@ import android.os.Build;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 import java.util.List;
@@ -40,19 +40,19 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
     }
 
     @Override
-    public void onDeleteButtonClick(List<Alarm> alarms) {
-        stopDeletedAlarms(alarms);
-        model.deleteAlarms(alarms);
+    public void onDeleteButtonClick(List<SingleAlarmEntity> singleAlarms) {
+        stopDeletedAlarms(singleAlarms);
+        model.deleteAlarms(singleAlarms);
         view.showNormalView();
         view.updateAlarmList(model.getAllAlarms());
         typeView = TypeView.NORMAL;
         view.updateNotification(model.getActiveAlarms());
     }
 
-    private void stopDeletedAlarms(List<Alarm> alarms) {
-        for (Alarm alarm : alarms) {
-            if (alarm.isActive) {
-                view.stopAlarm(alarm);
+    private void stopDeletedAlarms(List<SingleAlarmEntity> singleAlarms) {
+        for (SingleAlarmEntity singleAlarm : singleAlarms) {
+            if (singleAlarm.isActive) {
+                view.stopAlarm(singleAlarm);
             }
         }
     }
@@ -70,24 +70,24 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onSwitchOnOffAlarmClick(long id) {
-        Alarm alarm = model.getAlarm(id);
-        alarm.alarmDateTime = AlarmDateTimeUpdater.update(alarm.alarmDateTime);
-        alarm.isActive = !alarm.isActive;
-        model.updateAlarm(alarm);
+        SingleAlarmEntity singleAlarm = model.getAlarm(id);
+        singleAlarm.alarmDateTime = AlarmDateTimeUpdater.update(singleAlarm.alarmDateTime);
+        singleAlarm.isActive = !singleAlarm.isActive;
+        model.updateAlarm(singleAlarm);
 
-        if (alarm.isActive) {
-            view.startAlarm(alarm);
+        if (singleAlarm.isActive) {
+            view.startAlarm(singleAlarm);
         } else {
-            updateAlarmTimeAfterNap(alarm);
-            view.stopAlarm(alarm);
+            updateAlarmTimeAfterNap(singleAlarm);
+            view.stopAlarm(singleAlarm);
         }
         view.updateAlarmList(model.getAllAlarms());
         view.updateNotification(model.getActiveAlarms());
     }
 
-    private void updateAlarmTimeAfterNap(Alarm alarm) {
-        if (alarm.nap.isActive()) {
-            alarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, -alarm.nap.getTheSumOfTheNapTimes());
+    private void updateAlarmTimeAfterNap(SingleAlarmEntity singleAlarm) {
+        if (singleAlarm.nap.isActive()) {
+            singleAlarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, -singleAlarm.nap.getTheSumOfTheNapTimes());
         }
     }
 

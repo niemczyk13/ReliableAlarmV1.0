@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.List;
 
@@ -18,25 +18,25 @@ public class Model {
         alarmDataBase = AlarmDataBase.getInstance(context);
     }
 
-    public List<Alarm> getAllAlarms() {
+    public List<SingleAlarmEntity> getAllAlarms() {
         return alarmDataBase.getAllAlarms();
     }
 
-    public Alarm getAlarm(long id) {
+    public SingleAlarmEntity getAlarm(long id) {
         return alarmDataBase.getAlarm(id);
     }
 
-    public void updateAlarm(Alarm alarm) {
-        alarmDataBase.updateAlarm(alarm);
+    public void updateAlarm(SingleAlarmEntity singleAlarm) {
+        alarmDataBase.updateAlarm(singleAlarm);
     }
 
-    public void deleteAlarms(List<Alarm> alarms) {
-        for (Alarm alarm : alarms) {
-            alarmDataBase.deleteAlarm(alarm);
+    public void deleteAlarms(List<SingleAlarmEntity> singleAlarms) {
+        for (SingleAlarmEntity singleAlarm : singleAlarms) {
+            alarmDataBase.deleteAlarm(singleAlarm);
         }
     }
 
-    public List<Alarm> getActiveAlarms() {
+    public List<SingleAlarmEntity> getActiveAlarms() {
         return alarmDataBase.getActiveAlarms();
     }
 }
