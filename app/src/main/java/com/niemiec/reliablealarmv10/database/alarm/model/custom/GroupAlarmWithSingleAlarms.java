@@ -9,6 +9,6 @@ public class GroupAlarmWithSingleAlarms {
     @Embedded
     public GroupAlarmEntity groupAlarmEntity;
 
-    @Relation(parentColumn = "id", entityColumn = "groupId")
+    @Relation(parentColumn = "id", entityColumn = "groupAlarmId")
     public List<SingleAlarmEntity> singleAlarms;
 }

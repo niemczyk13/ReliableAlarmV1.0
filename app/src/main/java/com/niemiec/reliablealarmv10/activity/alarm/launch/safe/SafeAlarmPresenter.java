@@ -6,14 +6,14 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.audio.AlarmClockAudioManager;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.vibration.AlarmClockVibrationManager;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
+import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
 import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 
 public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View> implements SafeAlarmContractMVP.Presenter {
     private Context context;
-    private AlarmDataBase alarmDataBase;
+    private SingleAlarmDataBase singleAlarmDataBase;
     private AlarmClockAudioManager alarmClockAudioManager;
     private AlarmClockVibrationManager alarmClockVibrationManager;
     private SingleAlarmEntity singleAlarm;
@@ -21,14 +21,14 @@ public class SafeAlarmPresenter extends BasePresenter<SafeAlarmContractMVP.View>
     public SafeAlarmPresenter(Context context) {
         super();
         this.context = context;
-        alarmDataBase = AlarmDataBase.getInstance(context);
+        singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
         alarmClockAudioManager = new AlarmClockAudioManager(context);
         alarmClockVibrationManager = new AlarmClockVibrationManager(context);
     }
 
     @Override
     public void initView(long id) {
-        singleAlarm = alarmDataBase.getAlarm(id);
+        singleAlarm = singleAlarmDataBase.getSingleAlarm(id);
         showAlarmData();
         callUpAlarm();
     }

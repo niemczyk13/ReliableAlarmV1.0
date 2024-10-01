@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
+import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
 import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
@@ -19,9 +19,9 @@ public class AlarmStartupSystemReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AlarmDataBase alarmDataBase = AlarmDataBase.getInstance(context);
+        SingleAlarmDataBase singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
 
-        List<SingleAlarmEntity> singleAlarms = alarmDataBase.getActiveAlarms();
+        List<SingleAlarmEntity> singleAlarms = singleAlarmDataBase.getActiveSingleAlarms();
         Toast.makeText(context.getApplicationContext(), "Odświeżono alarmy", Toast.LENGTH_LONG).show();
 
         Calendar now = Calendar.getInstance();
@@ -29,11 +29,11 @@ public class AlarmStartupSystemReceiver extends BroadcastReceiver {
             if (!singleAlarm.alarmDateTime.getDateTime().after(now)) {
                 if (!singleAlarm.alarmDateTime.isSchedule()) {
                     singleAlarm.isActive = false;
-                    alarmDataBase.updateAlarm(singleAlarm);
+                    singleAlarmDataBase.updateSingleAlarm(singleAlarm);
                 } else {
                     //TODO
                     singleAlarm.alarmDateTime = AlarmDateTimeUpdater.update(singleAlarm.alarmDateTime);
-                    alarmDataBase.updateAlarm(singleAlarm);
+                    singleAlarmDataBase.updateSingleAlarm(singleAlarm);
                     AlarmManagerManagement.startAlarm(singleAlarm, context);
                 }
             } else {
@@ -41,7 +41,7 @@ public class AlarmStartupSystemReceiver extends BroadcastReceiver {
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            AlarmNotificationManager.updateNotification(context.getApplicationContext(), alarmDataBase.getActiveAlarms());
+            AlarmNotificationManager.updateNotification(context.getApplicationContext(), singleAlarmDataBase.getActiveSingleAlarms());
         }
     }
 }

@@ -22,6 +22,9 @@ public class GroupAlarmEntity {
     }
 
     public GroupAlarmEntity(GroupAlarmModel groupAlarmModel) {
+        if (groupAlarmModel.getId() != 0) {
+            id = groupAlarmModel.getId();
+        }
         name = groupAlarmModel.getName();
         note = groupAlarmModel.getNote();
         isActive = groupAlarmModel.isActive();

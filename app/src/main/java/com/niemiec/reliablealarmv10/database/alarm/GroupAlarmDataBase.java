@@ -5,6 +5,7 @@ import android.content.Context;
 import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmEntity;
 import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class GroupAlarmDataBase {
         dataBaseModel = AlarmDataBaseModel.getInstance(context);
     }
 
+    //TODO nowy grupowy alarm dodawany jest bez alarmów
+    //TODO na początku ma tylko nazwę i notatkę
     public void insertGroupAlarm(GroupAlarmModel groupAlarmModel) {
         GroupAlarmEntity gae = new GroupAlarmEntity(groupAlarmModel);
 
@@ -28,14 +31,14 @@ public class GroupAlarmDataBase {
             singleAlarmEntities.add(singleAlarm);
         }
 
-        dataBaseModel.groupAlarmDAO().insertSingleAlarms(singleAlarmEntities);
+        //dataBaseModel.groupAlarmDAO().insertSingleAlarms(singleAlarmEntities);
     }
 
-    public void insertSingleAlarm(SingleAlarmEntity singleAlarm) {
-        //dataBaseModel.groupAlarmDAO().insertSingleAlarm(singleAlarm);
+    public void insertSingleAlarm(SingleAlarmModel singleAlarmModel, long groupAlarmId) {
+
     }
 
-    public GroupAlarmModel getGroupAlarmById(long id) {
+    public GroupAlarmModel getGroupAlarm(long id) {
         //GroupAlarmEntity groupAlarmEntity = dataBaseModel.groupAlarmDAO().getGroupAlarmById(id);
 
         //TODO 1. Pobranie GroupAlarmEntity
@@ -44,12 +47,18 @@ public class GroupAlarmDataBase {
         return null;
     }
 
+    //TODO
+    public List<GroupAlarmModel> getAllGroupAlarmsWithoutSingleAlarms() {
+
+        return null;
+    }
+
     public void deleteGroupAlarm(GroupAlarmModel groupAlarmModel) {
         //dataBaseModel.groupAlarmDAO().deleteGroupAlarm(groupAlarmModel);
     }
 
-    public void deleteSingleAlarm(SingleAlarmEntity singleAlarm) {
-        //dataBaseModel.groupAlarmDAO().deleteSingleAlarm(singleAlarm);
+    public void deleteSingleAlarm(SingleAlarmModel singleAlarmModel) {
+        //dataBaseModel.groupAlarmDAO().deleteSingleAlarm(singleAlarmModel);
     }
 
     //TODO update, jęzeli zmienimy np. włączenie na bazie danych to żeby to się zmieniło
@@ -57,6 +66,11 @@ public class GroupAlarmDataBase {
     public void updateGroupAlarm(GroupAlarmModel groupAlarmModel) {
         //dataBaseModel.groupAlarmDAO().updateGroupAlarm(groupAlarmModel);
     }
+
+    public void updateSingleAlarm(SingleAlarmModel singleAlarmModel) {
+        //dataBaseModel.groupAlarmDAO().updateSingleAlarm(singleAlarmModel);
+    }
+
 
     public static GroupAlarmDataBase getInstance(Context context) {
         if (instance == null) {
