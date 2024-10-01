@@ -8,12 +8,11 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.niemiec.reliablealarmv10.database.alarm.basic.BasicAlarmDAO;
-import com.niemiec.reliablealarmv10.database.alarm.custom.AlarmDAO;
+import com.niemiec.reliablealarmv10.database.alarm.custom.SingleAlarmDAO;
 import com.niemiec.reliablealarmv10.database.alarm.custom.GroupAlarmDAO;
 import com.niemiec.reliablealarmv10.database.alarm.custom.GroupAlarmWithSingleAlarmsDAO;
 import com.niemiec.reliablealarmv10.database.alarm.model.basic.BasicAlarm;
 import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmEntity;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmWithSingleAlarms;
 import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
 
 @Database(
@@ -25,7 +24,7 @@ import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntit
 @TypeConverters({Converts.class})
 public abstract class AlarmDataBaseModel extends RoomDatabase {
     private static AlarmDataBaseModel instance = null;
-    public abstract AlarmDAO alarmDAO();
+    public abstract SingleAlarmDAO singleAlarmDAO();
     public abstract BasicAlarmDAO basicAlarmDAO();
     public abstract GroupAlarmDAO groupAlarmDAO();
     public abstract GroupAlarmWithSingleAlarmsDAO groupAlarmWithSingleAlarmsDAO();

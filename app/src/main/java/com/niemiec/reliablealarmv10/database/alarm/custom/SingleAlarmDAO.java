@@ -11,7 +11,7 @@ import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntit
 import java.util.List;
 
 @Dao
-public interface AlarmDAO {
+public interface SingleAlarmDAO {
     @Insert
     void insertAlarm(SingleAlarmEntity singleAlarm);
 
