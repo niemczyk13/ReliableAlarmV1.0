@@ -21,6 +21,9 @@ public interface SingleAlarmDAO {
     @Query("SELECT * FROM SingleAlarmEntity WHERE id = :id")
     SingleAlarmEntity getAlarm(long id);
 
+    /*@Query("SELECT * FROM SingleAlarmEntity WHERE groupAlarmId = :groupId")
+    List<SingleAlarmEntity> getSingleAlarmsByGroupAlarmId(long groupId);*/
+
     @Update
     void updateAlarm(SingleAlarmEntity singleAlarm);
 
