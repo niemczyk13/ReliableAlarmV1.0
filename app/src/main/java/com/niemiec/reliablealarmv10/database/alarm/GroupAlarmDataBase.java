@@ -35,13 +35,14 @@ public class GroupAlarmDataBase {
 
     public GroupAlarmModel getGroupAlarm(long id) {
         GroupAlarmEntity groupAlarmEntity = dataBaseModel.groupAlarmDAO().getGroupAlarm(id);
+        if (groupAlarmEntity == null) return null;
         List<SingleAlarmEntity> singleAlarmEntities = dataBaseModel.singleAlarmDAO().getSingleAlarmsByGroupAlarmId(id);
         GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder()
                 .id(groupAlarmEntity.id)
                 .name(groupAlarmEntity.name)
                 .note(groupAlarmEntity.note)
                 .isActive(groupAlarmEntity.isActive)
-                .alarms(singleAlarmEntities)
+                .alarms(singleAlarmEntities != null ? singleAlarmEntities : new ArrayList<>())
                 .build();
         return groupAlarmModel;
     }
@@ -64,20 +65,24 @@ public class GroupAlarmDataBase {
     }
 
     public List<SingleAlarmEntity> getAllSingleAlarmsByGroupAlarmId(long groupAlarmId) {
-
-        return null;
+        return dataBaseModel.singleAlarmDAO().getSingleAlarmsByGroupAlarmId(groupAlarmId);
     }
 
     //TODO update, jęzeli zmienimy np. włączenie na bazie danych to żeby to się zmieniło
     //TODO dla wszystkich alarmów
     public void updateGroupAlarm(GroupAlarmModel groupAlarmModel) {
-        //dataBaseModel.groupAlarmDAO().updateGroupAlarm(groupAlarmModel);
-
-
+        GroupAlarmEntity groupAlarmEntity = new GroupAlarmEntity(groupAlarmModel);
+        dataBaseModel.groupAlarmDAO().updateGroupAlarm(groupAlarmEntity);
     }
 
     public void deleteGroupAlarm(GroupAlarmModel groupAlarmModel) {
-        //dataBaseModel.groupAlarmDAO().deleteGroupAlarm(groupAlarmModel);
+        if (groupAlarmModel.getAlarms() != null) {
+            for (SingleAlarmEntity singleAlarm : groupAlarmModel.getAlarms()) {
+                dataBaseModel.singleAlarmDAO().deleteAlarm(singleAlarm);
+            }
+        }
+        GroupAlarmEntity groupAlarm = new GroupAlarmEntity(groupAlarmModel);
+        dataBaseModel.groupAlarmDAO().deleteGroupAlarm(groupAlarm);
     }
 
     public static GroupAlarmDataBase getInstance(Context context) {

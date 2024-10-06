@@ -165,10 +165,23 @@ public class GroupAlarmDataBaseTest {
 
     @Test
     public void deleteGroupAlarm() {
+        int singleAlarmsCount = 5;
         GroupAlarmModel groupAlarmModel = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
         long id = groupAlarmModel.getId();
+        List<SingleAlarmEntity> singleAlarmEntities = createSingleAlarmEntities(groupAlarmModel.getId(), singleAlarmsCount);
+        groupAlarmModel.setAlarms(singleAlarmEntities);
+        for (SingleAlarmEntity sae : singleAlarmEntities) {
+            GroupAlarmDataBase.getInstance(context).insertSingleAlarm(sae);
+        }
+
+        List<SingleAlarmEntity> singleAlarmEntitiesFromDBBefore = GroupAlarmDataBase.getInstance(context).getAllSingleAlarmsByGroupAlarmId(id);
+        assertEquals(singleAlarmEntitiesFromDBBefore.size(), singleAlarmsCount);
+
         GroupAlarmDataBase.getInstance(context).deleteGroupAlarm(groupAlarmModel);
         GroupAlarmModel deletedGroupAlarm = GroupAlarmDataBase.getInstance(context).getGroupAlarm(id);
         assertNull(deletedGroupAlarm);
+
+        List<SingleAlarmEntity> singleAlarmEntitiesFromDB = GroupAlarmDataBase.getInstance(context).getAllSingleAlarmsByGroupAlarmId(id);
+        assertEquals(singleAlarmEntitiesFromDB.size(), 0);
     }
 }
