@@ -39,7 +39,7 @@ public class AlarmNotificationManager {
         return simpleDateFormat.format(singleAlarm.alarmDateTime.getDateTime().getTime());
     }
 
-    
+    //TODO usunąć adnotację i naprawić pojawiający się błąd
     @SuppressLint("MissingPermission")
     private static void showNotification(Context context, String title, String text) {
         createNotificationChannel(context);
