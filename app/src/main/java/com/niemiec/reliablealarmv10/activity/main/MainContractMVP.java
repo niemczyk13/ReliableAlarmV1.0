@@ -1,32 +1,27 @@
 package com.niemiec.reliablealarmv10.activity.main;
 
-import android.content.Intent;
-import android.os.Bundle;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
-
-import java.util.Calendar;
 import java.util.List;
 
 public interface MainContractMVP {
     interface View {
-        void showActivity(List<Alarm> alarms);
+        void showActivity(List<SingleAlarmEntity> singleAlarms);
         void showAlarmListForDeletion();
         void showNormalView();
-        void updateAlarmList(List<Alarm> alarms);
+        void updateAlarmList(List<SingleAlarmEntity> singleAlarms);
         void showCreateNewAlarmActivity();
         void showUpdateAlarmActivity(int position);
         void checkOrUncheckAlarm(int position);
-        void startAlarm(Alarm alarm);
-        void stopAlarm(Alarm alarm);
-        void updateNotification(List<Alarm> activeAlarms);
+        void startAlarm(SingleAlarmEntity singleAlarm);
+        void stopAlarm(SingleAlarmEntity singleAlarm);
+        void updateNotification(List<SingleAlarmEntity> activeSingleAlarms);
     }
 
     interface Presenter {
         void initView();
         void onBinButtonClick();
-        void onDeleteButtonClick(List<Alarm> alarms);
+        void onDeleteButtonClick(List<SingleAlarmEntity> singleAlarms);
         void onCancelButtonClick();
         void onCreateAlarmButtonClick();
         void onSwitchOnOffAlarmClick(long id);

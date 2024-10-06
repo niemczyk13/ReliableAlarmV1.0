@@ -3,8 +3,8 @@ package com.niemiec.reliablealarmv10.activity.main;
 import android.content.Context;
 import android.os.Build;
 
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 
@@ -12,31 +12,31 @@ import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Model {
-    private final AlarmDataBase alarmDataBase;
+    private final SingleAlarmDataBase singleAlarmDataBase;
 
     public Model(Context context) {
-        alarmDataBase = AlarmDataBase.getInstance(context);
+        singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
     }
 
-    public List<Alarm> getAllAlarms() {
-        return alarmDataBase.getAllAlarms();
+    public List<SingleAlarmEntity> getAllAlarms() {
+        return singleAlarmDataBase.getAllSingleAlarms();
     }
 
-    public Alarm getAlarm(long id) {
-        return alarmDataBase.getAlarm(id);
+    public SingleAlarmEntity getAlarm(long id) {
+        return singleAlarmDataBase.getSingleAlarm(id);
     }
 
-    public void updateAlarm(Alarm alarm) {
-        alarmDataBase.updateAlarm(alarm);
+    public void updateAlarm(SingleAlarmEntity singleAlarm) {
+        singleAlarmDataBase.updateSingleAlarm(singleAlarm);
     }
 
-    public void deleteAlarms(List<Alarm> alarms) {
-        for (Alarm alarm : alarms) {
-            alarmDataBase.deleteAlarm(alarm);
+    public void deleteAlarms(List<SingleAlarmEntity> singleAlarms) {
+        for (SingleAlarmEntity singleAlarm : singleAlarms) {
+            singleAlarmDataBase.deleteSingleAlarm(singleAlarm);
         }
     }
 
-    public List<Alarm> getActiveAlarms() {
-        return alarmDataBase.getActiveAlarms();
+    public List<SingleAlarmEntity> getActiveAlarms() {
+        return singleAlarmDataBase.getActiveSingleAlarms();
     }
 }

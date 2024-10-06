@@ -8,6 +8,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 34
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -19,8 +20,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     namespace 'com.niemiec.alarmdatetimeview'
 }
@@ -30,6 +31,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation project(path: ':customTimePicker')
     implementation project(path: ':alarmSchedule')
     testImplementation 'junit:junit:4.13.2'

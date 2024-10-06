@@ -1,6 +1,4 @@
-package com.niemiec.reliablealarmv10.model.basic;
-
-import android.content.res.Resources;
+package com.niemiec.reliablealarmv10.database.alarm.entity.basic;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -9,7 +7,7 @@ import androidx.room.PrimaryKey;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
 import com.example.alarmsoundview.model.Sound;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.nap.NapValue;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
@@ -59,21 +57,21 @@ public class BasicAlarm {
         vibration = false;
     }
 
-    public Alarm getAlarm() {
-        Alarm alarm = new Alarm();
+    public SingleAlarmEntity getAlarm() {
+        SingleAlarmEntity singleAlarm = new SingleAlarmEntity();
         Calendar dateTime = Calendar.getInstance();
         dateTime.add(Calendar.DAY_OF_YEAR, 1);
         Week week = new Week();
-        alarm.alarmDateTime = new AlarmDateTime(dateTime, week);
-        alarm.sound = sound;
-        alarm.nap = nap;
-        alarm.risingSound = risingSound;
-        alarm.volume = volume;
-        alarm.vibration = vibration;
-        alarm.name = "";
-        alarm.note = "";
-        alarm.isActive = true;
-        alarm.safeAlarmLaunch = safeAlarmLaunch;
-        return alarm;
+        singleAlarm.alarmDateTime = new AlarmDateTime(dateTime, week);
+        singleAlarm.sound = sound;
+        singleAlarm.nap = nap;
+        singleAlarm.risingSound = risingSound;
+        singleAlarm.volume = volume;
+        singleAlarm.vibration = vibration;
+        singleAlarm.name = "";
+        singleAlarm.note = "";
+        singleAlarm.isActive = true;
+        singleAlarm.safeAlarmLaunch = safeAlarmLaunch;
+        return singleAlarm;
     }
 }

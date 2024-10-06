@@ -1,5 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.alarm.manager.notification;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -10,7 +11,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -22,23 +23,24 @@ public class AlarmNotificationManager {
     private static final String CHANNEL_ID = "My Notification";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void updateNotification(Context context, List<Alarm> alarms) {
-        if (alarms.isEmpty()) {
+    public static void updateNotification(Context context, List<SingleAlarmEntity> singleAlarms) {
+        if (singleAlarms.isEmpty()) {
             cancelNotification(context);
         } else {
-            String title = getTheDateOfTheNextAlarm(alarms);
+            String title = getTheDateOfTheNextAlarm(singleAlarms);
             showNotification(context, title, "Alarm jest włączony");
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private static String getTheDateOfTheNextAlarm(List<Alarm> alarms) {
-        Alarm alarm = alarms.stream().sorted((o1, o2) -> o1.alarmDateTime.getDateTime().compareTo(o2.alarmDateTime.getDateTime())).findFirst().get();
+    private static String getTheDateOfTheNextAlarm(List<SingleAlarmEntity> singleAlarms) {
+        SingleAlarmEntity singleAlarm = singleAlarms.stream().sorted((o1, o2) -> o1.alarmDateTime.getDateTime().compareTo(o2.alarmDateTime.getDateTime())).findFirst().get();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return simpleDateFormat.format(alarm.alarmDateTime.getDateTime().getTime());
+        return simpleDateFormat.format(singleAlarm.alarmDateTime.getDateTime().getTime());
     }
 
-
+    //TODO usunąć adnotację i naprawić pojawiający się błąd
+    @SuppressLint("MissingPermission")
     private static void showNotification(Context context, String title, String text) {
         createNotificationChannel(context);
         NotificationCompat.Builder builder = createNotificationBuilder(context, title, text);

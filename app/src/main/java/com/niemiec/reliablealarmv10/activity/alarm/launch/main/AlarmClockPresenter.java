@@ -9,22 +9,22 @@ import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.audio.AlarmClockAudioManager;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.vibration.AlarmClockVibrationManager;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 
 public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.View> implements AlarmClockContractMVP.Presenter {
     private Context context;
-    private AlarmDataBase alarmDataBase;
+    private SingleAlarmDataBase singleAlarmDataBase;
     private AlarmClockAudioManager alarmClockAudioManager;
     private AlarmClockVibrationManager alarmClockVibrationManager;
-    private Alarm alarm;
+    private SingleAlarmEntity singleAlarm;
 
     public AlarmClockPresenter(Context context) {
         super();
         this.context = context;
-        alarmDataBase = AlarmDataBase.getInstance(context);
+        singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
         alarmClockAudioManager = new AlarmClockAudioManager(context);
         alarmClockVibrationManager = new AlarmClockVibrationManager(context);
     }
@@ -32,15 +32,15 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     public void initView(Long id) {
         Log.println(Log.ASSERT, "", "ID: " + id);
         System.out.println("ID: " + id);
-        alarm = alarmDataBase.getAlarm(id);
+        singleAlarm = singleAlarmDataBase.getSingleAlarm(id);
         showAlarmData();
         callUpAlarm();
     }
 
     private void showAlarmData() {
-        int hour = alarm.alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
-        int minute = alarm.alarmDateTime.getDateTime().get(Calendar.MINUTE);
-        if (alarm.nap.isActive()) {
+        int hour = singleAlarm.alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
+        int minute = singleAlarm.alarmDateTime.getDateTime().get(Calendar.MINUTE);
+        if (singleAlarm.nap.isActive()) {
             view.showAlarmClockWithNap(hour, minute);
         } else {
             view.showAlarmClockWithoutNap(hour, minute);
@@ -53,33 +53,33 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     }
 
     private void turnOnTheAlarmSound() {
-        if (alarm.risingSound.isOn()) {
-            alarmClockAudioManager.startRisingAlarm(alarm.sound, alarm.volume, alarm.risingSound.getTimeInMilliseconds());
+        if (singleAlarm.risingSound.isOn()) {
+            alarmClockAudioManager.startRisingAlarm(singleAlarm.sound, singleAlarm.volume, singleAlarm.risingSound.getTimeInMilliseconds());
         } else {
-            alarmClockAudioManager.startAlarm(alarm.sound, alarm.volume);
+            alarmClockAudioManager.startAlarm(singleAlarm.sound, singleAlarm.volume);
         }
     }
 
     private void turnOnVibration() {
-        alarmClockVibrationManager.startVibration(alarm.vibration);
+        alarmClockVibrationManager.startVibration(singleAlarm.vibration);
     }
 
     @Override
     public void onNapButtonClick() {
         stopAlarm();
-        alarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, alarm.nap.getNextNapTime());
-        alarmDataBase.updateAlarm(alarm);
-        AlarmManagerManagement.startAlarm(alarm, context);
-        view.updateNotification(alarmDataBase.getActiveAlarms());
+        singleAlarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, singleAlarm.nap.getNextNapTime());
+        singleAlarmDataBase.updateSingleAlarm(singleAlarm);
+        AlarmManagerManagement.startAlarm(singleAlarm, context);
+        view.updateNotification(singleAlarmDataBase.getActiveSingleAlarms());
     }
 
     @Override
     public void onTurnOffButtonClick() {
         stopAlarm();
-        alarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, -alarm.nap.getTheSumOfTheNapTimes());
-        alarm.nap.resetNapsCount();
+        singleAlarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, -singleAlarm.nap.getTheSumOfTheNapTimes());
+        singleAlarm.nap.resetNapsCount();
         startNewAlarmOrSetNoActive();
-        view.updateNotification(alarmDataBase.getActiveAlarms());
+        view.updateNotification(singleAlarmDataBase.getActiveSingleAlarms());
     }
 
     @Override
@@ -93,14 +93,14 @@ public class AlarmClockPresenter extends BasePresenter<AlarmClockContractMVP.Vie
     }
 
     private void startNewAlarmOrSetNoActive() {
-        if (alarm.alarmDateTime.isSchedule()) {
-            AlarmDateTime adt = AlarmDateTimeUpdater.update(alarm.alarmDateTime);
-            alarm.alarmDateTime = adt;
-            AlarmManagerManagement.startAlarm(alarm, context);
+        if (singleAlarm.alarmDateTime.isSchedule()) {
+            AlarmDateTime adt = AlarmDateTimeUpdater.update(singleAlarm.alarmDateTime);
+            singleAlarm.alarmDateTime = adt;
+            AlarmManagerManagement.startAlarm(singleAlarm, context);
         } else {
-            alarm.isActive = false;
+            singleAlarm.isActive = false;
         }
-        alarmDataBase.updateAlarm(alarm);
+        singleAlarmDataBase.updateSingleAlarm(singleAlarm);
     }
 
 }

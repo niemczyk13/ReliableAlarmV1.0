@@ -24,7 +24,7 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNot
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 
@@ -109,11 +109,11 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
 
     @Override
-    public void showActivity(List<Alarm> alarms) {
+    public void showActivity(List<SingleAlarmEntity> singleAlarms) {
         changeDefaultAppSettings();
         changeTheVisibilityOfDeleteViewItems(View.GONE);
         changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
-        createAlarmListWithAdapter(alarms);
+        createAlarmListWithAdapter(singleAlarms);
         adapter.showMainList();
     }
 
@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         }
     }
 
-    private void createAlarmListWithAdapter(List<Alarm> alarms) {
-        adapter = new AlarmListAdapter(this, new AlarmsList(alarms), this);
+    private void createAlarmListWithAdapter(List<SingleAlarmEntity> singleAlarms) {
+        adapter = new AlarmListAdapter(this, new AlarmsList(singleAlarms), this);
         alarmListView.setAdapter(adapter);
     }
 
@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     @Override
-    public void updateAlarmList(List<Alarm> alarms) {
-        createAlarmListWithAdapter(alarms);
+    public void updateAlarmList(List<SingleAlarmEntity> singleAlarms) {
+        createAlarmListWithAdapter(singleAlarms);
     }
 
     @Override
@@ -191,18 +191,18 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     @Override
-    public void startAlarm(Alarm alarm) {
-        AlarmManagerManagement.startAlarm(alarm, getApplicationContext());
+    public void startAlarm(SingleAlarmEntity singleAlarm) {
+        AlarmManagerManagement.startAlarm(singleAlarm, getApplicationContext());
     }
 
     @Override
-    public void stopAlarm(Alarm alarm) {
-        AlarmManagerManagement.stopAlarm(alarm, getApplicationContext());
+    public void stopAlarm(SingleAlarmEntity singleAlarm) {
+        AlarmManagerManagement.stopAlarm(singleAlarm, getApplicationContext());
     }
 
     @Override
-    public void updateNotification(List<Alarm> activeAlarms) {
-        AlarmNotificationManager.updateNotification(getApplicationContext(), activeAlarms);
+    public void updateNotification(List<SingleAlarmEntity> activeSingleAlarms) {
+        AlarmNotificationManager.updateNotification(getApplicationContext(), activeSingleAlarms);
     }
 
 

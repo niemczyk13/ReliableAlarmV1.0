@@ -5,12 +5,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
-
-import java.util.Calendar;
-import java.util.List;
-
 public class AlarmStartupSystemService extends Service {
 //    private AlarmDataBase alarmDataBase;
     public AlarmStartupSystemService() {

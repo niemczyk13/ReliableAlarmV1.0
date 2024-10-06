@@ -4,16 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBase;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> implements AddAlarmContractMVP.Presenter {
-    private final AlarmDataBase alarmDataBase;
+    private final SingleAlarmDataBase singleAlarmDataBase;
     private Type type;
     private long id;
 
     public AddAlarmPresenter(Context context) {
-        alarmDataBase = AlarmDataBase.getInstance(context);
+        singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
     }
 
     @Override
@@ -21,10 +21,10 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         type = (Type) bundle.getSerializable("type");
         if (type == Type.CREATE) {
             id = 0;
-            view.showAlarm(alarmDataBase.getDefaultAlarm());
+            view.showAlarm(singleAlarmDataBase.getDefaultSingleAlarm());
         } else if (type == Type.UPDATE) {
             id = bundle.getLong("alarm_id");
-            view.showAlarm(alarmDataBase.getAlarm(id));
+            view.showAlarm(singleAlarmDataBase.getSingleAlarm(id));
         }
     }
 
@@ -34,24 +34,24 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
             saveNewAlarm();
         else if (type == Type.UPDATE)
             updateAlarm();
-        view.updateNotification(alarmDataBase.getActiveAlarms());
+        view.updateNotification(singleAlarmDataBase.getActiveSingleAlarms());
     }
 
     private void saveNewAlarm() {
-        Alarm alarm = view.getAlarm();
-        alarmDataBase.insertAlarm(alarm);
-        alarm.id = alarmDataBase.getLastAlarm().id;
-        view.startAlarm(alarm);
+        SingleAlarmEntity singleAlarm = view.getAlarm();
+        singleAlarmDataBase.insertSingleAlarm(singleAlarm);
+        singleAlarm.id = singleAlarmDataBase.getLastSingleAlarm().id;
+        view.startAlarm(singleAlarm);
         view.goBackToPreviousActivity();
     }
 
     private void updateAlarm() {
-        Alarm alarm = alarmDataBase.getAlarm(id);
-        view.stopAlarm(alarm);
-        Alarm updateAlarm = view.getAlarm();
-        updateAlarm.id = id;
-        alarmDataBase.updateAlarm(updateAlarm);
-        view.startAlarm(updateAlarm);
+        SingleAlarmEntity singleAlarm = singleAlarmDataBase.getSingleAlarm(id);
+        view.stopAlarm(singleAlarm);
+        SingleAlarmEntity updateSingleAlarm = view.getAlarm();
+        updateSingleAlarm.id = id;
+        singleAlarmDataBase.updateSingleAlarm(updateSingleAlarm);
+        view.startAlarm(updateSingleAlarm);
         view.goBackToPreviousActivity();
     }
 
