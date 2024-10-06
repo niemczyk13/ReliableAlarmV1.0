@@ -1,5 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.alarm.manager.notification;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -10,7 +11,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -38,7 +39,8 @@ public class AlarmNotificationManager {
         return simpleDateFormat.format(singleAlarm.alarmDateTime.getDateTime().getTime());
     }
 
-
+    
+    @SuppressLint("MissingPermission")
     private static void showNotification(Context context, String title, String text) {
         createNotificationChannel(context);
         NotificationCompat.Builder builder = createNotificationBuilder(context, title, text);

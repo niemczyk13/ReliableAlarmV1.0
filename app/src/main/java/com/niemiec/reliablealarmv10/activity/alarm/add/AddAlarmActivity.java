@@ -16,7 +16,7 @@ import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.nap.NapView;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.view.SafeAlarmLaunchView;
 import com.niemiec.risingview.view.RisingSoundView;

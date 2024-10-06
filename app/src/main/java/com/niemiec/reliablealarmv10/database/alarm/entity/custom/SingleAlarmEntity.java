@@ -1,6 +1,5 @@
-package com.niemiec.reliablealarmv10.database.alarm.model.custom;
+package com.niemiec.reliablealarmv10.database.alarm.entity.custom;
 
-import androidx.annotation.Nullable;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

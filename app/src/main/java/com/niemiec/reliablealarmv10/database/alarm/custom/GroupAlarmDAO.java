@@ -7,7 +7,9 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmEntity;
+
+import java.util.List;
 
 @Dao
 public interface GroupAlarmDAO {
@@ -16,6 +18,9 @@ public interface GroupAlarmDAO {
 
     @Query("SELECT * FROM GroupAlarmEntity WHERE id = :id")
     GroupAlarmEntity getGroupAlarm(long id);
+
+    @Query("SELECT * FROM GroupAlarmEntity")
+    List<GroupAlarmEntity> getAll();
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateGroupAlarm(GroupAlarmEntity groupAlarmEntity);

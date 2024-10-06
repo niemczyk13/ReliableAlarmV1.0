@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.database.alarm.model.basic;
+package com.niemiec.reliablealarmv10.database.alarm.entity.basic;
 
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
 import com.example.alarmsoundview.model.Sound;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.nap.NapValue;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;

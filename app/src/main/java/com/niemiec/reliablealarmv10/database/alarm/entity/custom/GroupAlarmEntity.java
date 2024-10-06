@@ -1,12 +1,9 @@
-package com.niemiec.reliablealarmv10.database.alarm.model.custom;
+package com.niemiec.reliablealarmv10.database.alarm.entity.custom;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Entity
