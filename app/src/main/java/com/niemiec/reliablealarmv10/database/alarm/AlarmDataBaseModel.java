@@ -11,16 +11,16 @@ import com.niemiec.reliablealarmv10.database.alarm.basic.BasicAlarmDAO;
 import com.niemiec.reliablealarmv10.database.alarm.custom.SingleAlarmDAO;
 import com.niemiec.reliablealarmv10.database.alarm.custom.GroupAlarmDAO;
 import com.niemiec.reliablealarmv10.database.alarm.custom.GroupAlarmWithSingleAlarmsDAO;
-import com.niemiec.reliablealarmv10.database.alarm.model.basic.BasicAlarm;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmEntity;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.basic.BasicAlarm;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 @Database(
         entities = {
                 SingleAlarmEntity.class,
                 BasicAlarm.class,
                 GroupAlarmEntity.class
-        }, version = 6, exportSchema = false)
+        }, version = 7, exportSchema = false)
 @TypeConverters({Converts.class})
 public abstract class AlarmDataBaseModel extends RoomDatabase {
     private static AlarmDataBaseModel instance = null;

@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.service.SafeAlarmService;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 

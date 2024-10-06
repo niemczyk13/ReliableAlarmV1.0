@@ -2,8 +2,8 @@ package com.niemiec.reliablealarmv10.database.alarm;
 
 import android.content.Context;
 
-import com.niemiec.reliablealarmv10.database.alarm.model.basic.BasicAlarm;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.basic.BasicAlarm;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 import java.util.List;

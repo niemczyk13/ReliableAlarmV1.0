@@ -10,7 +10,7 @@ import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 import java.util.List;

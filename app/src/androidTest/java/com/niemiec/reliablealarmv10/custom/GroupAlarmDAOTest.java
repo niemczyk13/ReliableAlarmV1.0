@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBaseModel;
 import com.niemiec.reliablealarmv10.database.alarm.custom.GroupAlarmDAO;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmEntity;
 
 import org.junit.After;
 import org.junit.Before;

@@ -24,7 +24,7 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNot
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@ import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
 import androidx.annotation.NonNull;

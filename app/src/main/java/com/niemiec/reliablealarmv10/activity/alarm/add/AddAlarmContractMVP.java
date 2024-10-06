@@ -2,7 +2,7 @@ package com.niemiec.reliablealarmv10.activity.alarm.add;
 
 import android.os.Bundle;
 
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 

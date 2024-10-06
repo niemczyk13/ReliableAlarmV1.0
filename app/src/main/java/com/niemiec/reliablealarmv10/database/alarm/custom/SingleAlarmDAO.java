@@ -6,14 +6,14 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 
 @Dao
 public interface SingleAlarmDAO {
     @Insert
-    void insertAlarm(SingleAlarmEntity singleAlarm);
+    long insertAlarm(SingleAlarmEntity singleAlarm);
 
     @Query("SELECT * FROM SingleAlarmEntity")
     List<SingleAlarmEntity> getAll();
@@ -21,8 +21,8 @@ public interface SingleAlarmDAO {
     @Query("SELECT * FROM SingleAlarmEntity WHERE id = :id")
     SingleAlarmEntity getAlarm(long id);
 
-    /*@Query("SELECT * FROM SingleAlarmEntity WHERE groupAlarmId = :groupId")
-    List<SingleAlarmEntity> getSingleAlarmsByGroupAlarmId(long groupId);*/
+    @Query("SELECT * FROM SingleAlarmEntity WHERE groupAlarmId = :groupId")
+    List<SingleAlarmEntity> getSingleAlarmsByGroupAlarmId(long groupId);
 
     @Update
     void updateAlarm(SingleAlarmEntity singleAlarm);

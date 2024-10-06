@@ -5,7 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.niemiec.reliablealarmv10.database.alarm.model.basic.BasicAlarm;
+import com.niemiec.reliablealarmv10.database.alarm.entity.basic.BasicAlarm;
 
 @Dao
 public interface BasicAlarmDAO {

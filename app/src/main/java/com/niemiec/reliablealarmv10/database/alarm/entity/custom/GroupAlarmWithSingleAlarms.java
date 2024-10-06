@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.database.alarm.model.custom;
+package com.niemiec.reliablealarmv10.database.alarm.entity.custom;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;

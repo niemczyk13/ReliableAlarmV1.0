@@ -1,6 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.main;
 
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 

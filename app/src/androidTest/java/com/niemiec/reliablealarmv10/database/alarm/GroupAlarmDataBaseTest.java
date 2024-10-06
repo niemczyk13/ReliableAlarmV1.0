@@ -1,48 +1,53 @@
 package com.niemiec.reliablealarmv10.database.alarm;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.DayOfWeek;
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmEntity;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.GroupAlarmWithSingleAlarms;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmWithSingleAlarms;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+@RunWith(AndroidJUnit4.class)
 public class GroupAlarmDataBaseTest {
+    private Context context;
+    private String name = "Work";
+    private String note = "Saturday work";
 
     @Before
     public void setUp() {
+        context = ApplicationProvider.getApplicationContext();
     }
 
     @After
     public void tearDown() {
     }
 
-    GroupAlarmWithSingleAlarms createGroupAlarmWithSingleAlarms(String name, String note, int singleAlarmsCount) {
-        GroupAlarmEntity groupAlarmEntity = createGroupAlarmEntity(name, note);
-        List<SingleAlarmEntity> singleAlarmEntities = createSingleAlarmEntities(groupAlarmEntity.id, singleAlarmsCount);
-        GroupAlarmWithSingleAlarms g = new GroupAlarmWithSingleAlarms();
-        g.groupAlarmEntity = groupAlarmEntity;
-        g.singleAlarms = singleAlarmEntities;
-        return g;
-    }
-
-    private GroupAlarmEntity createGroupAlarmEntity(String name, String note) {
-        GroupAlarmEntity groupAlarmEntity = new GroupAlarmEntity();
-        groupAlarmEntity.name = name;
-        groupAlarmEntity.note = note;
-        groupAlarmEntity.isActive = true;
-
-        return groupAlarmEntity;
+    private GroupAlarmModel createGroupAlarmModel(String name, String note) {
+        return GroupAlarmModel.builder()
+                .name(name)
+                .note(note)
+                .isActive(true)
+                .build();
     }
 
     private List<SingleAlarmEntity> createSingleAlarmEntities(long groupAlarmId, int count) {
@@ -81,5 +86,89 @@ public class GroupAlarmDataBaseTest {
     private int getRandomMinutesOrSeconds() {
         Random random = new Random();
         return random.nextInt(61 );
+    }
+
+    @Test
+    public void insertGroupAlarm() {
+        GroupAlarmModel groupAlarm = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
+        assertNotNull(groupAlarm.getId());
+        assertEquals(groupAlarm.getName(), name);
+        assertEquals(groupAlarm.getNote(), note);
+    }
+
+    @Test
+    public void insertSingleAlarm() {
+        GroupAlarmModel groupAlarm = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
+        SingleAlarmEntity singleAlarmMain = createSingleAlarmEntity(groupAlarm.getId());
+        SingleAlarmEntity singleAlarmFromDB = GroupAlarmDataBase.getInstance(context).insertSingleAlarm(singleAlarmMain);
+        assertNotNull(singleAlarmFromDB.id);
+        assertEquals(singleAlarmFromDB.groupAlarmId, groupAlarm.getId());
+        assertEquals(singleAlarmFromDB.alarmDateTime.getDateTime().get(Calendar.HOUR), singleAlarmMain.alarmDateTime.getDateTime().get(Calendar.HOUR));
+        assertEquals(singleAlarmFromDB.alarmDateTime.getDateTime().get(Calendar.MINUTE), singleAlarmMain.alarmDateTime.getDateTime().get(Calendar.MINUTE));
+    }
+
+    @Test
+    public void getGroupAlarm() {
+        int singleAlarmsCount = 4;
+        GroupAlarmModel groupAlarm = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
+        List<SingleAlarmEntity> singleAlarmEntities = createSingleAlarmEntities(groupAlarm.getId(), singleAlarmsCount);
+        groupAlarm.setAlarms(singleAlarmEntities);
+        for (SingleAlarmEntity sae : singleAlarmEntities) {
+            GroupAlarmDataBase.getInstance(context).insertSingleAlarm(sae);
+        }
+        GroupAlarmModel groupAlarmFromDB = GroupAlarmDataBase.getInstance(context).getGroupAlarm(groupAlarm.getId());
+        assertNotNull(groupAlarmFromDB);
+        assertEquals(groupAlarm.getId(), groupAlarmFromDB.getId());
+        assertEquals(groupAlarm.getName(), groupAlarmFromDB.getName());
+        assertEquals(groupAlarm.getNote(), groupAlarmFromDB.getNote());
+        assertEquals(groupAlarm.isActive(), groupAlarmFromDB.isActive());
+        assertNotNull(groupAlarmFromDB.getAlarms());
+        assertEquals(groupAlarm.getAlarms().size(), groupAlarmFromDB.getAlarms().size());
+    }
+
+    @Test
+    public void getAllGroupAlarmsWithoutSingleAlarms() {
+        int groupAlarmsCount = 10;
+        for (int i = 0; i < groupAlarmsCount; i++) {
+            GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name + i, note + i));
+        }
+
+        List<GroupAlarmModel> groupAlarms = GroupAlarmDataBase.getInstance(context).getAllGroupAlarmsWithoutSingleAlarms();
+        assertNotNull(groupAlarms);
+        assertEquals(groupAlarms.size(), groupAlarmsCount);
+    }
+
+    @Test
+    public void getAllSingleAlarmsByGroupAlarmId() {
+        int singleAlarmsCount = 5;
+        GroupAlarmModel groupAlarm = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
+        List<SingleAlarmEntity> singleAlarmEntities = createSingleAlarmEntities(groupAlarm.getId(), singleAlarmsCount);
+        for (SingleAlarmEntity sae : singleAlarmEntities) {
+            GroupAlarmDataBase.getInstance(context).insertSingleAlarm(sae);
+        }
+        List<SingleAlarmEntity> singleAlarmEntitiesFromDB = GroupAlarmDataBase.getInstance(context).getAllSingleAlarmsByGroupAlarmId(groupAlarm.getId());
+        assertEquals(singleAlarmEntitiesFromDB.size(), singleAlarmsCount);
+    }
+
+    @Test
+    public void updateGroupAlarm() {
+        GroupAlarmModel groupAlarmModel = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
+        String newName = "School";
+        String newNote = "2024-2025";
+        groupAlarmModel.setName(newName);
+        groupAlarmModel.setNote(newNote);
+        GroupAlarmDataBase.getInstance(context).updateGroupAlarm(groupAlarmModel);
+        GroupAlarmModel updatedGroupAlarm = GroupAlarmDataBase.getInstance(context).getGroupAlarm(groupAlarmModel.getId());
+        assertEquals(updatedGroupAlarm.getName(), newName);
+        assertEquals(updatedGroupAlarm.getNote(), newNote);
+    }
+
+    @Test
+    public void deleteGroupAlarm() {
+        GroupAlarmModel groupAlarmModel = GroupAlarmDataBase.getInstance(context).insertGroupAlarm(createGroupAlarmModel(name, note));
+        long id = groupAlarmModel.getId();
+        GroupAlarmDataBase.getInstance(context).deleteGroupAlarm(groupAlarmModel);
+        GroupAlarmModel deletedGroupAlarm = GroupAlarmDataBase.getInstance(context).getGroupAlarm(id);
+        assertNull(deletedGroupAlarm);
     }
 }

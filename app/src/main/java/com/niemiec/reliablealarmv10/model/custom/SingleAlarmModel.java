@@ -2,7 +2,7 @@ package com.niemiec.reliablealarmv10.model.custom;
 
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmsoundview.model.Sound;
-import com.niemiec.reliablealarmv10.database.alarm.model.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
 import com.niemiec.risingview.model.RisingSound;
