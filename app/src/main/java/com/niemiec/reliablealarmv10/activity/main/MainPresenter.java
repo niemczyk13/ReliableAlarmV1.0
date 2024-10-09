@@ -65,6 +65,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onCreateAlarmButtonClick() {
+        view.hideAddSingleAndGroupAlarmButtons();
         view.showCreateNewAlarmActivity();
     }
 
@@ -98,6 +99,20 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
         } else if (typeView == TypeView.DELETE) {
             view.checkOrUncheckAlarm(position);
         }
+    }
+
+    @Override
+    public void onCreateGroupAlarmButtonClick() {
+        view.hideAddSingleAndGroupAlarmButtons();
+        view.showCreateNewAlarmDialog();
+    }
+
+    @Override
+    public void onAddNewAlarmButtonClick() {
+        if (view.areAddSingleAndGroupAlarmButtonsVisible())
+            view.hideAddSingleAndGroupAlarmButtons();
+        else
+            view.showAddSingleAndGroupAlarmButtons();
     }
 
     enum TypeView {

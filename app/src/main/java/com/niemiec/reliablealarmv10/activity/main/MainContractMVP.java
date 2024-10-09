@@ -16,6 +16,10 @@ public interface MainContractMVP {
         void startAlarm(SingleAlarmEntity singleAlarm);
         void stopAlarm(SingleAlarmEntity singleAlarm);
         void updateNotification(List<SingleAlarmEntity> activeSingleAlarms);
+        void showCreateNewAlarmDialog();
+        void showAddSingleAndGroupAlarmButtons();
+        boolean areAddSingleAndGroupAlarmButtonsVisible();
+        void hideAddSingleAndGroupAlarmButtons();
     }
 
     interface Presenter {
@@ -26,5 +30,7 @@ public interface MainContractMVP {
         void onCreateAlarmButtonClick();
         void onSwitchOnOffAlarmClick(long id);
         void onAlarmListItemClick(int position);
+        void onCreateGroupAlarmButtonClick();
+        void onAddNewAlarmButtonClick();
     }
 }
