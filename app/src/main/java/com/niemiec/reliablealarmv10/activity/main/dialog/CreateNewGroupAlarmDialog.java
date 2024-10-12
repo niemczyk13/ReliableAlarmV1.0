@@ -2,28 +2,45 @@ package com.niemiec.reliablealarmv10.activity.main.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.niemiec.reliablealarmv10.R;
+import com.niemiec.reliablealarmv10.activity.main.MainContractMVP;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBaseModel;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 
 public class CreateNewGroupAlarmDialog {
-    private Dialog dialog;
+    private final MainContractMVP.View mainActivityView;
+    private final Dialog dialog;
     private Button cancelButton;
     private Button saveButton;
     private EditText nameEditText;
     private EditText noteEditText;
 
-    public CreateNewGroupAlarmDialog(Context context) {
+    public CreateNewGroupAlarmDialog(MainContractMVP.View mainActivityView, Context context) {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_group_alarm_dialog);
+        this.mainActivityView = mainActivityView;
         initView();
         setListeners();
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            // Nie dodawaj FLAG_DIM_BEHIND, aby zapobiec przyciemnieniu tła
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.dimAmount = 0.0f; // Ustaw wartość na 0.0
+            window.setAttributes(layoutParams);
+        }
     }
 
     public void show() {
@@ -31,7 +48,9 @@ public class CreateNewGroupAlarmDialog {
     }
 
     private void setListeners() {
-        cancelButton.setOnClickListener(view -> dialog.dismiss());
+        cancelButton.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
 
         saveButton.setOnClickListener(view -> {
 
@@ -44,12 +63,15 @@ public class CreateNewGroupAlarmDialog {
 
             //TODO tworzymy alarm grypowy i otwieramy nową aktywność dla alarmu grupowego
             //TODO otwieramy nową aktywność
-            dialog.dismiss();
+                dialog.dismiss();
             }
             else {
                 //TODO wyświetlenie komunikatu, że trzeba uzupełnić name
             }
         });
+
+        dialog.setOnCancelListener(dialogInterface -> mainActivityView.hideFullScreenMask());
+        dialog.setOnDismissListener(dialogInterface -> mainActivityView.hideFullScreenMask());
     }
 
     private void initView() {

@@ -20,4 +20,9 @@
         <item name="colorAccent">@color/blue</item>
         <item name="backgroundColor">@color/blue</item>
     </style>
+
+    <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item> <!-- Przyciemnienie -->
+    </style>
 </resources>

@@ -3,17 +3,18 @@ package com.niemiec.reliablealarmv10.activity.main;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private AlarmListAdapter adapter;
 
     private ListView alarmListView;
+    private FrameLayout mask;
     private FloatingActionButton addNewAlarmButton;
     private LinearLayout addSingleOrGroupAlarm;
     private MaterialButton addSingleAlarmButton;
@@ -67,6 +69,26 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
+        LinearLayout addAlarmLayout = findViewById(R.id.add_single_or_group_alarm_linear_layout);
+
+        if (addAlarmLayout.getVisibility() == View.VISIBLE) {
+            trashIcon.setVisible(false);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue_darker)));
+            }
+        } else {
+            trashIcon.setVisible(true);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue)));
+            }
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     private void createMainPresenter() {
         presenter = new MainPresenter(getApplicationContext());
         presenter.attach(this);
@@ -75,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     private void initView() {
         setTitle(R.string.title);
         alarmListView = findViewById(R.id.alarm_list_view);
+        mask = findViewById(R.id.full_screen_mask);
         addNewAlarmButton = findViewById(R.id.add_alarm_button);
         addSingleOrGroupAlarm = findViewById(R.id.add_single_or_group_alarm_linear_layout);
         addSingleAlarmButton = findViewById(R.id.add_single_alarm_button);
@@ -85,10 +108,13 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     }
 
     private void setListeners() {
+        mask.setOnClickListener(view -> {
+            presenter.onFullScreenMaskViewClick();
+        });
+
         cancelDeleteAlarmButton.setOnClickListener(view -> {
             presenter.onCancelButtonClick();
-            alarmListView.setClickable(false);
-        });
+            alarmListView.setClickable(false);       });
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
             presenter.onAlarmListItemClick(position);
@@ -97,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
         addNewAlarmButton.setOnClickListener(view -> {
             presenter.onAddNewAlarmButtonClick();
-
         });
 
         addGroupAlarmButton.setOnClickListener(view -> {
@@ -232,8 +257,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     @Override
     public void showCreateNewAlarmDialog() {
-        //TODO
-        CreateNewGroupAlarmDialog dialog = new CreateNewGroupAlarmDialog(this);
+        CreateNewGroupAlarmDialog dialog = new CreateNewGroupAlarmDialog(this,this);
         dialog.show();
     }
 
@@ -250,6 +274,18 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
     @Override
     public void hideAddSingleAndGroupAlarmButtons() {
         changeTheVisibilityOfAddAlarmButtonsViewItems(View.GONE);
+    }
+
+    @Override
+    public void showFullScreenMask() {
+        mask.setVisibility(View.VISIBLE);
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void hideFullScreenMask() {
+        mask.setVisibility(View.GONE);
+        invalidateOptionsMenu();
     }
 
 

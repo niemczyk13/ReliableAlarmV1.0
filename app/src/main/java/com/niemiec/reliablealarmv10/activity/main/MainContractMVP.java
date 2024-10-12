@@ -20,6 +20,8 @@ public interface MainContractMVP {
         void showAddSingleAndGroupAlarmButtons();
         boolean areAddSingleAndGroupAlarmButtonsVisible();
         void hideAddSingleAndGroupAlarmButtons();
+        void showFullScreenMask();
+        void hideFullScreenMask();
     }
 
     interface Presenter {
@@ -32,5 +34,6 @@ public interface MainContractMVP {
         void onAlarmListItemClick(int position);
         void onCreateGroupAlarmButtonClick();
         void onAddNewAlarmButtonClick();
+        void onFullScreenMaskViewClick();
     }
 }
