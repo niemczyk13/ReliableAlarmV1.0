@@ -37,6 +37,7 @@ public class CreateNewGroupAlarmDialog {
         Window window = dialog.getWindow();
         if (window != null) {
             // Nie dodawaj FLAG_DIM_BEHIND, aby zapobiec przyciemnieniu tła
+            window.setBackgroundDrawableResource(R.drawable.add_group_alarm_dialog_background);
             WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.dimAmount = 0.0f; // Ustaw wartość na 0.0
             window.setAttributes(layoutParams);
