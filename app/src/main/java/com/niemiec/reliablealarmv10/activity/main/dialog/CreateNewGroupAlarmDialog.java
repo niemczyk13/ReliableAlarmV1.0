@@ -17,6 +17,7 @@ import com.niemiec.reliablealarmv10.activity.main.MainContractMVP;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBaseModel;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
+import com.niemiec.reliablealarmv10.utilities.keyboard.KeyboardUtilities;
 
 public class CreateNewGroupAlarmDialog {
     private final MainContractMVP.View mainActivityView;
@@ -30,6 +31,8 @@ public class CreateNewGroupAlarmDialog {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_group_alarm_dialog);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
         this.mainActivityView = mainActivityView;
         initView();
         setListeners();
@@ -46,10 +49,15 @@ public class CreateNewGroupAlarmDialog {
 
     public void show() {
         dialog.show();
+        nameEditText.requestFocus();
+        nameEditText.postDelayed(() -> {
+            KeyboardUtilities.showKeyboard(dialog.getContext(), nameEditText);
+        }, 200);
     }
 
     private void setListeners() {
         cancelButton.setOnClickListener(view -> {
+            KeyboardUtilities.hideKeyboard(dialog);
             dialog.dismiss();
         });
 
@@ -59,15 +67,21 @@ public class CreateNewGroupAlarmDialog {
                 GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder().name(nameEditText.getText().toString())
                         .note(noteEditText.getText().toString())
                         .build();
+                KeyboardUtilities.hideKeyboard(dialog);
+                GroupAlarmModel ga = GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
+                if (ga != null && ga.getId() != 0) {
+                    dialog.dismiss();
+                    //TODO tworzymy alarm grypowy i otwieramy nową aktywność dla alarmu grupowego
+                    //TODO otwieramy nową aktywność
+                }
+                else {
+                    //TODO pokazać komunikat, że nie udało dodać się do bazy danych
+                }
 
-                GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
 
-            //TODO tworzymy alarm grypowy i otwieramy nową aktywność dla alarmu grupowego
-            //TODO otwieramy nową aktywność
-                dialog.dismiss();
             }
             else {
-                //TODO wyświetlenie komunikatu, że trzeba uzupełnić name
+                nameEditText.setError("Nazwa jest wymagana");
             }
         });
 

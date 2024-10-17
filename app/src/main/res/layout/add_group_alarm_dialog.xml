@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nazwa:"
+            android:text="Nazwa*:"
             android:textSize="18sp"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="5dp"
@@ -34,6 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:textColor="@color/black"
             android:minWidth="200dp"
             android:layout_weight="1"/>
     </LinearLayout>
@@ -49,7 +50,7 @@
             android:text="Opis:"
             android:textSize="18sp"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="26dp"
             android:layout_gravity="center_vertical"/>
 
         <EditText
@@ -57,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:textColor="@color/black"
+            android:hint="Opcjonalne"
             android:minWidth="200dp"
             android:layout_weight="1"/>
     </LinearLayout>

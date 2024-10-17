@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
 
     private void setListeners() {
         mask.setOnClickListener(view -> {
-            presenter.onFullScreenMaskViewClick();
+            //presenter.onFullScreenMaskViewClick();
         });
 
         cancelDeleteAlarmButton.setOnClickListener(view -> {
