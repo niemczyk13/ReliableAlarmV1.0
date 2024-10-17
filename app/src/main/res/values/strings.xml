@@ -14,6 +14,8 @@
     <string name="ok_button">OK</string>
     <string name="left_word">Pozostało</string>
     <string name="battery_word">baterii</string>
+    <string name="add_single_alarm">Dodaj alarm</string>
+    <string name="add_group_alarm">Dodaj alarm grupowy</string>
 
     <string-array name="nap_values">
         <item>1 minuta</item>

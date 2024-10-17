@@ -5,6 +5,7 @@ import android.os.Build;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
+import com.niemiec.reliablealarmv10.activity.main.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
@@ -65,6 +66,8 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onCreateAlarmButtonClick() {
+        view.hideAddSingleAndGroupAlarmButtons();
+        view.hideFullScreenMask();
         view.showCreateNewAlarmActivity();
     }
 
@@ -97,6 +100,31 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
             view.showUpdateAlarmActivity(position);
         } else if (typeView == TypeView.DELETE) {
             view.checkOrUncheckAlarm(position);
+        }
+    }
+
+    @Override
+    public void onCreateGroupAlarmButtonClick() {
+        view.hideAddSingleAndGroupAlarmButtons();
+        view.showCreateNewAlarmDialog();
+    }
+
+    @Override
+    public void onAddNewAlarmButtonClick() {
+        if (view.areAddSingleAndGroupAlarmButtonsVisible()) {
+            view.hideAddSingleAndGroupAlarmButtons();
+            view.hideFullScreenMask();
+        } else {
+            view.showAddSingleAndGroupAlarmButtons();
+            view.showFullScreenMask();
+        }
+    }
+
+    @Override
+    public void onFullScreenMaskViewClick() {
+        if (view.areAddSingleAndGroupAlarmButtonsVisible()) {
+            view.hideAddSingleAndGroupAlarmButtons();
+            view.hideFullScreenMask();
         }
     }
 
