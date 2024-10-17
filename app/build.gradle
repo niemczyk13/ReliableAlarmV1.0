@@ -59,6 +59,7 @@ dependencies {
     implementation project(path: ':alarmSoundView')
     implementation project(path: ':risingSoundView')
     implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.activity:activity:1.9.2'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1@aar'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

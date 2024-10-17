@@ -3,6 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
+    <uses-permission
+        android:name="android.permission.SET_DEBUG_APP"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.VIBRATE"
+        tools:ignore="ManifestOrder" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,19 +27,20 @@
         android:theme="@style/Theme.ReliableAlarmV10"
         tools:replace="android:theme">
         <activity
+            android:name=".activity.alarm.group.GroupAlarmActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.alarm.launch.safe.SafeAlarmActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"
             android:allowTaskReparenting="false"
             android:excludeFromRecents="true"
             android:exported="true"
-            />
-
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MainAppTheme">
+            android:theme="@style/Theme.ReliableAlarmV10">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,11 +59,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="" />
+
         <receiver
             android:name=".activity.alarm.manager.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
-
         <receiver
             android:name=".activity.alarm.manager.startup.AlarmStartupSystemReceiver"
             android:exported="false">
@@ -63,26 +79,10 @@
             android:name=".activity.alarm.launch.safe.service.SafeAlarmService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".activity.alarm.manager.startup.AlarmStartupSystemService"
             android:enabled="true"
             android:exported="false" />
     </application>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
-    <uses-permission
-        android:name="android.permission.SET_DEBUG_APP"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.VIBRATE"
-        tools:ignore="ManifestOrder" />
-
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
 
 </manifest>
