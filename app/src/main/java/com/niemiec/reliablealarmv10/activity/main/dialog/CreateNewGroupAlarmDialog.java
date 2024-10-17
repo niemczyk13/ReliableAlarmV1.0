@@ -16,18 +16,19 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.main.MainContractMVP;
 import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBaseModel;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListContractMVP;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.utilities.keyboard.KeyboardUtilities;
 
 public class CreateNewGroupAlarmDialog {
-    private final MainContractMVP.View mainActivityView;
+    private final AlarmListContractMVP.View mainActivityView;
     private final Dialog dialog;
     private Button cancelButton;
     private Button saveButton;
     private EditText nameEditText;
     private EditText noteEditText;
 
-    public CreateNewGroupAlarmDialog(MainContractMVP.View mainActivityView, Context context) {
+    public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context) {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_group_alarm_dialog);
