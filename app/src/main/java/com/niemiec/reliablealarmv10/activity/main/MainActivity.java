@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createMainPresenter();
-        setTitle(R.string.title);
         setViews();
         setAlarmListFragment(savedInstanceState);
     }
@@ -41,26 +40,6 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
                     .replace(R.id.fragment_container, alarmListFragment)
                     .commit();
         }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
-        LinearLayout addAlarmLayout = findViewById(R.id.add_single_or_group_alarm_linear_layout);
-
-        if (addAlarmLayout.getVisibility() == View.VISIBLE) {
-            trashIcon.setVisible(false);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue_darker)));
-            }
-        } else {
-            trashIcon.setVisible(true);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue)));
-            }
-        }
-
-        return super.onPrepareOptionsMenu(menu);
     }
 
     private void createMainPresenter() {

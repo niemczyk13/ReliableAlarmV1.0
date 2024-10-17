@@ -1,12 +1,14 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
@@ -76,7 +78,6 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         if (getArguments() != null) {
             alarmListType = (AlarmListType) getArguments().getSerializable(ARG_ALARM_LIST_TYPE);
         }
@@ -113,14 +114,39 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case 0:
-                        presenter.onBinButtonClick();
-                        return false;
                     default:
+                        presenter.onBinButtonClick();
                         return false;
                 }
             }
 
+            @Override
+            public void onPrepareMenu(@NonNull Menu menu) {
+                MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
+                LinearLayout addAlarmLayout = requireView().findViewById(R.id.add_single_or_group_alarm_linear_layout);
+
+                if (addAlarmLayout.getVisibility() == View.VISIBLE) {
+                    trashIcon.setVisible(false);
+                    if (requireActivity() instanceof AppCompatActivity) {
+                        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+                        if (activity.getSupportActionBar() != null) {
+                            activity.getSupportActionBar().setBackgroundDrawable(
+                                    new ColorDrawable(getResources().getColor(R.color.blue_darker))
+                            );
+                        }
+                    }
+                } else {
+                    trashIcon.setVisible(true);
+                    if (requireActivity() instanceof AppCompatActivity) {
+                        AppCompatActivity activity = (AppCompatActivity) requireActivity();
+                        if (activity.getSupportActionBar() != null) {
+                            activity.getSupportActionBar().setBackgroundDrawable(
+                                    new ColorDrawable(getResources().getColor(R.color.blue))
+                            );
+                        }
+                    }
+                }
+            }
         }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);  // Rejestracja menu
     }
 
@@ -300,13 +326,13 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void showFullScreenMask() {
         mask.setVisibility(View.VISIBLE);
-        //invalidateOptionsMenu();
+        requireActivity().invalidateMenu();
     }
 
     @Override
     public void hideFullScreenMask() {
         mask.setVisibility(View.GONE);
-        //invalidateOptionsMenu();
+        requireActivity().invalidateMenu();
     }
 
     @Override
