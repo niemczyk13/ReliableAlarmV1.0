@@ -21,15 +21,12 @@ import com.niemiec.reliablealarmv10.utilities.enums.AlarmListType;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MainActivity extends AppCompatActivity implements MainContractMVP.View {
-    private MainPresenter presenter;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createMainPresenter();
-        setViews();
         setAlarmListFragment(savedInstanceState);
     }
 
@@ -42,24 +39,9 @@ public class MainActivity extends AppCompatActivity implements MainContractMVP.V
         }
     }
 
-    private void createMainPresenter() {
-        presenter = new MainPresenter(getApplicationContext());
-        presenter.attach(this);
-    }
-
-    private void setViews() {
-        presenter.initView();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.initView();
-    }
-
-
-    @Override
-    public void showActivity(List<SingleAlarmEntity> singleAlarms) {
         changeDefaultAppSettings();
     }
 

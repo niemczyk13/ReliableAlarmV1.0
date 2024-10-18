@@ -2,12 +2,10 @@ package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
 import android.content.Context;
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.activity.main.MainPresenter;
 import com.niemiec.reliablealarmv10.activity.main.Model;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.utilities.enums.AlarmListType;
@@ -19,11 +17,13 @@ import java.util.List;
 public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View> implements AlarmListContractMVP.Presenter {
     private TypeView typeView;
     private final Model model;
+    private final Context context;
 
     public AlarmListPresenter(Context context, AlarmListType alarmListType) {
         super();
         model = new Model(context);
         typeView = TypeView.NORMAL;
+        this.context = context;
     }
 
     @Override
@@ -34,8 +34,7 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     @Override
     public void onBinButtonClick() {
         if (typeView == TypeView.DELETE) {
-            view.showNormalView();
-            typeView = TypeView.NORMAL;
+            resetViewToNormalState();
         } else if (typeView == TypeView.NORMAL) {
             view.showAlarmListForDeletion();
             typeView = TypeView.DELETE;
@@ -46,9 +45,8 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     public void onDeleteButtonClick(List<SingleAlarmEntity> singleAlarms) {
         stopDeletedAlarms(singleAlarms);
         model.deleteAlarms(singleAlarms);
-        view.showNormalView();
+        resetViewToNormalState();
         view.updateAlarmList(model.getAllAlarms());
-        typeView = TypeView.NORMAL;
         view.updateNotification(model.getActiveAlarms());
     }
 
@@ -62,6 +60,10 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
 
     @Override
     public void onCancelButtonClick() {
+        resetViewToNormalState();
+    }
+
+    private void resetViewToNormalState() {
         view.showNormalView();
         typeView = TypeView.NORMAL;
     }
@@ -119,6 +121,14 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
         } else {
             view.showAddSingleAndGroupAlarmButtons();
             view.showFullScreenMask();
+        }
+    }
+
+    @Override
+    public void onFullScreenMaskViewClick() {
+        if (view.areAddSingleAndGroupAlarmButtonsVisible() && !view.isAddGroupAlarmDialogShow()) {
+            view.hideAddSingleAndGroupAlarmButtons();
+            view.hideFullScreenMask();
         }
     }
 

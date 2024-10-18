@@ -2,19 +2,13 @@ package com.niemiec.reliablealarmv10.activity.main.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.activity.main.MainContractMVP;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBaseModel;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListContractMVP;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
@@ -95,5 +89,9 @@ public class CreateNewGroupAlarmDialog {
         saveButton = dialog.findViewById(R.id.save_button);
         nameEditText = dialog.findViewById(R.id.group_alarm_name_edit_text);
         noteEditText = dialog.findViewById(R.id.group_alarm_note_edit_text);
+    }
+
+    public boolean isShowing() {
+        return dialog.isShowing();
     }
 }

@@ -1,14 +1,12 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
@@ -19,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -37,16 +34,20 @@ import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAd
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
 import com.niemiec.reliablealarmv10.activity.main.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListViewHelper;
 import com.niemiec.reliablealarmv10.utilities.enums.AlarmListType;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmListFragment extends Fragment implements AlarmListContractMVP.View, AlarmListListener {
     private static final String ARG_ALARM_LIST_TYPE = "alarmListType";
+    private AlarmListViewHelper viewHelper;
     private AlarmListType alarmListType;
     private AlarmListPresenter presenter;
     private AlarmListAdapter adapter;
+    CreateNewGroupAlarmDialog dialog;
 
     private ListView alarmListView;
     private FrameLayout mask;
@@ -71,7 +72,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     private void createAlarmListPresenter() {
-        presenter = new AlarmListPresenter(this.getContext(), alarmListType);
+        presenter = new AlarmListPresenter(requireContext(), alarmListType);
         presenter.attach(this);
     }
 
@@ -81,21 +82,21 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         if (getArguments() != null) {
             alarmListType = (AlarmListType) getArguments().getSerializable(ARG_ALARM_LIST_TYPE);
         }
+        viewHelper = new AlarmListViewHelper(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         createAlarmListPresenter();
-
         initView(view);
         setListeners();
         setViews();
 
         if (alarmListType == AlarmListType.WITH_GROUP_ALARM) {
-
+            //TODO
         } else {
-
+            //TODO
         }
 
         return view;
@@ -104,50 +105,48 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        registerMenu();
+    }
 
+    private void registerMenu() {
         requireActivity().addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.main_activity_menu, menu);  // Inflatuj menu fragmentu
+                menuInflater.inflate(R.menu.main_activity_menu, menu);
             }
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    default:
-                        presenter.onBinButtonClick();
-                        return false;
-                }
+                return handleMenuSelection(menuItem);
             }
 
             @Override
             public void onPrepareMenu(@NonNull Menu menu) {
-                MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
-                LinearLayout addAlarmLayout = requireView().findViewById(R.id.add_single_or_group_alarm_linear_layout);
-
-                if (addAlarmLayout.getVisibility() == View.VISIBLE) {
-                    trashIcon.setVisible(false);
-                    if (requireActivity() instanceof AppCompatActivity) {
-                        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-                        if (activity.getSupportActionBar() != null) {
-                            activity.getSupportActionBar().setBackgroundDrawable(
-                                    new ColorDrawable(getResources().getColor(R.color.blue_darker))
-                            );
-                        }
-                    }
-                } else {
-                    trashIcon.setVisible(true);
-                    if (requireActivity() instanceof AppCompatActivity) {
-                        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-                        if (activity.getSupportActionBar() != null) {
-                            activity.getSupportActionBar().setBackgroundDrawable(
-                                    new ColorDrawable(getResources().getColor(R.color.blue))
-                            );
-                        }
-                    }
-                }
+                prepareMenu(menu);
             }
-        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);  // Rejestracja menu
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+    }
+
+    private boolean handleMenuSelection(@NonNull MenuItem menuItem) {
+        String title = requireActivity().getString(R.string.bin_button_title);
+        if (Objects.equals(menuItem.getTitle(), title)) {
+            presenter.onBinButtonClick();
+            return true;
+        }
+        return false;
+    }
+
+    private void prepareMenu(@NonNull Menu menu) {
+        MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
+        boolean isAddAlarmVisible = isAddAlarmLayoutVisible();
+
+        trashIcon.setVisible(!isAddAlarmVisible);
+        viewHelper.setActionBarColor(isAddAlarmVisible ? R.color.blue_darker : R.color.blue);
+    }
+
+    private boolean isAddAlarmLayoutVisible() {
+        LinearLayout addAlarmLayout = requireView().findViewById(R.id.add_single_or_group_alarm_linear_layout);
+        return addAlarmLayout.getVisibility() == View.VISIBLE;
     }
 
     @Override
@@ -168,11 +167,12 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         cancelOrDelete = view.findViewById(R.id.cancel_or_delete_linear_layout);
         cancelDeleteAlarmButton = view.findViewById(R.id.cancel_delete_alarm_button);
         deleteAlarmButton = view.findViewById(R.id.delete_alarm_button);
+        dialog = new CreateNewGroupAlarmDialog(this,this.getContext());
     }
 
     private void setListeners() {
         mask.setOnClickListener(view -> {
-            //presenter.onFullScreenMaskViewClick();
+            presenter.onFullScreenMaskViewClick();
         });
 
         cancelDeleteAlarmButton.setOnClickListener(view -> {
@@ -209,31 +209,10 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void showFragment(List<SingleAlarmEntity> singleAlarms) {
-        changeTheVisibilityOfDeleteViewItems(View.GONE);
-        changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
+        viewHelper.changeVisibility(cancelOrDelete, View.GONE);
+        viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.VISIBLE);
         createAlarmListWithAdapter(singleAlarms);
         adapter.showMainList();
-    }
-
-    private void changeTheVisibilityOfDeleteViewItems(int visibility) {
-        cancelOrDelete.setVisibility(visibility);
-    }
-
-    private void changeTheVisibilityOfBrowsingViewItems(int visibility) {
-        addNewAlarmButton.setVisibility(visibility);
-        setTheAbilityToSelectListItems(visibility);
-    }
-
-    private void changeTheVisibilityOfAddAlarmButtonsViewItems(int visibility) {
-        addSingleOrGroupAlarm.setVisibility(visibility);
-    }
-
-    private void setTheAbilityToSelectListItems(int visibility) {
-        if (visibility == View.VISIBLE) {
-            alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-        } else {
-            alarmListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        }
     }
 
     private void createAlarmListWithAdapter(List<SingleAlarmEntity> singleAlarms) {
@@ -243,17 +222,17 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void showAlarmListForDeletion() {
-        changeTheVisibilityOfDeleteViewItems(View.VISIBLE);
-        changeTheVisibilityOfBrowsingViewItems(View.GONE);
+        viewHelper.changeVisibility(cancelOrDelete, View.VISIBLE);
+        viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.GONE);
         adapter.showDeleteList();
 
     }
 
     @Override
     public void showNormalView() {
-        changeTheVisibilityOfDeleteViewItems(View.GONE);
-        changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
-        changeTheVisibilityOfAddAlarmButtonsViewItems(View.GONE);
+        viewHelper.changeVisibility(cancelOrDelete, View.GONE);
+        viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.VISIBLE);
+        viewHelper.changeVisibility(addSingleOrGroupAlarm, View.GONE);
         adapter.showMainList();
     }
 
@@ -304,13 +283,12 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void showCreateNewAlarmDialog() {
-        CreateNewGroupAlarmDialog dialog = new CreateNewGroupAlarmDialog(this,this.getContext());
         dialog.show();
     }
 
     @Override
     public void showAddSingleAndGroupAlarmButtons() {
-        changeTheVisibilityOfAddAlarmButtonsViewItems(View.VISIBLE);
+        viewHelper.changeVisibility(addSingleOrGroupAlarm, View.VISIBLE);
     }
 
     @Override
@@ -320,19 +298,24 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void hideAddSingleAndGroupAlarmButtons() {
-        changeTheVisibilityOfAddAlarmButtonsViewItems(View.GONE);
+        viewHelper.changeVisibility(addSingleOrGroupAlarm, View.GONE);
     }
 
     @Override
     public void showFullScreenMask() {
-        mask.setVisibility(View.VISIBLE);
+        viewHelper.showFullScreenMask(mask);
         requireActivity().invalidateMenu();
     }
 
     @Override
     public void hideFullScreenMask() {
-        mask.setVisibility(View.GONE);
+        viewHelper.hideFullScreenMask(mask);
         requireActivity().invalidateMenu();
+    }
+
+    @Override
+    public boolean isAddGroupAlarmDialogShow() {
+        return dialog.isShowing();
     }
 
     @Override

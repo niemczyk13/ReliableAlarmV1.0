@@ -1,5 +1,8 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
+import android.view.Menu;
+import android.view.MenuItem;
+
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
@@ -22,6 +25,7 @@ public interface AlarmListContractMVP {
         void hideAddSingleAndGroupAlarmButtons();
         void showFullScreenMask();
         void hideFullScreenMask();
+        boolean isAddGroupAlarmDialogShow();
     }
 
     interface Presenter {
@@ -34,5 +38,6 @@ public interface AlarmListContractMVP {
         void onAlarmListItemClick(int position);
         void onCreateGroupAlarmButtonClick();
         void onAddNewAlarmButtonClick();
+        void onFullScreenMaskViewClick();
     }
 }
