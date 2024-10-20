@@ -28,6 +28,9 @@
       <SelectionState runConfigName="Tests in 'com.niemiec.reliablealarmv10'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="globalsutils">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

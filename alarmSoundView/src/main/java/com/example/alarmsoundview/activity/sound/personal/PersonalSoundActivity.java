@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuProvider;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -28,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.alarmsoundview.R;
+import com.example.globals.enums.BundleNames;
 
 public class PersonalSoundActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private MusicListAdapter adapter;
@@ -85,13 +89,12 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
     private void createIntentWithSelectMusic(Uri uri) {
         String name = createName();
-
         Bundle bundle = new Bundle();
-        bundle.putString("uri", uri.toString());
-        bundle.putString("name", name);
+        bundle.putString(BundleNames.URI.name(), uri.toString());
+        bundle.putString(BundleNames.NAME.name(), name);
 
         Intent intent = new Intent();
-        intent.putExtra("data", bundle);
+        intent.putExtra(BundleNames.DATA.name(), bundle);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -181,4 +184,8 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
     }
 
+    @Override
+    public void addMenuProvider(@NonNull MenuProvider provider, @NonNull LifecycleOwner owner, @NonNull Lifecycle.State state) {
+
+    }
 }

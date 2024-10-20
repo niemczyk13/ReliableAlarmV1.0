@@ -2,32 +2,27 @@ package com.niemiec.reliablealarmv10.activity.main.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.activity.main.MainContractMVP;
-import com.niemiec.reliablealarmv10.database.alarm.AlarmDataBaseModel;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListContractMVP;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.utilities.keyboard.KeyboardUtilities;
 
 public class CreateNewGroupAlarmDialog {
-    private final MainContractMVP.View mainActivityView;
+    private final AlarmListContractMVP.View mainActivityView;
     private final Dialog dialog;
     private Button cancelButton;
     private Button saveButton;
     private EditText nameEditText;
     private EditText noteEditText;
 
-    public CreateNewGroupAlarmDialog(MainContractMVP.View mainActivityView, Context context) {
+    public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context) {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_group_alarm_dialog);
@@ -94,5 +89,9 @@ public class CreateNewGroupAlarmDialog {
         saveButton = dialog.findViewById(R.id.save_button);
         nameEditText = dialog.findViewById(R.id.group_alarm_name_edit_text);
         noteEditText = dialog.findViewById(R.id.group_alarm_note_edit_text);
+    }
+
+    public boolean isShowing() {
+        return dialog.isShowing();
     }
 }
