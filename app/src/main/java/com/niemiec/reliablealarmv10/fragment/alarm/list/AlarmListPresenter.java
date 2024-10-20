@@ -5,10 +5,10 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
+import com.example.globals.enums.AlarmListType;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.main.Model;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
-import com.niemiec.reliablealarmv10.utilities.enums.AlarmListType;
 
 import java.util.Calendar;
 import java.util.List;

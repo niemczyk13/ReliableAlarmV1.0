@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.utilities.enums;
+package com.example.globals.enums;
 
 public enum AlarmListType {
     WITH_GROUP_ALARM,
