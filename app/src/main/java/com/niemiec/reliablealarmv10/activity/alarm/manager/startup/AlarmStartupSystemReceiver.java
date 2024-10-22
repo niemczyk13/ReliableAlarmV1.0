@@ -10,7 +10,7 @@ import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.Calendar;
 import java.util.List;
@@ -21,18 +21,18 @@ public class AlarmStartupSystemReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SingleAlarmDataBase singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
 
-        List<SingleAlarmEntity> singleAlarms = singleAlarmDataBase.getActiveSingleAlarms();
+        List<SingleAlarmModel> singleAlarms = singleAlarmDataBase.getActiveSingleAlarms();
         Toast.makeText(context.getApplicationContext(), "Odświeżono alarmy", Toast.LENGTH_LONG).show();
 
         Calendar now = Calendar.getInstance();
-        for (SingleAlarmEntity singleAlarm : singleAlarms) {
-            if (!singleAlarm.alarmDateTime.getDateTime().after(now)) {
-                if (!singleAlarm.alarmDateTime.isSchedule()) {
-                    singleAlarm.isActive = false;
+        for (SingleAlarmModel singleAlarm : singleAlarms) {
+            if (!singleAlarm.getAlarmDateTime().getDateTime().after(now)) {
+                if (!singleAlarm.getAlarmDateTime().isSchedule()) {
+                    singleAlarm.setActive(false);
                     singleAlarmDataBase.updateSingleAlarm(singleAlarm);
                 } else {
                     //TODO
-                    singleAlarm.alarmDateTime = AlarmDateTimeUpdater.update(singleAlarm.alarmDateTime);
+                    singleAlarm.setAlarmDateTime(AlarmDateTimeUpdater.update(singleAlarm.getAlarmDateTime()));
                     singleAlarmDataBase.updateSingleAlarm(singleAlarm);
                     AlarmManagerManagement.startAlarm(singleAlarm, context);
                 }

@@ -35,8 +35,8 @@ import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
 import com.niemiec.reliablealarmv10.activity.main.dialog.CreateNewGroupAlarmDialog;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListViewHelper;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -202,14 +202,14 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void showFragment(List<SingleAlarmEntity> singleAlarms) {
+    public void showFragment(List<SingleAlarmModel> singleAlarms) {
         viewHelper.changeVisibility(cancelOrDelete, View.GONE);
         viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.VISIBLE);
         createAlarmListWithAdapter(singleAlarms);
         adapter.showMainList();
     }
 
-    private void createAlarmListWithAdapter(List<SingleAlarmEntity> singleAlarms) {
+    private void createAlarmListWithAdapter(List<SingleAlarmModel> singleAlarms) {
         adapter = new AlarmListAdapter(this.getContext(), new AlarmsList(singleAlarms), this);
         alarmListView.setAdapter(adapter);
     }
@@ -231,7 +231,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void updateAlarmList(List<SingleAlarmEntity> singleAlarms) {
+    public void updateAlarmList(List<SingleAlarmModel> singleAlarms) {
         createAlarmListWithAdapter(singleAlarms);
     }
 
@@ -250,7 +250,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         Intent intent = new Intent(this.getContext(), AddAlarmActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(BundleNames.TYPE.name(), AddAlarmPresenter.Type.UPDATE);
-        bundle.putLong(BundleNames.ALARM_ID.name(), adapter.getAlarm(position).id);
+        bundle.putLong(BundleNames.ALARM_ID.name(), adapter.getAlarm(position).getId());
         intent.putExtra(BundleNames.DATA.name(), bundle);
         startActivity(intent);
     }
@@ -261,17 +261,17 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void startAlarm(SingleAlarmEntity singleAlarm) {
+    public void startAlarm(SingleAlarmModel singleAlarm) {
         AlarmManagerManagement.startAlarm(singleAlarm, this.getContext());
     }
 
     @Override
-    public void stopAlarm(SingleAlarmEntity singleAlarm) {
+    public void stopAlarm(SingleAlarmModel singleAlarm) {
         AlarmManagerManagement.stopAlarm(singleAlarm, this.getContext());
     }
 
     @Override
-    public void updateNotification(List<SingleAlarmEntity> activeSingleAlarms) {
+    public void updateNotification(List<SingleAlarmModel> activeSingleAlarms) {
         AlarmNotificationManager.updateNotification(this.getContext(), activeSingleAlarms);
     }
 

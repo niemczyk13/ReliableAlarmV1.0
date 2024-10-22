@@ -2,18 +2,18 @@ package com.niemiec.reliablealarmv10.activity.alarm.add;
 
 import android.os.Bundle;
 
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
 
 public interface AddAlarmContractMVP {
     interface View {
-        void showAlarm(SingleAlarmEntity singleAlarm);
-        SingleAlarmEntity getAlarm();
+        void showAlarm(SingleAlarmModel singleAlarm);
+        SingleAlarmModel getAlarm();
         void goBackToPreviousActivity();
-        void startAlarm(SingleAlarmEntity singleAlarm);
-        void stopAlarm(SingleAlarmEntity singleAlarm);
-        void updateNotification(List<SingleAlarmEntity> activeSingleAlarms);
+        void startAlarm(SingleAlarmModel singleAlarm);
+        void stopAlarm(SingleAlarmModel singleAlarm);
+        void updateNotification(List<SingleAlarmModel> activeSingleAlarms);
 
     }
 
