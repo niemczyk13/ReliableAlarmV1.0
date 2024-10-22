@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.main.dialog;
+package com.niemiec.reliablealarmv10.fragment.alarm.list.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -66,6 +66,7 @@ public class CreateNewGroupAlarmDialog {
                 GroupAlarmModel ga = GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
                 if (ga != null && ga.getId() != 0) {
                     dialog.dismiss();
+                    mainActivityView.showGroupAlarmActivity(ga.getId());
                     //TODO tworzymy alarm grypowy i otwieramy nową aktywność dla alarmu grupowego
                     //TODO otwieramy nową aktywność
                 }

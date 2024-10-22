@@ -64,6 +64,23 @@ public class GroupAlarmDataBase {
         return groupAlarmModels;
     }
 
+    public List<GroupAlarmModel> getAllGroupAlarms() {
+        List<GroupAlarmEntity> groupAlarmEntities = dataBaseModel.groupAlarmDAO().getAll();
+        List<GroupAlarmModel> groupAlarmModels = new ArrayList<>();
+        for (GroupAlarmEntity groupAlarmEntity : groupAlarmEntities) {
+            List<SingleAlarmEntity> singleAlarms = getAllSingleAlarmsByGroupAlarmId(groupAlarmEntity.id);
+            GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder()
+                    .id(groupAlarmEntity.id)
+                    .name(groupAlarmEntity.name)
+                    .note(groupAlarmEntity.note)
+                    .isActive(groupAlarmEntity.isActive)
+                    .alarms(singleAlarms != null ? singleAlarms : new ArrayList<>())
+                    .build();
+            groupAlarmModels.add(groupAlarmModel);
+        }
+        return groupAlarmModels;
+    }
+
     public List<SingleAlarmEntity> getAllSingleAlarmsByGroupAlarmId(long groupAlarmId) {
         return dataBaseModel.singleAlarmDAO().getSingleAlarmsByGroupAlarmId(groupAlarmId);
     }

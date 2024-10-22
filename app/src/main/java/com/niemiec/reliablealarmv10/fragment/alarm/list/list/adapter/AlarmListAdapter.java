@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter;
+package com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data.SingleAlarmsList;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
@@ -31,20 +31,20 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
     private final Context context;
     //private LayoutInflater inflater;
     private AlarmListListener alarmListContainer;
-    private AlarmsList alarmsList;
+    private SingleAlarmsList singleAlarmsList;
     private TypeView typeView;
 
     private int deleteItem = 0;
 
 
 
-    public AlarmListAdapter(Context context, AlarmsList alarmsList, AlarmListListener container) {
-        super(context, android.R.layout.simple_expandable_list_item_1, alarmsList.getAlarms());
+    public AlarmListAdapter(Context context, SingleAlarmsList singleAlarmsList, AlarmListListener container) {
+        super(context, android.R.layout.simple_expandable_list_item_1, singleAlarmsList.getAlarms());
         this.context = context;
         //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.alarmListContainer = container;
         typeView = TypeView.NORMAL;
-        this.alarmsList = alarmsList;
+        this.singleAlarmsList = singleAlarmsList;
 
     }
 
@@ -62,7 +62,7 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
             viewHolder = (ViewHolder) listItem.getTag();
         }
 
-        setValuesInViewHolder(viewHolder, alarmsList.get(position), alarmsList.isSelected(position));
+        setValuesInViewHolder(viewHolder, singleAlarmsList.get(position), singleAlarmsList.isSelected(position));
         return listItem;
     }
 
@@ -107,12 +107,12 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
         ListView lv = (ListView) linearLayout.getParent();
         int position = lv.getPositionForView(linearLayout);
 
-        alarmListContainer.switchOnOffClick(alarmsList.get(position).id);
+        alarmListContainer.switchOnOffClick(singleAlarmsList.get(position).id);
 
     }
 
     public List<SingleAlarmEntity> getSelectedAlarms() {
-        return alarmsList.getSelectedAlarms();
+        return singleAlarmsList.getSelectedAlarms();
     }
 
     public void showDeleteList() {
@@ -122,16 +122,16 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
 
     public void showMainList() {
         typeView = TypeView.NORMAL;
-        alarmsList.clearSelected();
+        singleAlarmsList.clearSelected();
         this.notifyDataSetChanged();
     }
 
     public SingleAlarmEntity getAlarm(int position) {
-        return alarmsList.get(position);
+        return singleAlarmsList.get(position);
     }
 
     public void checkOnUncheckAlarm(int position) {
-        alarmsList.checkOrUncheckAlarm(position);
+        singleAlarmsList.checkOrUncheckAlarm(position);
         this.notifyDataSetChanged();
     }
 

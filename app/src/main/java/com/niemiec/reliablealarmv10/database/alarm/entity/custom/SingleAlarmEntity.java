@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmsoundview.model.Sound;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
 import com.niemiec.risingview.model.RisingSound;

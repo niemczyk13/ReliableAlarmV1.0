@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.main.alarm.list;
+package com.niemiec.reliablealarmv10.fragment.alarm.list.list;
 
 public interface AlarmListListener {
     void switchOnOffClick(long id);

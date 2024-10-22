@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data;
+package com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data;
 
 import android.os.Build;
 
@@ -12,11 +12,11 @@ import java.util.stream.Stream;
 import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class AlarmsList {
+public class SingleAlarmsList {
     private List<SingleAlarmEntity> singleAlarms;
     private List<Boolean> selected;
 
-    public AlarmsList(List<SingleAlarmEntity> singleAlarms) {
+    public SingleAlarmsList(List<SingleAlarmEntity> singleAlarms) {
         createAlarmsList(singleAlarms);
         createSelectedAlarmsList();
     }

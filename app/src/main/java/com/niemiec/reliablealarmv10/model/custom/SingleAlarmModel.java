@@ -12,7 +12,7 @@ import java.util.Calendar;
 import lombok.Data;
 
 @Data
-public class SingleAlarmModel {
+public class SingleAlarmModel implements Alarm {
     private long id;
     private long groupAlarmId;
     private AlarmDateTime alarmDateTime;
