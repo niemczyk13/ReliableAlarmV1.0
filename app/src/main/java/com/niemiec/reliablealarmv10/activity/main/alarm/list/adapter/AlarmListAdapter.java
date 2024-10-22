@@ -15,7 +15,7 @@ import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
+public class AlarmListAdapter extends ArrayAdapter<SingleAlarmModel> {
     private final Context context;
     //private LayoutInflater inflater;
     private AlarmListListener alarmListContainer;
@@ -68,21 +68,21 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
 
     //TODO skrócić metodę
     @SuppressLint({"Range", "SimpleDateFormat"})
-    private void setValuesInViewHolder(ViewHolder viewHolder, SingleAlarmEntity singleAlarm, boolean isSelected) {
+    private void setValuesInViewHolder(ViewHolder viewHolder, SingleAlarmModel singleAlarm, boolean isSelected) {
         viewHolder.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
         viewHolder.radioButtonCircle.setChecked(false);
 
-        Date dateTime = singleAlarm.alarmDateTime.getDateTime().getTime();
+        Date dateTime = singleAlarm.getAlarmDateTime().getDateTime().getTime();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         viewHolder.alarmTime.setText(timeFormat.format(dateTime));
-        if (singleAlarm.alarmDateTime.isSchedule()) {
-            viewHolder.alarmDate.setText(DateTextGenerator.generate(singleAlarm.alarmDateTime.getWeek()));
+        if (singleAlarm.getAlarmDateTime().isSchedule()) {
+            viewHolder.alarmDate.setText(DateTextGenerator.generate(singleAlarm.getAlarmDateTime().getWeek()));
         } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             viewHolder.alarmDate.setText(dateFormat.format(dateTime));
         }
 
-        viewHolder.isActive.setChecked(singleAlarm.isActive);
+        viewHolder.isActive.setChecked(singleAlarm.isActive());
         viewHolder.isActive.setOnClickListener(this::isActiveClick);
 
         if (typeView == TypeView.NORMAL) {
@@ -107,11 +107,11 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
         ListView lv = (ListView) linearLayout.getParent();
         int position = lv.getPositionForView(linearLayout);
 
-        alarmListContainer.switchOnOffClick(alarmsList.get(position).id);
+        alarmListContainer.switchOnOffClick(alarmsList.get(position).getId());
 
     }
 
-    public List<SingleAlarmEntity> getSelectedAlarms() {
+    public List<SingleAlarmModel> getSelectedAlarms() {
         return alarmsList.getSelectedAlarms();
     }
 
@@ -126,7 +126,7 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
         this.notifyDataSetChanged();
     }
 
-    public SingleAlarmEntity getAlarm(int position) {
+    public SingleAlarmModel getAlarm(int position) {
         return alarmsList.get(position);
     }
 

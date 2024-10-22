@@ -1,9 +1,5 @@
 package com.niemiec.reliablealarmv10.model.custom;
 
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmEntity;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Builder;
@@ -16,5 +12,5 @@ public class GroupAlarmModel {
     private String name;
     private String note;
     private boolean isActive;
-    private List<SingleAlarmEntity> alarms;
+    private List<SingleAlarmModel> alarms;
 }
