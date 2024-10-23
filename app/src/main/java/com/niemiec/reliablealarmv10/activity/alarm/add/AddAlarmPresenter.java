@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> implements AddAlarmContractMVP.Presenter {
     private final SingleAlarmDataBase singleAlarmDataBase;
@@ -38,18 +38,18 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
     }
 
     private void saveNewAlarm() {
-        SingleAlarmEntity singleAlarm = view.getAlarm();
+        SingleAlarmModel singleAlarm = view.getAlarm();
         singleAlarmDataBase.insertSingleAlarm(singleAlarm);
-        singleAlarm.id = singleAlarmDataBase.getLastSingleAlarm().id;
+        singleAlarm.setId(singleAlarmDataBase.getLastSingleAlarm().getId());
         view.startAlarm(singleAlarm);
         view.goBackToPreviousActivity();
     }
 
     private void updateAlarm() {
-        SingleAlarmEntity singleAlarm = singleAlarmDataBase.getSingleAlarm(id);
+        SingleAlarmModel singleAlarm = singleAlarmDataBase.getSingleAlarm(id);
         view.stopAlarm(singleAlarm);
-        SingleAlarmEntity updateSingleAlarm = view.getAlarm();
-        updateSingleAlarm.id = id;
+        SingleAlarmModel updateSingleAlarm = view.getAlarm();
+        updateSingleAlarm.setId(id);
         singleAlarmDataBase.updateSingleAlarm(updateSingleAlarm);
         view.startAlarm(updateSingleAlarm);
         view.goBackToPreviousActivity();

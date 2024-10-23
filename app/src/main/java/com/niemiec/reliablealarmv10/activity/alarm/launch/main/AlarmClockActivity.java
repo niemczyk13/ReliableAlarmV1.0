@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -101,7 +101,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     }
 
     @Override
-    public void startAlarm(SingleAlarmEntity singleAlarm) {
+    public void startAlarm(SingleAlarmModel singleAlarm) {
         AlarmManagerManagement.startAlarm(singleAlarm, getApplicationContext());
     }
 
@@ -118,7 +118,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     }
 
     @Override
-    public void updateNotification(List<SingleAlarmEntity> activeSingleAlarms) {
+    public void updateNotification(List<SingleAlarmModel> activeSingleAlarms) {
         AlarmNotificationManager.updateNotification(getApplicationContext(), activeSingleAlarms);
     }
 
