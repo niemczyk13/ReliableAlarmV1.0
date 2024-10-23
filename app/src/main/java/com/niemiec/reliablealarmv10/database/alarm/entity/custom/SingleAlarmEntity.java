@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
 import com.example.alarmsoundview.model.Sound;
-import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 import com.niemiec.reliablealarmv10.view.nap.model.Nap;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.model.SafeAlarmLaunch;
 import com.niemiec.risingview.model.RisingSound;
@@ -33,6 +33,27 @@ public class SingleAlarmEntity {
     public String name;
     public String note;
     public boolean isActive;
+
+    public SingleAlarmEntity() {
+
+    }
+
+    public SingleAlarmEntity(SingleAlarmModel singleAlarmModel) {
+        if (singleAlarmModel.getId() > 0) {
+            id = singleAlarmModel.getId();
+        }
+        groupAlarmId = singleAlarmModel.getGroupAlarmId();
+        alarmDateTime = singleAlarmModel.getAlarmDateTime();
+        sound = singleAlarmModel.getSound();
+        nap = singleAlarmModel.getNap();
+        risingSound = singleAlarmModel.getRisingSound();
+        safeAlarmLaunch = singleAlarmModel.getSafeAlarmLaunch();
+        volume = singleAlarmModel.getVolume();
+        vibration = singleAlarmModel.isVibration();
+        name = singleAlarmModel.getName();
+        note = singleAlarmModel.getNote();
+        isActive = singleAlarmModel.isActive();
+    }
 
     public int compareTimeTo(SingleAlarmEntity singleAlarm) {
         int thisHour = alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);

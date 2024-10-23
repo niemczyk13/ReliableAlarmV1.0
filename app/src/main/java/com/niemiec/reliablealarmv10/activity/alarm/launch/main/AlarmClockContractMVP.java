@@ -1,15 +1,15 @@
 package com.niemiec.reliablealarmv10.activity.alarm.launch.main;
 
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
 
 public interface AlarmClockContractMVP {
     interface View {
-        void startAlarm(SingleAlarmEntity singleAlarm);
+        void startAlarm(SingleAlarmModel singleAlarm);
         void showAlarmClockWithNap(int hour, int minute);
         void showAlarmClockWithoutNap(int hour, int minute);
-        void updateNotification(List<SingleAlarmEntity> activeSingleAlarms);
+        void updateNotification(List<SingleAlarmModel> activeSingleAlarms);
     }
 
     interface Presenter {

@@ -4,8 +4,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
-
 import java.util.List;
 
 import lombok.Builder;
@@ -19,7 +17,7 @@ public class GroupAlarmModel implements Alarm {
     private String name;
     private String note;
     private boolean isActive;
-    private List<SingleAlarmEntity> alarms;
+    private List<SingleAlarmModel> alarms;
 
     public int compareTimeTo(Alarm alarm) {
         if (alarm instanceof SingleAlarmModel) {

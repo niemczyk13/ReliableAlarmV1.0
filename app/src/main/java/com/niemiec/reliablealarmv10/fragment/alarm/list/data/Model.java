@@ -25,9 +25,9 @@ public class Model {
     }
 
     public List<SingleAlarmModel> getAllSingleAlarms() {
-        List<SingleAlarmEntity> singleAlarmEntities = singleAlarmDataBase.getAllSingleAlarms();
+        List<SingleAlarmModel> singleAlarmEntities = singleAlarmDataBase.getAllSingleAlarms();
         List<SingleAlarmModel> singleAlarmModels = new ArrayList<>();
-        for (SingleAlarmEntity singleAlarmEntity : singleAlarmEntities) {
+        for (SingleAlarmModel singleAlarmEntity : singleAlarmEntities) {
             singleAlarmModels.add(new SingleAlarmModel(singleAlarmEntity));
         }
         return singleAlarmModels;
@@ -37,21 +37,21 @@ public class Model {
         return singleAlarmDataBase.getAllSingleAlarms();
     }
 
-    public SingleAlarmEntity getAlarm(long id) {
+    public SingleAlarmModel getAlarm(long id) {
         return singleAlarmDataBase.getSingleAlarm(id);
     }
 
-    public void updateAlarm(SingleAlarmEntity singleAlarm) {
+    public void updateAlarm(SingleAlarmModel singleAlarm) {
         singleAlarmDataBase.updateSingleAlarm(singleAlarm);
     }
 
-    public void deleteAlarms(List<SingleAlarmEntity> singleAlarms) {
-        for (SingleAlarmEntity singleAlarm : singleAlarms) {
+    public void deleteAlarms(List<SingleAlarmModel> singleAlarms) {
+        for (SingleAlarmModel singleAlarm : singleAlarms) {
             singleAlarmDataBase.deleteSingleAlarm(singleAlarm);
         }
     }
 
-    public List<SingleAlarmEntity> getActiveAlarms() {
+    public List<SingleAlarmModel> getActiveAlarms() {
         return singleAlarmDataBase.getActiveSingleAlarms();
     }
 
