@@ -7,8 +7,10 @@ import androidx.annotation.RequiresApi;
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.example.globals.enums.AlarmListType;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.activity.main.Model;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.data.Model;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.Calendar;
 import java.util.List;
@@ -17,18 +19,24 @@ import java.util.List;
 public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View> implements AlarmListContractMVP.Presenter {
     private TypeView typeView;
     private final Model model;
-    private final Context context;
 
     public AlarmListPresenter(Context context, AlarmListType alarmListType) {
         super();
         model = new Model(context);
         typeView = TypeView.NORMAL;
-        this.context = context;
     }
 
     @Override
-    public void initView() {
-        view.showFragment(model.getAllAlarms());
+    public void initViewForGroupAlarm(long groupAlarmId) {
+        GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
+        view.showFragment(groupAlarmModel.getAlarms());
+    }
+
+    @Override
+    public void initViewForAllAlarms() {
+        List<GroupAlarmModel> groupAlarms = model.getGroupAlarms();
+        List<SingleAlarmModel> singleAlarms = model.getAllSingleAlarms();
+        view.showFragment(groupAlarms, singleAlarms);
     }
 
     @Override
@@ -42,17 +50,17 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     }
 
     @Override
-    public void onDeleteButtonClick(List<SingleAlarmEntity> singleAlarms) {
+    public void onDeleteButtonClick(List<SingleAlarmModel> singleAlarms) {
         stopDeletedAlarms(singleAlarms);
         model.deleteAlarms(singleAlarms);
         resetViewToNormalState();
-        view.updateAlarmList(model.getAllAlarms());
+        view.updateAlarmList(model.getAllSingleAlarmsEntity());
         view.updateNotification(model.getActiveAlarms());
     }
 
-    private void stopDeletedAlarms(List<SingleAlarmEntity> singleAlarms) {
-        for (SingleAlarmEntity singleAlarm : singleAlarms) {
-            if (singleAlarm.isActive) {
+    private void stopDeletedAlarms(List<SingleAlarmModel> singleAlarms) {
+        for (SingleAlarmModel singleAlarm : singleAlarms) {
+            if (singleAlarm.isActive()) {
                 view.stopAlarm(singleAlarm);
             }
         }
@@ -77,24 +85,24 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
 
     @Override
     public void onSwitchOnOffAlarmClick(long id) {
-        SingleAlarmEntity singleAlarm = model.getAlarm(id);
-        singleAlarm.alarmDateTime = AlarmDateTimeUpdater.update(singleAlarm.alarmDateTime);
-        singleAlarm.isActive = !singleAlarm.isActive;
+        SingleAlarmModel singleAlarm = model.getAlarm(id);
+        singleAlarm.setAlarmDateTime(AlarmDateTimeUpdater.update(singleAlarm.getAlarmDateTime()));
+        singleAlarm.setActive(!singleAlarm.isActive());
         model.updateAlarm(singleAlarm);
 
-        if (singleAlarm.isActive) {
+        if (singleAlarm.isActive()) {
             view.startAlarm(singleAlarm);
         } else {
             updateAlarmTimeAfterNap(singleAlarm);
             view.stopAlarm(singleAlarm);
         }
-        view.updateAlarmList(model.getAllAlarms());
+        view.updateAlarmList(model.getAllSingleAlarmsEntity());
         view.updateNotification(model.getActiveAlarms());
     }
 
-    private void updateAlarmTimeAfterNap(SingleAlarmEntity singleAlarm) {
-        if (singleAlarm.nap.isActive()) {
-            singleAlarm.alarmDateTime.getDateTime().add(Calendar.MINUTE, -singleAlarm.nap.getTheSumOfTheNapTimes());
+    private void updateAlarmTimeAfterNap(SingleAlarmModel singleAlarm) {
+        if (singleAlarm.getNap().isActive()) {
+            singleAlarm.getAlarmDateTime().getDateTime().add(Calendar.MINUTE, -singleAlarm.getNap().getTheSumOfTheNapTimes());
         }
     }
 

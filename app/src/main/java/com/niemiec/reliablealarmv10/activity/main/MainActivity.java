@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setAlarmListFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            AlarmListFragment alarmListFragment = AlarmListFragment.newInstance(AlarmListType.WITH_GROUP_ALARM);
+            AlarmListFragment alarmListFragment = AlarmListFragment.newInstance(AlarmListType.WITH_GROUP_ALARM, -1);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, alarmListFragment)
                     .commit();

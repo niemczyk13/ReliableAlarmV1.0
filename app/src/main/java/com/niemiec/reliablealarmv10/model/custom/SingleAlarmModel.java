@@ -9,10 +9,14 @@ import com.niemiec.risingview.model.RisingSound;
 
 import java.util.Calendar;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class SingleAlarmModel {
+@Builder
+@AllArgsConstructor
+public class SingleAlarmModel implements Alarm {
     private long id;
     private long groupAlarmId;
     private AlarmDateTime alarmDateTime;
@@ -25,6 +29,10 @@ public class SingleAlarmModel {
     private String name;
     private String note;
     private boolean isActive;
+
+    public SingleAlarmModel() {
+
+    }
 
     public SingleAlarmModel(SingleAlarmEntity sa) {
         id = sa.id;
