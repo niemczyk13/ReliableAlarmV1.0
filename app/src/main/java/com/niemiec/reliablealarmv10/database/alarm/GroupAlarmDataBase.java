@@ -1,9 +1,6 @@
 package com.niemiec.reliablealarmv10.database.alarm;
 
 import android.content.Context;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.GroupAlarmEntity;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
@@ -13,7 +10,6 @@ import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class GroupAlarmDataBase {
     private static GroupAlarmDataBase instance;
     private static AlarmDataBaseModel dataBaseModel;
@@ -31,33 +27,24 @@ public class GroupAlarmDataBase {
         return groupAlarmModel;
     }
 
-    public SingleAlarmModel insertSingleAlarm(SingleAlarmModel singleAlarmModel) {
-        long id = dataBaseModel.singleAlarmDAO().insertAlarm(new SingleAlarmEntity(singleAlarmModel));
-        singleAlarmModel.setId(id);
-        return singleAlarmModel;
+    public SingleAlarmEntity insertSingleAlarm(SingleAlarmEntity singleAlarmEntity) {
+        long id = dataBaseModel.singleAlarmDAO().insertAlarm(singleAlarmEntity);
+        singleAlarmEntity.id = id;
+        return singleAlarmEntity;
     }
 
     public GroupAlarmModel getGroupAlarm(long id) {
         GroupAlarmEntity groupAlarmEntity = dataBaseModel.groupAlarmDAO().getGroupAlarm(id);
         if (groupAlarmEntity == null) return null;
         List<SingleAlarmEntity> singleAlarmEntities = dataBaseModel.singleAlarmDAO().getSingleAlarmsByGroupAlarmId(id);
-        List<SingleAlarmModel> singleAlarmModels = toSingleAlarmModels(singleAlarmEntities);
         GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder()
                 .id(groupAlarmEntity.id)
                 .name(groupAlarmEntity.name)
                 .note(groupAlarmEntity.note)
                 .isActive(groupAlarmEntity.isActive)
-                .alarms(singleAlarmEntities != null ? singleAlarmModels : new ArrayList<>())
+                .alarms(singleAlarmEntities != null ? singleAlarmEntities : new ArrayList<>())
                 .build();
         return groupAlarmModel;
-    }
-
-    private List<SingleAlarmModel> toSingleAlarmModels(List<SingleAlarmEntity> singleAlarmEntities) {
-        List<SingleAlarmModel> singleAlarmModels = new ArrayList<>();
-        for (SingleAlarmEntity sae : singleAlarmEntities) {
-            singleAlarmModels.add(new SingleAlarmModel(sae));
-        }
-        return singleAlarmModels;
     }
 
     //TODO
@@ -77,26 +64,8 @@ public class GroupAlarmDataBase {
         return groupAlarmModels;
     }
 
-    public List<GroupAlarmModel> getAllGroupAlarms() {
-        List<GroupAlarmEntity> groupAlarmEntities = dataBaseModel.groupAlarmDAO().getAll();
-        List<GroupAlarmModel> groupAlarmModels = new ArrayList<>();
-        for (GroupAlarmEntity groupAlarmEntity : groupAlarmEntities) {
-            List<SingleAlarmEntity> singleAlarms = getAllSingleAlarmsByGroupAlarmId(groupAlarmEntity.id);
-            GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder()
-                    .id(groupAlarmEntity.id)
-                    .name(groupAlarmEntity.name)
-                    .note(groupAlarmEntity.note)
-                    .isActive(groupAlarmEntity.isActive)
-                    .alarms(singleAlarms != null ? singleAlarms : new ArrayList<>())
-                    .build();
-            groupAlarmModels.add(groupAlarmModel);
-        }
-        return groupAlarmModels;
-    }
-
-    public List<SingleAlarmModel> getAllSingleAlarmsByGroupAlarmId(long groupAlarmId) {
-        List<SingleAlarmEntity> singleAlarmEntities = dataBaseModel.singleAlarmDAO().getSingleAlarmsByGroupAlarmId(groupAlarmId);
-        return toSingleAlarmModels(singleAlarmEntities);
+    public List<SingleAlarmEntity> getAllSingleAlarmsByGroupAlarmId(long groupAlarmId) {
+        return dataBaseModel.singleAlarmDAO().getSingleAlarmsByGroupAlarmId(groupAlarmId);
     }
 
     //TODO update, jęzeli zmienimy np. włączenie na bazie danych to żeby to się zmieniło
@@ -108,8 +77,8 @@ public class GroupAlarmDataBase {
 
     public void deleteGroupAlarm(GroupAlarmModel groupAlarmModel) {
         if (groupAlarmModel.getAlarms() != null) {
-            for (SingleAlarmModel singleAlarm : groupAlarmModel.getAlarms()) {
-                dataBaseModel.singleAlarmDAO().deleteAlarm(new SingleAlarmEntity(singleAlarm));
+            for (SingleAlarmEntity singleAlarm : groupAlarmModel.getAlarms()) {
+                dataBaseModel.singleAlarmDAO().deleteAlarm(singleAlarm);
             }
         }
         GroupAlarmEntity groupAlarm = new GroupAlarmEntity(groupAlarmModel);

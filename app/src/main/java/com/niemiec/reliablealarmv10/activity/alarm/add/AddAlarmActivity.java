@@ -16,7 +16,7 @@ import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
-import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.nap.NapView;
 import com.niemiec.reliablealarmv10.view.safeAlarmLaunch.view.SafeAlarmLaunchView;
 import com.niemiec.risingview.view.RisingSoundView;
@@ -68,17 +68,16 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         presenter.saveAlarm();
     }
 
-    private SingleAlarmModel createAlarm() {
-        SingleAlarmModel singleAlarm = SingleAlarmModel.builder()
-                .alarmDateTime(alarmDateTimeView.getAlarmDateTime())
-                .sound(alarmSoundView.getSound())
-                .nap(napView.getNap())
-                .risingSound(risingSoundView.getRisingSound())
-                .safeAlarmLaunch(safeAlarmLaunchView.getSafeAlarmLaunch())
-                .volume(volumeSeekBar.getProgress())
-                .vibration(vibrationSwitch.isChecked())
-                .isActive(true)
-                .build();
+    private SingleAlarmEntity createAlarm() {
+        SingleAlarmEntity singleAlarm = new SingleAlarmEntity();
+        singleAlarm.alarmDateTime = alarmDateTimeView.getAlarmDateTime();
+        singleAlarm.sound = alarmSoundView.getSound();
+        singleAlarm.nap = napView.getNap();
+        singleAlarm.risingSound = risingSoundView.getRisingSound();
+        singleAlarm.safeAlarmLaunch = safeAlarmLaunchView.getSafeAlarmLaunch();
+        singleAlarm.volume = volumeSeekBar.getProgress();
+        singleAlarm.vibration = vibrationSwitch.isChecked();
+        singleAlarm.isActive = true;
         return singleAlarm;
     }
 
@@ -113,18 +112,18 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     }
 
     @Override
-    public void showAlarm(SingleAlarmModel singleAlarm) {
-        alarmDateTimeView.initialize(singleAlarm.getAlarmDateTime(), getSupportFragmentManager());
-        alarmSoundView.initialize(singleAlarm.getSound());
-        napView.initialize(singleAlarm.getNap());
-        risingSoundView.initialize(singleAlarm.getRisingSound());
-        safeAlarmLaunchView.initialize(singleAlarm.getSafeAlarmLaunch());
-        volumeSeekBar.setProgress(singleAlarm.getVolume());
-        vibrationSwitch.setChecked(singleAlarm.isVibration());
+    public void showAlarm(SingleAlarmEntity singleAlarm) {
+        alarmDateTimeView.initialize(singleAlarm.alarmDateTime, getSupportFragmentManager());
+        alarmSoundView.initialize(singleAlarm.sound);
+        napView.initialize(singleAlarm.nap);
+        risingSoundView.initialize(singleAlarm.risingSound);
+        safeAlarmLaunchView.initialize(singleAlarm.safeAlarmLaunch);
+        volumeSeekBar.setProgress(singleAlarm.volume);
+        vibrationSwitch.setChecked(singleAlarm.vibration);
     }
 
     @Override
-    public SingleAlarmModel getAlarm() {
+    public SingleAlarmEntity getAlarm() {
         alarmDateTimeView.calculateDateToTime();
         return createAlarm();
     }
@@ -135,18 +134,18 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
     }
 
     @Override
-    public void startAlarm(SingleAlarmModel singleAlarm) {
+    public void startAlarm(SingleAlarmEntity singleAlarm) {
         AlarmManagerManagement.startAlarm(singleAlarm, getApplicationContext());
     }
 
     @Override
-    public void stopAlarm(SingleAlarmModel singleAlarm) {
+    public void stopAlarm(SingleAlarmEntity singleAlarm) {
         AlarmManagerManagement.stopAlarm(singleAlarm, getApplicationContext());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void updateNotification(List<SingleAlarmModel> activeSingleAlarms) {
+    public void updateNotification(List<SingleAlarmEntity> activeSingleAlarms) {
         AlarmNotificationManager.updateNotification(getApplicationContext(), activeSingleAlarms);
     }
 

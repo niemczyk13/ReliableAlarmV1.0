@@ -2,13 +2,9 @@ package com.niemiec.reliablealarmv10.database.alarm;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.niemiec.reliablealarmv10.database.alarm.entity.basic.BasicAlarm;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
-import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -31,30 +27,29 @@ public class SingleAlarmDataBase {
             dataBaseModel.basicAlarmDAO().insertBasicAlarm(new BasicAlarm());
     }
 
-    public void insertSingleAlarm(SingleAlarmModel singleAlarm) {
-        SingleAlarmEntity singleAlarmEntity = new SingleAlarmEntity(singleAlarm);
-        dataBaseModel.singleAlarmDAO().insertAlarm(singleAlarmEntity);
+    public void insertSingleAlarm(SingleAlarmEntity singleAlarm) {
+        dataBaseModel.singleAlarmDAO().insertAlarm(singleAlarm);
     }
 
-    public SingleAlarmModel getDefaultSingleAlarm() {
+    public SingleAlarmEntity getDefaultSingleAlarm() {
         BasicAlarm basicAlarm = dataBaseModel.basicAlarmDAO().getBasicAlarm();
-        return new SingleAlarmModel(basicAlarm.getAlarm());
+        return basicAlarm.getAlarm();
     }
 
-    public SingleAlarmModel getSingleAlarm(long id) {
-        return new SingleAlarmModel(dataBaseModel.singleAlarmDAO().getAlarm(id));
+    public SingleAlarmEntity getSingleAlarm(long id) {
+        return dataBaseModel.singleAlarmDAO().getAlarm(id);
     }
 
-    public void updateSingleAlarm(SingleAlarmModel singleAlarm) {
-        dataBaseModel.singleAlarmDAO().updateAlarm(new SingleAlarmEntity(singleAlarm));
+    public void updateSingleAlarm(SingleAlarmEntity singleAlarm) {
+        dataBaseModel.singleAlarmDAO().updateAlarm(singleAlarm);
     }
 
-    public List<SingleAlarmModel> getAllSingleAlarms() {
-        return getSingleAlarmModels(dataBaseModel.singleAlarmDAO().getAll());
+    public List<SingleAlarmEntity> getAllSingleAlarms() {
+        return dataBaseModel.singleAlarmDAO().getAll();
     }
 
-    public List<SingleAlarmModel> getSingleAlarmsBefore(Calendar date) {
-        return getSingleAlarmModels(dataBaseModel.singleAlarmDAO().getAlarmsBefore(date.getTimeInMillis()));
+    public List<SingleAlarmEntity> getSingleAlarmsBefore(Calendar date) {
+        return dataBaseModel.singleAlarmDAO().getAlarmsBefore(date.getTimeInMillis());
     }
 
     public static SingleAlarmDataBase getInstance(Context context) {
@@ -64,21 +59,11 @@ public class SingleAlarmDataBase {
         return instance;
     }
 
-    public void deleteSingleAlarm(SingleAlarmModel singleAlarm) {
-        dataBaseModel.singleAlarmDAO().deleteAlarm(new SingleAlarmEntity(singleAlarm));
+    public void deleteSingleAlarm(SingleAlarmEntity singleAlarm) {
+        dataBaseModel.singleAlarmDAO().deleteAlarm(singleAlarm);
     }
 
-    public SingleAlarmModel getLastSingleAlarm() {return new SingleAlarmModel(dataBaseModel.singleAlarmDAO().getLastAlarm());}
+    public SingleAlarmEntity getLastSingleAlarm() {return dataBaseModel.singleAlarmDAO().getLastAlarm();}
 
-    public List<SingleAlarmModel> getActiveSingleAlarms() {
-        return getSingleAlarmModels(dataBaseModel.singleAlarmDAO().getActiveAlarms());
-    }
-
-    private static @NonNull List<SingleAlarmModel> getSingleAlarmModels(List<SingleAlarmEntity> singleAlarmEntities) {
-        List<SingleAlarmModel> singleAlarmModels = new ArrayList<>();
-        for (SingleAlarmEntity singleAlarmEntity : singleAlarmEntities) {
-            singleAlarmModels.add(new SingleAlarmModel(singleAlarmEntity));
-        }
-        return singleAlarmModels;
-    }
+    public List<SingleAlarmEntity> getActiveSingleAlarms() {return dataBaseModel.singleAlarmDAO().getActiveAlarms();}
 }

@@ -1,4 +1,4 @@
-package com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter;
+package com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
-import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data.SingleAlarmsList;
-import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
+import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
+import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.view.checkable.imageview.CheckableImageView;
 
 import androidx.annotation.NonNull;
@@ -27,24 +27,24 @@ import java.util.Date;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class AlarmListAdapter extends ArrayAdapter<SingleAlarmModel> {
+public class AlarmListAdapter extends ArrayAdapter<SingleAlarmEntity> {
     private final Context context;
     //private LayoutInflater inflater;
     private AlarmListListener alarmListContainer;
-    private SingleAlarmsList singleAlarmsList;
+    private AlarmsList alarmsList;
     private TypeView typeView;
 
     private int deleteItem = 0;
 
 
 
-    public AlarmListAdapter(Context context, SingleAlarmsList singleAlarmsList, AlarmListListener container) {
-        super(context, android.R.layout.simple_expandable_list_item_1, singleAlarmsList.getAlarms());
+    public AlarmListAdapter(Context context, AlarmsList alarmsList, AlarmListListener container) {
+        super(context, android.R.layout.simple_expandable_list_item_1, alarmsList.getAlarms());
         this.context = context;
         //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.alarmListContainer = container;
         typeView = TypeView.NORMAL;
-        this.singleAlarmsList = singleAlarmsList;
+        this.alarmsList = alarmsList;
 
     }
 
@@ -62,27 +62,27 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmModel> {
             viewHolder = (ViewHolder) listItem.getTag();
         }
 
-        setValuesInViewHolder(viewHolder, singleAlarmsList.get(position), singleAlarmsList.isSelected(position));
+        setValuesInViewHolder(viewHolder, alarmsList.get(position), alarmsList.isSelected(position));
         return listItem;
     }
 
     //TODO skrócić metodę
     @SuppressLint({"Range", "SimpleDateFormat"})
-    private void setValuesInViewHolder(ViewHolder viewHolder, SingleAlarmModel singleAlarm, boolean isSelected) {
+    private void setValuesInViewHolder(ViewHolder viewHolder, SingleAlarmEntity singleAlarm, boolean isSelected) {
         viewHolder.radioButtonCircle.setBackgroundResource(R.drawable.ic_baseline_radio_button_unchecked_24);
         viewHolder.radioButtonCircle.setChecked(false);
 
-        Date dateTime = singleAlarm.getAlarmDateTime().getDateTime().getTime();
+        Date dateTime = singleAlarm.alarmDateTime.getDateTime().getTime();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         viewHolder.alarmTime.setText(timeFormat.format(dateTime));
-        if (singleAlarm.getAlarmDateTime().isSchedule()) {
-            viewHolder.alarmDate.setText(DateTextGenerator.generate(singleAlarm.getAlarmDateTime().getWeek()));
+        if (singleAlarm.alarmDateTime.isSchedule()) {
+            viewHolder.alarmDate.setText(DateTextGenerator.generate(singleAlarm.alarmDateTime.getWeek()));
         } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             viewHolder.alarmDate.setText(dateFormat.format(dateTime));
         }
 
-        viewHolder.isActive.setChecked(singleAlarm.isActive());
+        viewHolder.isActive.setChecked(singleAlarm.isActive);
         viewHolder.isActive.setOnClickListener(this::isActiveClick);
 
         if (typeView == TypeView.NORMAL) {
@@ -107,12 +107,12 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmModel> {
         ListView lv = (ListView) linearLayout.getParent();
         int position = lv.getPositionForView(linearLayout);
 
-        alarmListContainer.switchOnOffClick(singleAlarmsList.get(position).getId());
+        alarmListContainer.switchOnOffClick(alarmsList.get(position).id);
 
     }
 
-    public List<SingleAlarmModel> getSelectedAlarms() {
-        return singleAlarmsList.getSelectedAlarms();
+    public List<SingleAlarmEntity> getSelectedAlarms() {
+        return alarmsList.getSelectedAlarms();
     }
 
     public void showDeleteList() {
@@ -122,16 +122,16 @@ public class AlarmListAdapter extends ArrayAdapter<SingleAlarmModel> {
 
     public void showMainList() {
         typeView = TypeView.NORMAL;
-        singleAlarmsList.clearSelected();
+        alarmsList.clearSelected();
         this.notifyDataSetChanged();
     }
 
-    public SingleAlarmModel getAlarm(int position) {
-        return singleAlarmsList.get(position);
+    public SingleAlarmEntity getAlarm(int position) {
+        return alarmsList.get(position);
     }
 
     public void checkOnUncheckAlarm(int position) {
-        singleAlarmsList.checkOrUncheckAlarm(position);
+        alarmsList.checkOrUncheckAlarm(position);
         this.notifyDataSetChanged();
     }
 
