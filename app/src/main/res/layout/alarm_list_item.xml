@@ -14,7 +14,7 @@
         android:layout_marginRight="10dp" />
 
     <TextView
-        android:id="@+id/alarm_title_text_view"
+        android:id="@+id/alarm_time_text_view"
         android:textSize="20dp"
         android:textFontWeight="@integer/material_motion_duration_long_2"
         android:gravity="center_vertical"
@@ -24,7 +24,7 @@
         android:layout_weight="0" />
 
     <TextView
-        android:id="@+id/alarm_description_text_view"
+        android:id="@+id/alarm_date_text_view"
         android:layout_width="165dp"
         android:textSize="16dp"
         android:gravity="center_vertical"

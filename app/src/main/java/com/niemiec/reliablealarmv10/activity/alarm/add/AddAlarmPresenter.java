@@ -3,7 +3,6 @@ package com.niemiec.reliablealarmv10.activity.alarm.add;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
@@ -19,12 +18,12 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
 
     @Override
     public void downloadAlarm(Bundle bundle) {
-        type = (Type) bundle.getSerializable(BundleNames.TYPE.name());
+        type = (Type) bundle.getSerializable("type");
         if (type == Type.CREATE) {
             id = 0;
             view.showAlarm(singleAlarmDataBase.getDefaultSingleAlarm());
         } else if (type == Type.UPDATE) {
-            id = bundle.getLong(BundleNames.ALARM_ID.name());
+            id = bundle.getLong("alarm_id");
             view.showAlarm(singleAlarmDataBase.getSingleAlarm(id));
         }
     }

@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.service.SafeAlarmService;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
@@ -31,8 +30,8 @@ public class AlarmManagerManagement {
     private static PendingIntent createAlarmReceiverPendingIntent(SingleAlarmEntity singleAlarm, Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarm.id);
-        intent.putExtra(BundleNames.DATA.name(), bundle);
+        bundle.putLong("id", singleAlarm.id);
+        intent.putExtra("data", bundle);
         return PendingIntent.getBroadcast(context, (int) singleAlarm.id, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
@@ -80,9 +79,9 @@ public class AlarmManagerManagement {
     private static Intent createSafeAlarmServiceIntent(SingleAlarmEntity singleAlarm, Context context) {
         Intent intent = new Intent(context, SafeAlarmService.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarm.id);
-        bundle.putInt(BundleNames.PERCENTAGE_SAFE_ALARM_VALUE.name(), singleAlarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage());
-        intent.putExtra(BundleNames.DATA.name(), bundle);
+        bundle.putLong("id", singleAlarm.id);
+        bundle.putInt("percentage_safe_alarm_value", singleAlarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage());
+        intent.putExtra("data", bundle);
         return intent;
     }
 

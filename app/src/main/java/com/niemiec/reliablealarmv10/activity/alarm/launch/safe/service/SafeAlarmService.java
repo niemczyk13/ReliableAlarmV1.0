@@ -4,8 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
-import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.SafeAlarmActivity;
 
 import androidx.annotation.Nullable;
@@ -47,8 +47,8 @@ public class SafeAlarmService extends IntentService {
                         Intent safeAlarm = new Intent(getApplicationContext(), SafeAlarmActivity.class);
                         safeAlarm.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Bundle bundle = new Bundle();
-                        bundle.putLong(BundleNames.ALARM_ID.name(), alarmId);
-                        safeAlarm.putExtra(BundleNames.DATA.name(), bundle);
+                        bundle.putLong("id", alarmId);
+                        safeAlarm.putExtra("data", bundle);
                         getApplication().startActivity(safeAlarm);
     //
     //                        //TODO zakończyć tę usługę
@@ -71,9 +71,9 @@ public class SafeAlarmService extends IntentService {
     }
 
     private void getValuesFromIntent(Intent intent) {
-        Bundle bundle = intent.getBundleExtra(BundleNames.DATA.name());
-        alarmId = bundle.getLong(BundleNames.ALARM_ID.name());
-        percentageSafeAlarmValue = bundle.getInt(BundleNames.PERCENTAGE_SAFE_ALARM_VALUE.name());
+        Bundle bundle = intent.getBundleExtra("data");
+        alarmId = bundle.getLong("id");
+        percentageSafeAlarmValue = bundle.getInt("percentage_safe_alarm_value");
     }
 
     private void setWaitTime() {

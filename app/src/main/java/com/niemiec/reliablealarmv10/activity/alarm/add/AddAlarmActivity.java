@@ -11,7 +11,6 @@ import android.widget.DatePicker;
 import android.widget.SeekBar;
 
 import com.example.alarmsoundview.view.AlarmSoundView;
-import com.example.globals.enums.BundleNames;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
 import com.niemiec.reliablealarmv10.R;
@@ -52,7 +51,7 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
         defineBasicHeaderAppearanceData();
         getViewObjects();
         createAddAlarmPresenter();
-        presenter.downloadAlarm(getIntent().getBundleExtra(BundleNames.DATA.name()));
+        presenter.downloadAlarm(getIntent().getBundleExtra("data"));
         addOnClickMethodsToButtons();
     }
 

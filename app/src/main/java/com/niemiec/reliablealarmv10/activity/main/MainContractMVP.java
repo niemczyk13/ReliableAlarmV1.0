@@ -1,15 +1,12 @@
-package com.niemiec.reliablealarmv10.fragment.alarm.list;
-
-import android.view.Menu;
-import android.view.MenuItem;
+package com.niemiec.reliablealarmv10.activity.main;
 
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.List;
 
-public interface AlarmListContractMVP {
+public interface MainContractMVP {
     interface View {
-        void showFragment(List<SingleAlarmEntity> singleAlarms);
+        void showActivity(List<SingleAlarmEntity> singleAlarms);
         void showAlarmListForDeletion();
         void showNormalView();
         void updateAlarmList(List<SingleAlarmEntity> singleAlarms);
@@ -25,7 +22,6 @@ public interface AlarmListContractMVP {
         void hideAddSingleAndGroupAlarmButtons();
         void showFullScreenMask();
         void hideFullScreenMask();
-        boolean isAddGroupAlarmDialogShow();
     }
 
     interface Presenter {

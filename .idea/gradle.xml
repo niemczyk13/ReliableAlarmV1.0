@@ -9,7 +9,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Globals" />
             <option value="$PROJECT_DIR$/alarmDateTimeView" />
             <option value="$PROJECT_DIR$/alarmSchedule" />
             <option value="$PROJECT_DIR$/alarmSoundView" />

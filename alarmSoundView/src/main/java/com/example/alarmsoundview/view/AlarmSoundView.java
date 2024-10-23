@@ -21,8 +21,6 @@ import androidx.annotation.RequiresApi;
 import com.example.alarmsoundview.R;
 import com.example.alarmsoundview.activity.sound.select.SelectSoundActivity;
 import com.example.alarmsoundview.model.Sound;
-import com.example.globals.enums.BundleNames;
-
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 
 public class AlarmSoundView extends LinearLayout {
@@ -65,18 +63,18 @@ public class AlarmSoundView extends LinearLayout {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         assert result.getData() != null;
-                        getSoundFromActivityResult(result.getData().getBundleExtra(BundleNames.DATA.name()));
+                        getSoundFromActivityResult(result.getData().getBundleExtra("data"));
                     }
                 });
     }
 
     private void getSoundFromActivityResult(Bundle data) {
-        updateSoundName(data.getString(BundleNames.NAME.name()));
+        updateSoundName(data.getString("name"));
         sound = new Sound();
-        sound.setSoundId(data.getInt(BundleNames.SOUND_ID.name()));
-        sound.setPersonal(data.getBoolean(BundleNames.IS_PERSONAL.name(), false));
-        sound.setUri(data.getString(BundleNames.URI.name()));
-        sound.setSoundName(data.getString(BundleNames.NAME.name()));
+        sound.setSoundId(data.getInt("id"));
+        sound.setPersonal(data.getBoolean("is_personal", false));
+        sound.setUri(data.getString("uri"));
+        sound.setSoundName(data.getString("name"));
     }
 
     private void updateSoundName(String name) {
@@ -110,11 +108,11 @@ public class AlarmSoundView extends LinearLayout {
         Intent intent = new Intent(super.getContext(), SelectSoundActivity.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt(BundleNames.SOUND_ID.name(), sound.getSoundId());
-        bundle.putString(BundleNames.URI.name(), sound.getUri());
-        bundle.putBoolean(BundleNames.IS_PERSONAL.name(), sound.isPersonal());
-        bundle.putString(BundleNames.NAME.name(), sound.getSoundName());
-        intent.putExtra(BundleNames.DATA.name(), bundle);
+        bundle.putInt("id", sound.getSoundId());
+        bundle.putString("uri", sound.getUri());
+        bundle.putBoolean("is_personal", sound.isPersonal());
+        bundle.putString("name", sound.getSoundName());
+        intent.putExtra("data", bundle);
 
         activityResultLauncher.launch(intent);
     }

@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 
 import java.util.Objects;
@@ -70,7 +69,7 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
     }
 
     private void setViews() {
-        long id = getIntent().getBundleExtra(BundleNames.DATA.name()).getLong(BundleNames.ALARM_ID.name());
+        long id = getIntent().getBundleExtra("data").getLong("id");
         presenter.initView(id);
     }
 
