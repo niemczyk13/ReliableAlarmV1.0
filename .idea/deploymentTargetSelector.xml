@@ -16,9 +16,6 @@
       <SelectionState runConfigName="getGroupAlarm()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="getAllGroupAlarmsWithoutSingleAlarms()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="getAllSingleAlarmsByGroupAlarmId()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>

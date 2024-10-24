@@ -1,9 +1,9 @@
 package com.niemiec.reliablealarmv10.model.custom;
 
-import android.os.Build;
+import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.AlarmDateTime;
+import com.example.alarmschedule.view.alarm.schedule.adarm.datetime.Week;
 
-import androidx.annotation.RequiresApi;
-
+import java.util.Calendar;
 import java.util.List;
 
 import lombok.Builder;
@@ -11,7 +11,6 @@ import lombok.Data;
 
 @Data
 @Builder
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class GroupAlarmModel implements Alarm {
     private long id;
     private String name;
@@ -19,17 +18,36 @@ public class GroupAlarmModel implements Alarm {
     private boolean isActive;
     private List<SingleAlarmModel> alarms;
 
+    //TODO dopracować z tym porównaniem
+
     public int compareTimeTo(Alarm alarm) {
-        if (alarm instanceof SingleAlarmModel) {
+        SingleAlarmModel earlierAlarm = getEarliestAlarm();
+        if (earlierAlarm == null) return -1;
+        return earlierAlarm.compareTimeTo(alarm);
+    }
 
-        } else {
+    @Override
+    public int compareDateTimeTo(Alarm alarm) {
+        SingleAlarmModel earlierAlarm = getEarliestAlarm();
+        if (earlierAlarm == null) return -1;
+        return earlierAlarm.getAlarmDateTime().getDateTime().compareTo(alarm.getAlarmDateTime().getDateTime());
+    }
 
-        }
-        return 0;
+    @Override
+    public AlarmDateTime getAlarmDateTime() {
+        if (alarms.isEmpty()) return new AlarmDateTime(Calendar.getInstance(), new Week());
+        return getEarliestAlarm().getAlarmDateTime();
     }
 
 
     public SingleAlarmModel getEarliestAlarm() {
-        return null;
+        if (alarms.isEmpty()) return null;
+        SingleAlarmModel earlierAlarm = alarms.get(0);
+        for (SingleAlarmModel alarm : alarms) {
+            if (alarm.compareDateTimeTo(earlierAlarm) < 0) {
+                earlierAlarm = alarm;
+            }
+        }
+        return earlierAlarm;
     }
 }

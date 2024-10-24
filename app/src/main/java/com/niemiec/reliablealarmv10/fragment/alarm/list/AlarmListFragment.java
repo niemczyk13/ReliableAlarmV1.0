@@ -34,16 +34,16 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagemen
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.AlarmListAdapter;
-import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data.SingleAlarmsList;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data.AllAlarmsList;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListViewHelper;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
-import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 
 import java.util.List;
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class AlarmListFragment extends Fragment implements AlarmListContractMVP.View, AlarmListListener {
     private static final String ARG_ALARM_LIST_TYPE = "alarmListType";
     private AlarmListViewHelper viewHelper;
@@ -217,21 +217,16 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void showFragment(List<SingleAlarmModel> singleAlarms) {
+    public void showFragment(List<Alarm> alarms) {
         viewHelper.changeVisibility(cancelOrDelete, View.GONE);
         viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.VISIBLE);
-        createSingleAlarmListWithAdapter(singleAlarms);
+        createAlarmListWithAdapter(alarms);
         adapter.showMainList();
     }
 
-    private void createSingleAlarmListWithAdapter(List<SingleAlarmModel> singleAlarms) {
-        adapter = new AlarmListAdapter(this.getContext(), new SingleAlarmsList(singleAlarms), this);
+    private void createAlarmListWithAdapter(List<Alarm> alarms) {
+        adapter = new AlarmListAdapter(requireContext(), new AllAlarmsList(alarms), this);
         alarmListView.setAdapter(adapter);
-    }
-
-    @Override
-    public void showFragment(List<GroupAlarmModel> groupAlarms, List<SingleAlarmModel> singleAlarms) {
-
     }
 
     @Override
@@ -251,13 +246,8 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void updateAlarmList(List<SingleAlarmModel> singleAlarms) {
-        createSingleAlarmListWithAdapter(singleAlarms);
-    }
-
-    @Override
-    public void updateAlarmListForSingleAlarmModel(List<SingleAlarmModel> singleAlarms) {
-
+    public void updateAlarmList(List<Alarm> alarms) {
+        createAlarmListWithAdapter(alarms);
     }
 
     @Override
@@ -300,8 +290,8 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void stopAlarm(SingleAlarmModel singleAlarm) {
-        AlarmManagerManagement.stopAlarm(singleAlarm, this.getContext());
+    public void stopAlarm(SingleAlarmModel alarm) {
+        AlarmManagerManagement.stopAlarm(alarm, this.getContext());
     }
 
     @Override

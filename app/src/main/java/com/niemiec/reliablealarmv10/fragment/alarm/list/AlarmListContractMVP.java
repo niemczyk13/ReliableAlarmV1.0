@@ -1,5 +1,6 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
@@ -7,18 +8,16 @@ import java.util.List;
 
 public interface AlarmListContractMVP {
     interface View {
-        void showFragment(List<SingleAlarmModel> singleAlarms);
-        void showFragment(List<GroupAlarmModel> groupAlarms, List<SingleAlarmModel> singleAlarms);
+        void showFragment(List<Alarm> singleAlarms);
         void showAlarmListForDeletion();
         void showNormalView();
-        void updateAlarmList(List<SingleAlarmModel> singleAlarms);
-        void updateAlarmListForSingleAlarmModel(List<SingleAlarmModel> singleAlarms);
+        void updateAlarmList(List<Alarm> alarms);
         void showCreateNewAlarmActivity();
         void showUpdateAlarmActivity(int position);
         void showGroupAlarmActivity(long groupAlarmId);
         void checkOrUncheckAlarm(int position);
         void startAlarm(SingleAlarmModel singleAlarm);
-        void stopAlarm(SingleAlarmModel singleAlarm);
+        void stopAlarm(SingleAlarmModel alarm);
         void updateNotification(List<SingleAlarmModel> activeSingleAlarms);
         void showCreateNewAlarmDialog();
         void showAddSingleAndGroupAlarmButtons();
@@ -33,7 +32,7 @@ public interface AlarmListContractMVP {
         void initViewForGroupAlarm(long groupAlarmId);
         void initViewForAllAlarms();
         void onBinButtonClick();
-        void onDeleteButtonClick(List<SingleAlarmModel> singleAlarms);
+        void onDeleteButtonClick(List<Alarm> alarms);
         void onCancelButtonClick();
         void onCreateAlarmButtonClick();
         void onSwitchOnOffAlarmClick(long id);
