@@ -69,4 +69,8 @@ public class SingleAlarmModel implements Alarm {
     public int compareDateTimeTo(Alarm singleAlarm) {
         return this.alarmDateTime.getDateTime().compareTo(singleAlarm.getAlarmDateTime().getDateTime());
     }
+
+    public boolean isInGroupAlarm() {
+        return groupAlarmId > 0;
+    }
 }

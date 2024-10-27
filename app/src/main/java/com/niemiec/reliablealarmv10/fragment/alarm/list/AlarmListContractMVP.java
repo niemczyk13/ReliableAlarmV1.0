@@ -13,11 +13,9 @@ public interface AlarmListContractMVP {
         void showNormalView();
         void updateAlarmList(List<Alarm> alarms);
         void showCreateNewAlarmActivity();
-        void showUpdateAlarmActivity(int position);
-        void showGroupAlarmActivity(long groupAlarmId);
-        void checkOrUncheckAlarm(int position);
-        void startAlarm(SingleAlarmModel singleAlarm);
-        void stopAlarm(SingleAlarmModel alarm);
+        void showUpdateAlarmActivity(SingleAlarmModel singleAlarmModel);
+        void showGroupAlarmActivity(GroupAlarmModel groupAlarmModel);
+        void checkOrUncheckAlarm(int positionOnList);
         void updateNotification(List<SingleAlarmModel> activeSingleAlarms);
         void showCreateNewAlarmDialog();
         void showAddSingleAndGroupAlarmButtons();
@@ -35,8 +33,8 @@ public interface AlarmListContractMVP {
         void onDeleteButtonClick(List<Alarm> alarms);
         void onCancelButtonClick();
         void onCreateAlarmButtonClick();
-        void onSwitchOnOffAlarmClick(long id);
-        void onAlarmListItemClick(int position);
+        void onSwitchOnOffAlarmClick(Alarm alarm);
+        void onAlarmListItemClick(Alarm alarm, int positionOnList);
         void onCreateGroupAlarmButtonClick();
         void onAddNewAlarmButtonClick();
         void onFullScreenMaskViewClick();

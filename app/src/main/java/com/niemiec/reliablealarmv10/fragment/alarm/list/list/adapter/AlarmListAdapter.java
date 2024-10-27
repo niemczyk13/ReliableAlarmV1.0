@@ -112,7 +112,7 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
         ListView lv = (ListView) linearLayout.getParent();
         int position = lv.getPositionForView(linearLayout);
 
-        alarmListContainer.switchOnOffClick(alarmsList.get(position).getId());
+        alarmListContainer.switchOnOffClick(alarmsList.get(position));
 
     }
 

@@ -5,12 +5,10 @@ import android.os.Build;
 
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
@@ -41,6 +39,10 @@ public class Model {
         singleAlarmDataBase.updateSingleAlarm(singleAlarm);
     }
 
+    public void updateAlarm(GroupAlarmModel groupAlarm) {
+        groupAlarmDataBase.updateGroupAlarm(groupAlarm);
+    }
+
     public void deleteAlarms(List<Alarm> alarms) {
         for (Alarm alarm : alarms) {
             if (alarm instanceof SingleAlarmModel singleAlarm)
@@ -50,7 +52,7 @@ public class Model {
         }
     }
 
-    public List<SingleAlarmModel> getActiveAlarms() {
+    public List<SingleAlarmModel> getActiveSingleAlarms() {
         return singleAlarmDataBase.getActiveSingleAlarms();
     }
 
@@ -60,5 +62,9 @@ public class Model {
 
     public List<GroupAlarmModel> getGroupAlarms() {
         return groupAlarmDataBase.getAllGroupAlarms();
+    }
+
+    public List<SingleAlarmModel> getAllSingleAlarmsWithoutGroupId() {
+        return singleAlarmDataBase.getAllSingleAlarmsWithoutGroupId();
     }
 }

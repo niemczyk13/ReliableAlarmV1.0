@@ -66,7 +66,7 @@ public class CreateNewGroupAlarmDialog {
                 GroupAlarmModel ga = GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
                 if (ga != null && ga.getId() != 0) {
                     dialog.dismiss();
-                    mainActivityView.showGroupAlarmActivity(ga.getId());
+                    mainActivityView.showGroupAlarmActivity(ga);
                     //TODO tworzymy alarm grypowy i otwieramy nową aktywność dla alarmu grupowego
                     //TODO otwieramy nową aktywność
                 }

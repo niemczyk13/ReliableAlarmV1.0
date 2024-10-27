@@ -14,14 +14,13 @@ import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class GroupAlarmActivity extends AppCompatActivity implements GroupAlarmContractMVP.View {
     private GroupAlarmPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_group_alarm);
 
 
@@ -31,6 +30,7 @@ public class GroupAlarmActivity extends AppCompatActivity implements GroupAlarmC
 
         setAlarmListFragment(savedInstanceState, id);
     }
+
 
     private void setAlarmListFragment(Bundle savedInstanceState, long groupAlarmId) {
         if (savedInstanceState == null) {

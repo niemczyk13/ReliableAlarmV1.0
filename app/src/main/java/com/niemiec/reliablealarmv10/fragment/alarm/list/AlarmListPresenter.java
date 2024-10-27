@@ -9,8 +9,8 @@ import androidx.annotation.RequiresApi;
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.example.globals.enums.AlarmListType;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
+import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.data.Model;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
@@ -26,12 +26,14 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     private final Model model;
     private AlarmListType alarmListType;
     private long groupAlarmId;
+    private Context context;
 
     public AlarmListPresenter(Context context, AlarmListType alarmListType) {
         super();
         model = new Model(context);
         typeView = TypeView.NORMAL;
         this.alarmListType = alarmListType;
+        this.context = context;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
 
     private @NonNull List<Alarm> getAlarms() {
         List<GroupAlarmModel> groupAlarms = model.getGroupAlarms();
-        List<SingleAlarmModel> singleAlarms = model.getAllSingleAlarms();
+        List<SingleAlarmModel> singleAlarms = model.getAllSingleAlarmsWithoutGroupId();
         List<Alarm> allAlarms = new ArrayList<>();
         allAlarms.addAll(groupAlarms);
         allAlarms.addAll(singleAlarms);
@@ -75,20 +77,19 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
             view.updateAlarmList(model.getGroupAlarm(groupAlarmId).getAlarms().stream().map(a -> (Alarm) a).collect(Collectors.toList()));
         else
             view.updateAlarmList(getAlarms());
-        view.updateNotification(model.getActiveAlarms());
+        view.updateNotification(model.getActiveSingleAlarms());
     }
 
     private void stopDeletedAlarms(List<Alarm> alarms) {
         //TODO tutaj powinno działać tak, że zamknie wszystkie alarmy z GroupAlarmModel
         for (Alarm alarm : alarms) {
             if (alarm instanceof SingleAlarmModel && alarm.isActive()) {
-                view.stopAlarm((SingleAlarmModel) alarm);
-            } else if (alarm instanceof GroupAlarmModel) {
-                GroupAlarmModel groupAlarmModel = (GroupAlarmModel) alarm;
+                AlarmManagerManagement.stopAlarm((SingleAlarmModel) alarm, context);
+            } else if (alarm instanceof GroupAlarmModel groupAlarmModel) {
                 List<SingleAlarmModel> singleAlarmModels = groupAlarmModel.getAlarms();
                 singleAlarmModels.forEach(singleAlarmModel -> {
                     if (singleAlarmModel.isActive()) {
-                        view.stopAlarm(singleAlarmModel);
+                        AlarmManagerManagement.stopAlarm(singleAlarmModel, context);
                     }
                 });
             }
@@ -113,31 +114,82 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     }
 
     @Override
-    public void onSwitchOnOffAlarmClick(long id) {
-        //TODO
-        Alarm alarm = model.getAlarm(id);
-        if (alarm instanceof  SingleAlarmModel) {
+    public void onSwitchOnOffAlarmClick(Alarm alarm) {
+        if (alarm instanceof SingleAlarmModel singleAlarm) {
+            switchOnOffSingleAlarmClick(singleAlarm);
+        } else if (alarm instanceof GroupAlarmModel groupAlarm) {
+            switchOnOffGroupAlarmClick(groupAlarm);
+        }
+    }
 
-        } else if (alarm instanceof GroupAlarmModel) {
+    private void switchOnOffGroupAlarmClick(GroupAlarmModel groupAlarm) {
+        changeGroupAlarmActive(groupAlarm);
 
+        for (SingleAlarmModel singleAlarm : groupAlarm.getAlarms()) {
+            if (groupAlarm.isActive() && singleAlarm.isActive()) {
+                AlarmManagerManagement.startAlarm(singleAlarm, context);
+            } else if (!groupAlarm.isActive() && singleAlarm.isActive()) {
+                updateAlarmTimeAfterNap(singleAlarm);
+                AlarmManagerManagement.stopAlarm(singleAlarm, context);
+            }
         }
 
-        SingleAlarmModel singleAlarm = model.getAlarm(id);
+        updateAlarmListAndNotifications();
+    }
+
+    private void switchOnOffSingleAlarmClick(SingleAlarmModel singleAlarm) {
+        if (singleAlarm.isInGroupAlarm()) {
+            switchOnOffSingleAlarmLocatedInGroupAlarm(singleAlarm);
+        } else {
+            switchOnOffFreeSingleAlarm(singleAlarm);
+        }
+    }
+
+    private void switchOnOffFreeSingleAlarm(SingleAlarmModel singleAlarm) {
+        changeSingleAlarmActive(singleAlarm);
+
+        if (singleAlarm.isActive()) {
+            AlarmManagerManagement.startAlarm(singleAlarm, context);
+        } else {
+            updateAlarmTimeAfterNap(singleAlarm);
+            AlarmManagerManagement.stopAlarm(singleAlarm, context);
+        }
+
+        updateAlarmListAndNotifications();
+    }
+
+    private void switchOnOffSingleAlarmLocatedInGroupAlarm(SingleAlarmModel singleAlarm) {
+        changeSingleAlarmActive(singleAlarm);
+
+        GroupAlarmModel groupAlarmModel = model.getGroupAlarm(singleAlarm.getGroupAlarmId());
+        if (groupAlarmModel.isActive() && singleAlarm.isActive()) {
+            AlarmManagerManagement.startAlarm(singleAlarm, context);
+        } else if (groupAlarmModel.isActive()) {
+            updateAlarmTimeAfterNap(singleAlarm);
+            AlarmManagerManagement.stopAlarm(singleAlarm, context);
+        }
+
+        updateAlarmListAndNotifications();
+    }
+
+    private void changeGroupAlarmActive(GroupAlarmModel groupAlarm) {
+        groupAlarm.setActive(!groupAlarm.isActive());
+        model.updateAlarm(groupAlarm);
+    }
+
+    private void changeSingleAlarmActive(SingleAlarmModel singleAlarm) {
         singleAlarm.setAlarmDateTime(AlarmDateTimeUpdater.update(singleAlarm.getAlarmDateTime()));
         singleAlarm.setActive(!singleAlarm.isActive());
         model.updateAlarm(singleAlarm);
+    }
 
-        if (singleAlarm.isActive()) {
-            view.startAlarm(singleAlarm);
-        } else {
-            updateAlarmTimeAfterNap(singleAlarm);
-            view.stopAlarm(singleAlarm);
-        }
+    public void updateAlarmListAndNotifications() {
         if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM)
             view.updateAlarmList(model.getGroupAlarm(groupAlarmId).getAlarms().stream().map(a -> (Alarm) a).collect(Collectors.toList()));
         else
             view.updateAlarmList(getAlarms());
-        view.updateNotification(model.getActiveAlarms());
+
+        view.updateNotification(model.getActiveSingleAlarms());
     }
 
     private void updateAlarmTimeAfterNap(SingleAlarmModel singleAlarm) {
@@ -147,11 +199,14 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     }
 
     @Override
-    public void onAlarmListItemClick(int position) {
+    public void onAlarmListItemClick(Alarm alarm, int positionOnList) {
         if (typeView == TypeView.NORMAL) {
-            view.showUpdateAlarmActivity(position);
+            if (alarm instanceof SingleAlarmModel singleAlarmModel)
+                view.showUpdateAlarmActivity(singleAlarmModel);
+            else if (alarm instanceof GroupAlarmModel groupAlarmModel)
+                view.showGroupAlarmActivity(groupAlarmModel);
         } else if (typeView == TypeView.DELETE) {
-            view.checkOrUncheckAlarm(position);
+            view.checkOrUncheckAlarm(positionOnList);
         }
     }
 

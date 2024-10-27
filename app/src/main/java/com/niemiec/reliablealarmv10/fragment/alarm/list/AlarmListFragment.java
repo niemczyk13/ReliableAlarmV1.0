@@ -30,7 +30,6 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
 import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.group.GroupAlarmActivity;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.AlarmListAdapter;
@@ -38,6 +37,7 @@ import com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data.AllAla
 import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListViewHelper;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
@@ -96,12 +96,6 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         initView(view);
         setListeners();
         setViews();
-
-        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
-            //TODO sprawdzeniue czy istnieje w bazie, jak nie to komunikat
-        } else {
-            //TODO
-        }
 
         return view;
     }
@@ -189,7 +183,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         });
 
         alarmListView.setOnItemClickListener((parent, view, position, id) -> {
-            presenter.onAlarmListItemClick(position);
+            presenter.onAlarmListItemClick(adapter.getAlarm(position), position);
             alarmListView.setClickable(false);
         });
 
@@ -208,12 +202,12 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     private void setViews() {
-        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
+        /*if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
             assert getArguments() != null;
             presenter.initViewForGroupAlarm(getArguments().getLong(BundleNames.GROUP_ALARM_ID.name()));
         }
         else {
-        }
+        }*/
     }
 
     @Override
@@ -261,37 +255,27 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void showUpdateAlarmActivity(int position) {
+    public void showUpdateAlarmActivity(SingleAlarmModel singleAlarmModel) {
         Intent intent = new Intent(this.getContext(), AddAlarmActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(BundleNames.TYPE.name(), AddAlarmPresenter.Type.UPDATE);
-        bundle.putLong(BundleNames.ALARM_ID.name(), adapter.getAlarm(position).getId());
+        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarmModel.getId());
         intent.putExtra(BundleNames.DATA.name(), bundle);
         startActivity(intent);
     }
 
     @Override
-    public void showGroupAlarmActivity(long groupAlarmId) {
+    public void showGroupAlarmActivity(GroupAlarmModel groupAlarmModel) {
         Intent intent = new Intent(getContext(), GroupAlarmActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(BundleNames.GROUP_ALARM_ID.name(), groupAlarmId);
+        bundle.putLong(BundleNames.GROUP_ALARM_ID.name(), groupAlarmModel.getId());
         intent.putExtra(BundleNames.DATA.name(), bundle);
         startActivity(intent);
     }
 
     @Override
-    public void checkOrUncheckAlarm(int position) {
-        adapter.checkOnUncheckAlarm(position);
-    }
-
-    @Override
-    public void startAlarm(SingleAlarmModel singleAlarm) {
-        AlarmManagerManagement.startAlarm(singleAlarm, this.getContext());
-    }
-
-    @Override
-    public void stopAlarm(SingleAlarmModel alarm) {
-        AlarmManagerManagement.stopAlarm(alarm, this.getContext());
+    public void checkOrUncheckAlarm(int positionOnList) {
+        adapter.checkOnUncheckAlarm(positionOnList);
     }
 
     @Override
@@ -337,7 +321,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void switchOnOffClick(long id) {
-        presenter.onSwitchOnOffAlarmClick(id);
+    public void switchOnOffClick(Alarm alarm) {
+        presenter.onSwitchOnOffAlarmClick(alarm);
     }
 }
