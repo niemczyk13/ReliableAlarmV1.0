@@ -15,20 +15,19 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
 
 @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-public class GroupAlarmActivity extends AppCompatActivity implements GroupAlarmContractMVP.View {
-    private GroupAlarmPresenter presenter;
+public class GroupAlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_alarm);
+        setAlarmListFragment(savedInstanceState, getGroupAlarmId());
+    }
 
-
-        //TODO pewnie id przekazać do fragmentu za pomocą bundle?
+    private long getGroupAlarmId() {
         Bundle bundle = getIntent().getBundleExtra(BundleNames.DATA.name());
-        long id = bundle.getLong(BundleNames.GROUP_ALARM_ID.name());
-
-        setAlarmListFragment(savedInstanceState, id);
+        assert bundle != null;
+        return bundle.getLong(BundleNames.GROUP_ALARM_ID.name());
     }
 
 

@@ -1,27 +1,22 @@
-package com.niemiec.reliablealarmv10.fragment.alarm.list.list.adapter.data;
+package com.niemiec.reliablealarmv10.fragment.alarm.list.list;
 
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
-import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
-import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import lombok.Getter;
-
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class AllAlarmsList {
+public class AlarmsList {
     private List<Alarm> alarms;
     private List<Boolean> alarmsSelected;
 
-    public AllAlarmsList(List<Alarm> allAlarms) {
+    public AlarmsList(List<Alarm> allAlarms) {
         createAlarmsList(allAlarms);
         createSelectedAlarmsList();
     }

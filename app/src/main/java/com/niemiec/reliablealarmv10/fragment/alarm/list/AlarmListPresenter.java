@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.example.globals.enums.AlarmListType;
+import com.example.globals.enums.TypeView;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.data.Model;
@@ -24,9 +25,9 @@ import java.util.stream.Collectors;
 public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View> implements AlarmListContractMVP.Presenter {
     private TypeView typeView;
     private final Model model;
-    private AlarmListType alarmListType;
+    private final AlarmListType alarmListType;
     private long groupAlarmId;
-    private Context context;
+    private final Context context;
 
     public AlarmListPresenter(Context context, AlarmListType alarmListType) {
         super();
@@ -81,19 +82,22 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     }
 
     private void stopDeletedAlarms(List<Alarm> alarms) {
-        //TODO tutaj powinno działać tak, że zamknie wszystkie alarmy z GroupAlarmModel
         for (Alarm alarm : alarms) {
             if (alarm instanceof SingleAlarmModel && alarm.isActive()) {
                 AlarmManagerManagement.stopAlarm((SingleAlarmModel) alarm, context);
             } else if (alarm instanceof GroupAlarmModel groupAlarmModel) {
-                List<SingleAlarmModel> singleAlarmModels = groupAlarmModel.getAlarms();
-                singleAlarmModels.forEach(singleAlarmModel -> {
-                    if (singleAlarmModel.isActive()) {
-                        AlarmManagerManagement.stopAlarm(singleAlarmModel, context);
-                    }
-                });
+                stopAllAlarmsInDeletedGroupAlarm(groupAlarmModel);
             }
         }
+    }
+
+    private void stopAllAlarmsInDeletedGroupAlarm(GroupAlarmModel groupAlarmModel) {
+        List<SingleAlarmModel> singleAlarmModels = groupAlarmModel.getAlarms();
+        singleAlarmModels.forEach(singleAlarmModel -> {
+            if (groupAlarmModel.isActive() && singleAlarmModel.isActive()) {
+                AlarmManagerManagement.stopAlarm(singleAlarmModel, context);
+            }
+        });
     }
 
     @Override
@@ -233,9 +237,5 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
             view.hideAddSingleAndGroupAlarmButtons();
             view.hideFullScreenMask();
         }
-    }
-
-    enum TypeView {
-        NORMAL, DELETE
     }
 }
