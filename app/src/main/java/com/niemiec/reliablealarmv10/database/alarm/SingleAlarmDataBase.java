@@ -81,4 +81,8 @@ public class SingleAlarmDataBase {
         }
         return singleAlarmModels;
     }
+
+    public List<SingleAlarmModel> getAllSingleAlarmsWithoutGroupId() {
+        return getSingleAlarmModels(dataBaseModel.singleAlarmDAO().getAllSingleAlarmsWithoutGroupId());
+    }
 }

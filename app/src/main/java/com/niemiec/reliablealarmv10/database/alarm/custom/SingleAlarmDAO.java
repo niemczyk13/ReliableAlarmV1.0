@@ -38,4 +38,7 @@ public interface SingleAlarmDAO {
 
     @Query("SELECT * FROM SingleAlarmEntity WHERE isActive = 1")
     List<SingleAlarmEntity> getActiveAlarms();
+
+    @Query("SELECT * FROM SingleAlarmEntity WHERE groupAlarmId IS NULL OR groupAlarmId <= 0")
+    List<SingleAlarmEntity> getAllSingleAlarmsWithoutGroupId();
 }

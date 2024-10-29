@@ -12,7 +12,7 @@ import com.example.globals.enums.AlarmListType;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setAlarmListFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            AlarmListFragment alarmListFragment = AlarmListFragment.newInstance(AlarmListType.WITH_GROUP_ALARM);
+            AlarmListFragment alarmListFragment = AlarmListFragment.newInstance(AlarmListType.WITH_GROUP_ALARM, -1);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, alarmListFragment)
                     .commit();

@@ -28,7 +28,8 @@
         tools:replace="android:theme">
         <activity
             android:name=".activity.alarm.group.GroupAlarmActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/Theme.ReliableAlarmV10"/>
         <activity
             android:name=".activity.alarm.launch.safe.SafeAlarmActivity"
             android:allowTaskReparenting="false"

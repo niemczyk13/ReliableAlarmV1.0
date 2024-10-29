@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:animateLayoutChanges="true"
     android:descendantFocusability="blocksDescendants">
@@ -11,33 +12,42 @@
         android:id="@+id/radio_button_circle_image_view"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/alarm_title_text_view"
-        android:textSize="20dp"
-        android:textFontWeight="@integer/material_motion_duration_long_2"
+        android:textSize="20sp"
         android:gravity="center_vertical"
-        android:layout_width="86dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
-        android:layout_weight="0" />
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/radio_button_circle_image_view" />
 
     <TextView
         android:id="@+id/alarm_description_text_view"
-        android:layout_width="165dp"
-        android:textSize="16dp"
+        android:layout_width="match_parent"
+        android:textSize="16sp"
         android:gravity="center_vertical"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginStart="10dp"
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@id/alarm_title_text_view"
+        android:layout_toStartOf="@id/alarm_is_active_switch"/>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/alarm_is_active_switch"
-        android:layout_width="67dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:gravity="right"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:layout_marginEnd="10dp"
+        android:visibility="visible"
+        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 
-</LinearLayout>
+</RelativeLayout>

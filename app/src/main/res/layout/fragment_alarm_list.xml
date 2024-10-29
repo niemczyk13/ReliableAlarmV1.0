@@ -80,7 +80,9 @@
         android:gravity="right"
         android:layout_marginEnd="10dp"
         android:orientation="horizontal"
-        android:elevation="1dp">
+        android:elevation="1dp"
+        android:layout_marginBottom="30dp"
+        android:paddingRight="10dp">
         <Button
             android:id="@+id/cancel_delete_alarm_button"
             android:text="@string/cancel_button"

@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.service.SafeAlarmService;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.Calendar;
@@ -28,12 +29,12 @@ public class AlarmManagerManagement {
 
 
 
-    private static PendingIntent createAlarmReceiverPendingIntent(SingleAlarmModel singleAlarm, Context context) {
+    private static PendingIntent createAlarmReceiverPendingIntent(SingleAlarmModel alarm, Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarm.getId());
+        bundle.putLong(BundleNames.ALARM_ID.name(), alarm.getId());
         intent.putExtra(BundleNames.DATA.name(), bundle);
-        return PendingIntent.getBroadcast(context, (int) singleAlarm.getId(), intent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     private static void addToAlarmManager(SingleAlarmModel singleAlarm, PendingIntent sender, Context context) {
@@ -52,9 +53,9 @@ public class AlarmManagerManagement {
     }
 
 
-    public static void stopAlarm(SingleAlarmModel singleAlarm, Context context) {
-        PendingIntent sender = createAlarmReceiverPendingIntent(singleAlarm, context);
-        stopSafeAlarmService(singleAlarm, context);
+    public static void stopAlarm(SingleAlarmModel alarm, Context context) {
+        PendingIntent sender = createAlarmReceiverPendingIntent(alarm, context);
+        stopSafeAlarmService(alarm, context);
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         try {
             mgr.cancel(sender);

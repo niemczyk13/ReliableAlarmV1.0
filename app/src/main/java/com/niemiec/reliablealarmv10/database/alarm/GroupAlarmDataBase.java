@@ -13,7 +13,6 @@ import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class GroupAlarmDataBase {
     private static GroupAlarmDataBase instance;
     private static AlarmDataBaseModel dataBaseModel;
@@ -71,6 +70,23 @@ public class GroupAlarmDataBase {
                     .name(groupAlarmEntity.name)
                     .note(groupAlarmEntity.note)
                     .isActive(groupAlarmEntity.isActive)
+                    .build();
+            groupAlarmModels.add(groupAlarmModel);
+        }
+        return groupAlarmModels;
+    }
+
+    public List<GroupAlarmModel> getAllGroupAlarms() {
+        List<GroupAlarmEntity> groupAlarmEntities = dataBaseModel.groupAlarmDAO().getAll();
+        List<GroupAlarmModel> groupAlarmModels = new ArrayList<>();
+        for (GroupAlarmEntity groupAlarmEntity : groupAlarmEntities) {
+            List<SingleAlarmModel> singleAlarms = getAllSingleAlarmsByGroupAlarmId(groupAlarmEntity.id);
+            GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder()
+                    .id(groupAlarmEntity.id)
+                    .name(groupAlarmEntity.name)
+                    .note(groupAlarmEntity.note)
+                    .isActive(groupAlarmEntity.isActive)
+                    .alarms(singleAlarms != null ? singleAlarms : new ArrayList<>())
                     .build();
             groupAlarmModels.add(groupAlarmModel);
         }

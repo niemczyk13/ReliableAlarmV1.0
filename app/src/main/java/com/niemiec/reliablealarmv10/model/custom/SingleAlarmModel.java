@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class SingleAlarmModel {
+public class SingleAlarmModel implements Alarm {
     private long id;
     private long groupAlarmId;
     private AlarmDateTime alarmDateTime;
@@ -49,11 +49,11 @@ public class SingleAlarmModel {
         isActive = sa.isActive;
     }
 
-    public int compareTimeTo(SingleAlarmModel singleAlarm) {
+    public int compareTimeTo(Alarm alarm) {
         int thisHour = alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
         int thisMinute = alarmDateTime.getDateTime().get(Calendar.MINUTE);
-        int hour = singleAlarm.alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
-        int minute = singleAlarm.alarmDateTime.getDateTime().get(Calendar.MINUTE);
+        int hour = alarm.getAlarmDateTime().getDateTime().get(Calendar.HOUR_OF_DAY);
+        int minute = alarm.getAlarmDateTime().getDateTime().get(Calendar.MINUTE);
         if (thisHour < hour)
             return -1;
         else if (thisHour > hour)
@@ -66,7 +66,11 @@ public class SingleAlarmModel {
             return 0;
     }
 
-    public int compareDateTimeTo(SingleAlarmModel singleAlarm) {
-        return this.alarmDateTime.getDateTime().compareTo(singleAlarm.alarmDateTime.getDateTime());
+    public int compareDateTimeTo(Alarm singleAlarm) {
+        return this.alarmDateTime.getDateTime().compareTo(singleAlarm.getAlarmDateTime().getDateTime());
+    }
+
+    public boolean isInGroupAlarm() {
+        return groupAlarmId > 0;
     }
 }
