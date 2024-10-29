@@ -10,6 +10,7 @@ import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
 
@@ -53,7 +54,16 @@ public class Model {
     }
 
     public List<SingleAlarmModel> getActiveSingleAlarms() {
-        return singleAlarmDataBase.getActiveSingleAlarms();
+        return singleAlarmDataBase.getActiveSingleAlarms().stream()
+                .filter(this::singleAndGroupAlarmAreActive).collect(Collectors.toList());
+    }
+
+    private boolean singleAndGroupAlarmAreActive(SingleAlarmModel singleAlarm) {
+        if (singleAlarm.isInGroupAlarm()) {
+            GroupAlarmModel groupAlarmModel = getGroupAlarm(singleAlarm.getGroupAlarmId());
+            return singleAlarm.isActive() && groupAlarmModel.isActive();
+        }
+        return singleAlarm.isActive();
     }
 
     public GroupAlarmModel getGroupAlarm(long groupAlarmId) {

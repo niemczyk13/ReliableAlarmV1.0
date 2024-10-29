@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.alarmschedule.view.alarm.schedule.text.DateTextGenerator;
@@ -108,9 +109,9 @@ public class AlarmListAdapter extends ArrayAdapter<Alarm> {
 
     private void isActiveClick(View view) {
         SwitchCompat switchCompat = (SwitchCompat) view;
-        LinearLayout linearLayout = (LinearLayout) switchCompat.getParent();
-        ListView lv = (ListView) linearLayout.getParent();
-        int position = lv.getPositionForView(linearLayout);
+        RelativeLayout relativeLayout = (RelativeLayout) switchCompat.getParent();
+        ListView lv = (ListView) relativeLayout.getParent();
+        int position = lv.getPositionForView(relativeLayout);
 
         alarmListContainer.switchOnOffClick(alarmsList.get(position));
 

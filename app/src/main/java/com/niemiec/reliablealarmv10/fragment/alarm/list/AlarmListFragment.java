@@ -167,7 +167,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void hideAddSingleAndGroupAlarmButtons() {
-        viewHelper.changeVisibility(viewHelper.getCancelOrDeleteButtonsView(), View.GONE);
+        viewHelper.changeVisibility(viewHelper.getSingleOrGroupAlarmButtonsView(), View.GONE);
     }
 
     @Override
