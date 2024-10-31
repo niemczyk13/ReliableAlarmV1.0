@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
+import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.AlarmListType;
 import com.example.globals.enums.TypeView;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
@@ -114,7 +115,7 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     public void onCreateAlarmButtonClick() {
         view.hideAddSingleAndGroupAlarmButtons();
         view.hideFullScreenMask();
-        view.showCreateNewAlarmActivity();
+        view.showCreateNewAlarmActivity(AddSingleAlarmType.INDIVIDUAL_ALARM);
     }
 
     @Override
@@ -222,12 +223,16 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
 
     @Override
     public void onAddNewAlarmButtonClick() {
-        if (view.areAddSingleAndGroupAlarmButtonsVisible()) {
-            view.hideAddSingleAndGroupAlarmButtons();
-            view.hideFullScreenMask();
-        } else {
-            view.showAddSingleAndGroupAlarmButtons();
-            view.showFullScreenMask();
+        if (alarmListType == AlarmListType.WITH_GROUP_ALARM) {
+            if (view.areAddSingleAndGroupAlarmButtonsVisible()) {
+                view.hideAddSingleAndGroupAlarmButtons();
+                view.hideFullScreenMask();
+            } else {
+                view.showAddSingleAndGroupAlarmButtons();
+                view.showFullScreenMask();
+            }
+        } else if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
+            view.showCreateNewAlarmActivityForGroupAlarm(groupAlarmId, AddSingleAlarmType.FOR_GROUP_ALARM);
         }
     }
 

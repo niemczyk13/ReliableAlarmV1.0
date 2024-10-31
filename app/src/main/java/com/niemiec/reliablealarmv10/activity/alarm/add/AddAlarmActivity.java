@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.SeekBar;
 
 import com.example.alarmsoundview.view.AlarmSoundView;
+import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.BundleNames;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.niemiec.alarmdatetimeview.view.AlarmDateTimeView;
@@ -80,6 +81,12 @@ public class AddAlarmActivity extends AppCompatActivity implements DatePickerDia
                 .vibration(vibrationSwitch.isChecked())
                 .isActive(true)
                 .build();
+
+        Bundle bundle = getIntent().getBundleExtra(BundleNames.DATA.name());
+        if (bundle.getString(BundleNames.ADD_SINGLE_ALARM_TYPE.name()).equals(AddSingleAlarmType.FOR_GROUP_ALARM.name())) {
+            singleAlarm.setGroupAlarmId(bundle.getLong(BundleNames.GROUP_ALARM_ID.name()));
+        }
+
         return singleAlarm;
     }
 

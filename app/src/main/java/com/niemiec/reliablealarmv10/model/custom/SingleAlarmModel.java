@@ -49,6 +49,19 @@ public class SingleAlarmModel implements Alarm {
         isActive = sa.isActive;
     }
 
+    public SingleAlarmModel(SingleAlarmModel defaultSingleAlarm) {
+        alarmDateTime = defaultSingleAlarm.getAlarmDateTime();
+        sound = defaultSingleAlarm.getSound();
+        nap = defaultSingleAlarm.getNap();
+        risingSound = defaultSingleAlarm.getRisingSound();
+        safeAlarmLaunch = defaultSingleAlarm.getSafeAlarmLaunch();
+        volume = defaultSingleAlarm.getVolume();
+        vibration = defaultSingleAlarm.isVibration();
+        name = defaultSingleAlarm.getName();
+        note = defaultSingleAlarm.getNote();
+        isActive = defaultSingleAlarm.isActive();
+    }
+
     public int compareTimeTo(Alarm alarm) {
         int thisHour = alarmDateTime.getDateTime().get(Calendar.HOUR_OF_DAY);
         int thisMinute = alarmDateTime.getDateTime().get(Calendar.MINUTE);

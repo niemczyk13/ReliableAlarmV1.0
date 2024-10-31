@@ -28,9 +28,6 @@
       <SelectionState runConfigName="globalsutils">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="getAllSingleAlarmsWithoutGroupId()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
     </selectionStates>
   </component>
 </project>
