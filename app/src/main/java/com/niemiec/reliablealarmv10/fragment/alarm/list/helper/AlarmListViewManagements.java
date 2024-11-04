@@ -40,36 +40,4 @@ public class AlarmListViewManagements {
         deleteAlarmButton = view.findViewById(R.id.delete_alarm_button);
         dialog = new CreateNewGroupAlarmDialog(fragment, view.getContext());
     }
-
-    public void setOnMuskClick(View.OnClickListener onClickListener) {
-        mask.setOnClickListener(onClickListener);
-    }
-
-    public void setOnCancelDeleteButtonClick(View.OnClickListener onClickListener) {
-        cancelDeleteAlarmButton.setOnClickListener(onClickListener);
-    }
-
-    public void setOnAlarmListItemClick(ListView.OnItemClickListener onItemClickListener) {
-        alarmListView.setOnItemClickListener(onItemClickListener);
-    }
-
-    public void setOnAddNewAlarmButtonClick(View.OnClickListener onClickListener) {
-        addNewAlarmButton.setOnClickListener(onClickListener);
-    }
-
-    public void setOnAddGroupAlarmButtonClick(View.OnClickListener onClickListener) {
-        addGroupAlarmButton.setOnClickListener(onClickListener);
-    }
-
-    public void setOnAddSingleAlarmButtonClick(View.OnClickListener onClickListener) {
-        addSingleAlarmButton.setOnClickListener(onClickListener);
-    }
-
-    public void setOnDeleteButtonClick(View.OnClickListener onClickListener) {
-        deleteAlarmButton.setOnClickListener(onClickListener);
-    }
-
-    public void setClickableOnAlarmListView(boolean isClickable) {
-        alarmListView.setClickable(isClickable);
-    }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface AlarmListContractMVP {
     interface View {
+        long getGroupAlarmId();
+
         void showFragment(List<Alarm> singleAlarms);
         void showAlarmListForDeletion();
         void showNormalView();
@@ -29,8 +31,7 @@ public interface AlarmListContractMVP {
     }
 
     interface Presenter {
-        void initViewForGroupAlarm(long groupAlarmId);
-        void initViewForAllAlarms();
+        void initView();
         void onBinButtonClick();
         void onDeleteButtonClick(List<Alarm> alarms);
         void onCancelButtonClick();

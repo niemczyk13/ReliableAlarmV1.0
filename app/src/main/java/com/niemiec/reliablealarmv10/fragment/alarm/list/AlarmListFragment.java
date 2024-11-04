@@ -34,7 +34,6 @@ import java.util.Objects;
 @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class AlarmListFragment extends Fragment implements AlarmListContractMVP.View, AlarmListListener, AlarmMenuHandler.AlarmMenuListener, AlarmListListenerHelper.AlarmListActionListener {
     private AlarmListViewHelper viewHelper;
-    private AlarmListType alarmListType;
     private AlarmListPresenter presenter;
     private AlarmActivityNavigationHelper activationHelper;
     private AlarmListListenerHelper listenerHelper;
@@ -64,9 +63,6 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            alarmListType = (AlarmListType) getArguments().getSerializable(AlarmListType.ALARM_LIST_TYPE.name());
-        }
         viewHelper = new AlarmListViewHelper(this);
         activationHelper = new AlarmActivityNavigationHelper(requireContext());
         listenerHelper = new AlarmListListenerHelper(viewHelper);
@@ -83,6 +79,8 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     private void createAlarmListPresenter() {
+        assert getArguments() != null;
+        AlarmListType alarmListType = (AlarmListType) getArguments().getSerializable(AlarmListType.ALARM_LIST_TYPE.name());
         presenter = new AlarmListPresenter(requireContext(), alarmListType);
         presenter.attach(this);
     }
@@ -96,15 +94,15 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void onStart() {
         super.onStart();
-        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
-            assert getArguments() != null;
-            presenter.initViewForGroupAlarm(getArguments().getLong(BundleNames.GROUP_ALARM_ID.name()));
-        }
-        else {
-            presenter.initViewForAllAlarms();
-        }
+        presenter.initView();
         viewHelper.setClickableOnAlarmListView(IsClickable.CLICKABLE);
         isAddNewAlarmButtonIsClicked = false;
+    }
+
+    @Override
+    public long getGroupAlarmId() {
+        assert getArguments() != null;
+        return getArguments().getLong(BundleNames.GROUP_ALARM_ID.name());
     }
 
     @Override

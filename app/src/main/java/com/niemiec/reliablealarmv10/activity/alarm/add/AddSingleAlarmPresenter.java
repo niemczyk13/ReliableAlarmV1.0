@@ -1,38 +1,34 @@
 package com.niemiec.reliablealarmv10.activity.alarm.add;
 
-import static com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager.updateNotification;
-
 import android.content.Context;
 import android.os.Bundle;
 
 import com.example.globals.enums.BundleNames;
+import com.example.globals.enums.TypeView;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> implements AddAlarmContractMVP.Presenter {
+public class AddSingleAlarmPresenter extends BasePresenter<AddSingleAlarmContractMVP.View> implements AddSingleAlarmContractMVP.Presenter {
     private final SingleAlarmDataBase singleAlarmDataBase;
     private final GroupAlarmDataBase groupAlarmDataBase;
-    private Type type;
+    private TypeView type;
     private long id;
 
-    public AddAlarmPresenter(Context context) {
+    public AddSingleAlarmPresenter(Context context) {
         singleAlarmDataBase = SingleAlarmDataBase.getInstance(context);
         groupAlarmDataBase = GroupAlarmDataBase.getInstance(context);
+        id = 0;
     }
 
     @Override
     public void downloadAlarm(Bundle bundle) {
-        type = (Type) bundle.getSerializable(BundleNames.TYPE.name());
-        if (type == Type.CREATE) {
-            id = 0;
+        type = (TypeView) bundle.getSerializable(BundleNames.TYPE.name());
+        if (type == TypeView.CREATE) {
             view.showAlarm(singleAlarmDataBase.getDefaultSingleAlarm());
-        } else if (type == Type.UPDATE) {
+        } else if (type == TypeView.UPDATE) {
             id = bundle.getLong(BundleNames.ALARM_ID.name());
             view.showAlarm(singleAlarmDataBase.getSingleAlarm(id));
         }
@@ -40,9 +36,9 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
 
     @Override
     public void saveAlarm() {
-        if (type == Type.CREATE)
+        if (type == TypeView.CREATE)
             saveNewAlarm();
-        else if (type == Type.UPDATE)
+        else if (type == TypeView.UPDATE)
             updateAlarm();
         updateNotification();
     }
@@ -72,6 +68,8 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         view.stopAlarm(singleAlarm);
         SingleAlarmModel updateSingleAlarm = view.getAlarm();
         updateSingleAlarm.setId(id);
+        if (singleAlarm.isInGroupAlarm())
+            updateSingleAlarm.setGroupAlarmId(singleAlarm.getGroupAlarmId());
         singleAlarmDataBase.updateSingleAlarm(updateSingleAlarm);
 
         if (updateSingleAlarm.isInGroupAlarm()) {
@@ -84,9 +82,5 @@ public class AddAlarmPresenter extends BasePresenter<AddAlarmContractMVP.View> i
         }
 
         view.goBackToPreviousActivity();
-    }
-
-    public enum Type {
-        CREATE, UPDATE
     }
 }

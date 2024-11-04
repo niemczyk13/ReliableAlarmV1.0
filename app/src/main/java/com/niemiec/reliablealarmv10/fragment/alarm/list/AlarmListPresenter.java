@@ -39,14 +39,21 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     }
 
     @Override
-    public void initViewForGroupAlarm(long groupAlarmId) {
+    public void initView() {
+        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
+            initViewForGroupAlarm(view.getGroupAlarmId());
+        } else {
+            initViewForAllAlarms();
+        }
+    }
+
+    private void initViewForGroupAlarm(long groupAlarmId) {
         this.groupAlarmId = groupAlarmId;
         GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
         view.showFragment(groupAlarmModel.getAlarms().stream().map(a -> (Alarm) a).collect(Collectors.toList()));
     }
 
-    @Override
-    public void initViewForAllAlarms() {
+    private void initViewForAllAlarms() {
         List<Alarm> allAlarms = getAlarms();
         view.showFragment(allAlarms);
     }

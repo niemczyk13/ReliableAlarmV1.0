@@ -49,7 +49,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.alarm.add.AddAlarmActivity"
+            android:name=".activity.alarm.add.AddSingleAlarmActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
