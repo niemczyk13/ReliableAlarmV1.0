@@ -1,5 +1,5 @@
 package com.example.globals.enums;
 
 public enum TypeView {
-    NORMAL, DELETE
+    NORMAL, DELETE, CREATE, UPDATE
 }

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.AlarmListType;
 import com.example.globals.enums.BundleNames;
 import com.example.globals.enums.IsClickable;
@@ -33,7 +34,6 @@ import java.util.Objects;
 @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class AlarmListFragment extends Fragment implements AlarmListContractMVP.View, AlarmListListener, AlarmMenuHandler.AlarmMenuListener, AlarmListListenerHelper.AlarmListActionListener {
     private AlarmListViewHelper viewHelper;
-    private AlarmListType alarmListType;
     private AlarmListPresenter presenter;
     private AlarmActivityNavigationHelper activationHelper;
     private AlarmListListenerHelper listenerHelper;
@@ -42,26 +42,27 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     public AlarmListFragment() {
     }
 
-    public static AlarmListFragment newInstance(AlarmListType alarmListType, long groupAlarmId) {
+    public static AlarmListFragment newInstanceForGroupAlarmActivity(AlarmListType alarmListType, long groupAlarmId) {
+        return createFragment(alarmListType, groupAlarmId);
+    }
+
+    public static AlarmListFragment newInstanceForMainActivity(AlarmListType alarmListType) {
+        return createFragment(alarmListType, null);
+    }
+
+    private static AlarmListFragment createFragment(AlarmListType alarmListType, Long groupAlarmId) {
         AlarmListFragment fragment = new AlarmListFragment();
         Bundle args = new Bundle();
         args.putSerializable(AlarmListType.ALARM_LIST_TYPE.name(), alarmListType);
-        args.putLong(BundleNames.GROUP_ALARM_ID.name(), groupAlarmId);
+        if (AlarmListType.WITHOUT_GROUP_ALARM == alarmListType && groupAlarmId != null)
+            args.putLong(BundleNames.GROUP_ALARM_ID.name(), groupAlarmId);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    private void createAlarmListPresenter() {
-        presenter = new AlarmListPresenter(requireContext(), alarmListType);
-        presenter.attach(this);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            alarmListType = (AlarmListType) getArguments().getSerializable(AlarmListType.ALARM_LIST_TYPE.name());
-        }
         viewHelper = new AlarmListViewHelper(this);
         activationHelper = new AlarmActivityNavigationHelper(requireContext());
         listenerHelper = new AlarmListListenerHelper(viewHelper);
@@ -77,6 +78,13 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         return view;
     }
 
+    private void createAlarmListPresenter() {
+        assert getArguments() != null;
+        AlarmListType alarmListType = (AlarmListType) getArguments().getSerializable(AlarmListType.ALARM_LIST_TYPE.name());
+        presenter = new AlarmListPresenter(requireContext(), alarmListType);
+        presenter.attach(this);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -86,15 +94,15 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void onStart() {
         super.onStart();
-        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
-            assert getArguments() != null;
-            presenter.initViewForGroupAlarm(getArguments().getLong(BundleNames.GROUP_ALARM_ID.name()));
-        }
-        else {
-            presenter.initViewForAllAlarms();
-        }
+        presenter.initView();
         viewHelper.setClickableOnAlarmListView(IsClickable.CLICKABLE);
         isAddNewAlarmButtonIsClicked = false;
+    }
+
+    @Override
+    public long getGroupAlarmId() {
+        assert getArguments() != null;
+        return getArguments().getLong(BundleNames.GROUP_ALARM_ID.name());
     }
 
     @Override
@@ -126,8 +134,13 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void showCreateNewAlarmActivity() {
-        activationHelper.navigateToAddAlarmActivity();
+    public void showCreateNewAlarmActivity(AddSingleAlarmType addSingleAlarmType) {
+        activationHelper.navigateToAddAlarmActivity(addSingleAlarmType);
+    }
+
+    @Override
+    public void showCreateNewAlarmActivityForGroupAlarm(long groupAlarmId, AddSingleAlarmType addSingleAlarmType) {
+        activationHelper.navigateToAddAlarmActivityForGroupAlarm(groupAlarmId, addSingleAlarmType);
     }
 
     @Override

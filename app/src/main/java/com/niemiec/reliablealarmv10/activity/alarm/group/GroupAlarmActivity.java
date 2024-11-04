@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,7 +32,7 @@ public class GroupAlarmActivity extends AppCompatActivity {
 
     private void setAlarmListFragment(Bundle savedInstanceState, long groupAlarmId) {
         if (savedInstanceState == null) {
-            AlarmListFragment alarmListFragment = AlarmListFragment.newInstance(AlarmListType.WITHOUT_GROUP_ALARM, groupAlarmId);
+            AlarmListFragment alarmListFragment = AlarmListFragment.newInstanceForGroupAlarmActivity(AlarmListType.WITHOUT_GROUP_ALARM, groupAlarmId);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, alarmListFragment)
                     .commit();

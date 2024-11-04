@@ -10,4 +10,5 @@ public enum BundleNames {
     IS_PERSONAL,
     URI,
     GROUP_ALARM_ID,
+    ADD_SINGLE_ALARM_TYPE,
 }
