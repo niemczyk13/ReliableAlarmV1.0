@@ -28,6 +28,7 @@ public interface AlarmListContractMVP {
         void showFullScreenMask();
         void hideFullScreenMask();
         boolean isAddGroupAlarmDialogShow();
+        void setAppTitleInActionBar(String s);
     }
 
     interface Presenter {

@@ -10,6 +10,7 @@ import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
 import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.AlarmListType;
 import com.example.globals.enums.TypeView;
+import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.data.Model;
@@ -51,11 +52,13 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
         this.groupAlarmId = groupAlarmId;
         GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
         view.showFragment(groupAlarmModel.getAlarms().stream().map(a -> (Alarm) a).collect(Collectors.toList()));
+        view.setAppTitleInActionBar(context.getString(R.string.group_alarm) + ": " + groupAlarmModel.getName());
     }
 
     private void initViewForAllAlarms() {
         List<Alarm> allAlarms = getAlarms();
         view.showFragment(allAlarms);
+        view.setAppTitleInActionBar(context.getString(R.string.title));
     }
 
     private @NonNull List<Alarm> getAlarms() {
@@ -226,17 +229,18 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     public void onCreateGroupAlarmButtonClick() {
         view.hideAddSingleAndGroupAlarmButtons();
         view.showCreateNewAlarmDialog();
+        view.setAppTitleInActionBar(context.getString(R.string.add_group_alarm));
     }
 
     @Override
     public void onAddNewAlarmButtonClick() {
         if (alarmListType == AlarmListType.WITH_GROUP_ALARM) {
             if (view.areAddSingleAndGroupAlarmButtonsVisible()) {
-                view.hideAddSingleAndGroupAlarmButtons();
-                view.hideFullScreenMask();
+                resetViewState();
             } else {
                 view.showAddSingleAndGroupAlarmButtons();
                 view.showFullScreenMask();
+                view.setAppTitleInActionBar(context.getString(R.string.select_alarm_type));
             }
         } else if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
             view.showCreateNewAlarmActivityForGroupAlarm(groupAlarmId, AddSingleAlarmType.FOR_GROUP_ALARM);
@@ -246,8 +250,14 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     @Override
     public void onFullScreenMaskViewClick() {
         if (view.areAddSingleAndGroupAlarmButtonsVisible() && !view.isAddGroupAlarmDialogShow()) {
-            view.hideAddSingleAndGroupAlarmButtons();
-            view.hideFullScreenMask();
+            resetViewState();
         }
     }
+
+    private void resetViewState() {
+        view.hideAddSingleAndGroupAlarmButtons();
+        view.hideFullScreenMask();
+        view.setAppTitleInActionBar(context.getString(R.string.title));
+    }
+
 }

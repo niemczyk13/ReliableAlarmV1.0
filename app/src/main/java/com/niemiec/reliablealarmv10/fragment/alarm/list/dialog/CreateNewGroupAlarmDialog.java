@@ -6,6 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 import com.niemiec.reliablealarmv10.R;
@@ -23,21 +24,24 @@ public class CreateNewGroupAlarmDialog {
     private EditText noteEditText;
 
     public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context) {
+        this.mainActivityView = mainActivityView;
         dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setupDialogAppearance();
         dialog.setContentView(R.layout.add_group_alarm_dialog);
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
-        this.mainActivityView = mainActivityView;
         initView();
         setListeners();
+    }
 
+    private void setupDialogAppearance() {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = dialog.getWindow();
         if (window != null) {
             // Nie dodawaj FLAG_DIM_BEHIND, aby zapobiec przyciemnieniu tła
             window.setBackgroundDrawableResource(R.drawable.add_group_alarm_dialog_background);
             WindowManager.LayoutParams layoutParams = window.getAttributes();
-            layoutParams.dimAmount = 0.0f; // Ustaw wartość na 0.0
+            layoutParams.dimAmount = 0.0f;
             window.setAttributes(layoutParams);
         }
     }
@@ -57,32 +61,51 @@ public class CreateNewGroupAlarmDialog {
         });
 
         saveButton.setOnClickListener(view -> {
-
-            if (!nameEditText.getText().toString().isEmpty()) {
-                GroupAlarmModel groupAlarmModel = GroupAlarmModel.builder().name(nameEditText.getText().toString())
-                        .note(noteEditText.getText().toString())
-                        .build();
-                KeyboardUtilities.hideKeyboard(dialog);
-                GroupAlarmModel ga = GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
-                if (ga != null && ga.getId() != 0) {
-                    dialog.dismiss();
-                    mainActivityView.showGroupAlarmActivity(ga);
-                    //TODO tworzymy alarm grypowy i otwieramy nową aktywność dla alarmu grupowego
-                    //TODO otwieramy nową aktywność
-                }
-                else {
-                    //TODO pokazać komunikat, że nie udało dodać się do bazy danych
-                }
-
-
-            }
-            else {
-                nameEditText.setError("Nazwa jest wymagana");
-            }
+            tryCreateAndSaveNewGroupAlarm();
         });
 
-        dialog.setOnCancelListener(dialogInterface -> mainActivityView.hideFullScreenMask());
-        dialog.setOnDismissListener(dialogInterface -> mainActivityView.hideFullScreenMask());
+        dialog.setOnCancelListener(dialogInterface -> resetViewState());
+        dialog.setOnDismissListener(dialogInterface -> resetViewState());
+    }
+
+    private void tryCreateAndSaveNewGroupAlarm() {
+        if (isNameValid()) {
+            GroupAlarmModel groupAlarmModel = createGroupAlarm();
+            saveGroupAlarmToDatabase(groupAlarmModel);
+        }
+        else {
+            nameEditText.setError(dialog.getContext().getString(R.string.name_is_required));
+        }
+    }
+
+    private boolean isNameValid() {
+        return !nameEditText.getText().toString().isEmpty();
+    }
+
+    private void saveGroupAlarmToDatabase(GroupAlarmModel groupAlarmModel) {
+        GroupAlarmModel ga = GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
+        if (isGroupAlarmAddedIntoDatabase(ga)) {
+            dialog.dismiss();
+            mainActivityView.showGroupAlarmActivity(ga);
+        }
+        else {
+            Toast.makeText(dialog.getContext(), dialog.getContext().getString(R.string.error_connecting_to_database), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private static boolean isGroupAlarmAddedIntoDatabase(GroupAlarmModel ga) {
+        return ga != null && ga.getId() != 0;
+    }
+
+    private GroupAlarmModel createGroupAlarm() {
+        return GroupAlarmModel.builder().name(nameEditText.getText().toString())
+                .note(noteEditText.getText().toString())
+                .build();
+    }
+
+    private void resetViewState() {
+        mainActivityView.hideFullScreenMask();
+        mainActivityView.setAppTitleInActionBar(dialog.getContext().getString(R.string.title));
     }
 
     private void initView() {

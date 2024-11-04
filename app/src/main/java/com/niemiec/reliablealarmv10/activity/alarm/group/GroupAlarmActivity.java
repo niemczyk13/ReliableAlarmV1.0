@@ -29,7 +29,6 @@ public class GroupAlarmActivity extends AppCompatActivity {
         return bundle.getLong(BundleNames.GROUP_ALARM_ID.name());
     }
 
-
     private void setAlarmListFragment(Bundle savedInstanceState, long groupAlarmId) {
         if (savedInstanceState == null) {
             AlarmListFragment alarmListFragment = AlarmListFragment.newInstanceForGroupAlarmActivity(AlarmListType.WITHOUT_GROUP_ALARM, groupAlarmId);

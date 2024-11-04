@@ -39,6 +39,14 @@ public class AlarmListViewHelper {
         }
     }
 
+    public void setAppTitleInActionBar(String title) {
+        if (fragment.requireActivity() instanceof AppCompatActivity activity) {
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().setTitle(title);
+            }
+        }
+    }
+
     public void changeVisibility(View view, int visibility) {
         view.setVisibility(visibility);
     }
