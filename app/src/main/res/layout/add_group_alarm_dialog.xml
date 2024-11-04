@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Stwórz alarm grupowy"
+        android:text="@string/add_group_alarm"
         android:textSize="24sp"
         android:layout_marginBottom="20dp"/>
 
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textColor="@color/black"
-            android:hint="Opcjonalne"
+            android:hint="@string/optional"
             android:minWidth="200dp"
             android:layout_weight="1"/>
     </LinearLayout>
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
-            android:text="Anuluj" />
+            android:text="@string/cancel_button" />
 
         <Button
             android:id="@+id/save_button"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/blue"
             android:layout_marginLeft="35dp"
-            android:text="Zapisz" />
+            android:text="@string/save_button" />
     </LinearLayout>
 
 </LinearLayout>

@@ -201,6 +201,11 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
+    public void setAppTitleInActionBar(String title) {
+        viewHelper.setAppTitleInActionBar(title);
+    }
+
+    @Override
     public void switchOnOffClick(Alarm alarm) {
         presenter.onSwitchOnOffAlarmClick(alarm);
     }
