@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.globals.enums.IsClickable;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmsList;
@@ -24,6 +25,7 @@ public class AlarmListViewHelper {
     private final Fragment fragment;
     private AlarmListViewManagements viewManagements;
     private AlarmListAdapter adapter;
+    private AlarmMenuHandler menuHandler;
 
     public AlarmListViewHelper(Fragment fragment) {
         this.fragment = fragment;
@@ -151,5 +153,17 @@ public class AlarmListViewHelper {
 
     public View getCancelOrDeleteButtonsView() {
         return viewManagements.cancelOrDelete;
+    }
+
+    public void showEditButtonInActionBar() {
+        menuHandler.showEditButton();
+    }
+
+    public void setAlarmMenuHandler(AlarmMenuHandler menuHandler) {
+        this.menuHandler = menuHandler;
+    }
+
+    public void showUpdateGroupAlarmDialog(CreateNewGroupAlarmDialog groupAlarm) {
+
     }
 }

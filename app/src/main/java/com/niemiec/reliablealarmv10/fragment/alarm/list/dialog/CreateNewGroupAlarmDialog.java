@@ -6,9 +6,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.globals.enums.TypeView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListContractMVP;
@@ -22,9 +24,14 @@ public class CreateNewGroupAlarmDialog {
     private Button saveButton;
     private EditText nameEditText;
     private EditText noteEditText;
+    private TypeView typeView;
+    private Context context;
+    private GroupAlarmModel groupAlarmModel;
 
-    public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context) {
+    public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context, TypeView typeView) {
         this.mainActivityView = mainActivityView;
+        this.context = context;
+        this.typeView = typeView;
         dialog = new Dialog(context);
         setupDialogAppearance();
         dialog.setContentView(R.layout.add_group_alarm_dialog);
@@ -32,6 +39,12 @@ public class CreateNewGroupAlarmDialog {
         dialog.setCanceledOnTouchOutside(false);
         initView();
         setListeners();
+    }
+
+    public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context, TypeView typeView, GroupAlarmModel groupAlarmModel) {
+        this(mainActivityView, context, typeView);
+        this.groupAlarmModel = groupAlarmModel;
+        initViewForUpdateGroupAlarm();
     }
 
     private void setupDialogAppearance() {
@@ -61,11 +74,28 @@ public class CreateNewGroupAlarmDialog {
         });
 
         saveButton.setOnClickListener(view -> {
-            tryCreateAndSaveNewGroupAlarm();
+            if (typeView == TypeView.CREATE)
+                tryCreateAndSaveNewGroupAlarm();
+            else if (typeView == TypeView.UPDATE)
+                tryUpdateGroupAlarm();
         });
 
         dialog.setOnCancelListener(dialogInterface -> resetViewState());
         dialog.setOnDismissListener(dialogInterface -> resetViewState());
+    }
+
+    private void tryUpdateGroupAlarm() {
+        if (isNameValid()) {
+            GroupAlarmModel gam = createGroupAlarm();
+            gam.setId(groupAlarmModel.getId());
+            GroupAlarmDataBase.getInstance(dialog.getContext()).updateGroupAlarm(gam);
+            if (isGroupAlarmAddedIntoDatabase(gam)) {
+                dialog.dismiss();
+            } else {
+                Toast.makeText(dialog.getContext(), dialog.getContext().getString(R.string.error_connecting_to_database), Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
     private void tryCreateAndSaveNewGroupAlarm() {
@@ -87,8 +117,7 @@ public class CreateNewGroupAlarmDialog {
         if (isGroupAlarmAddedIntoDatabase(ga)) {
             dialog.dismiss();
             mainActivityView.showGroupAlarmActivity(ga);
-        }
-        else {
+        } else {
             Toast.makeText(dialog.getContext(), dialog.getContext().getString(R.string.error_connecting_to_database), Toast.LENGTH_LONG).show();
         }
     }
@@ -113,6 +142,15 @@ public class CreateNewGroupAlarmDialog {
         saveButton = dialog.findViewById(R.id.save_button);
         nameEditText = dialog.findViewById(R.id.group_alarm_name_edit_text);
         noteEditText = dialog.findViewById(R.id.group_alarm_note_edit_text);
+    }
+
+    private void initViewForUpdateGroupAlarm() {
+        if (typeView == TypeView.UPDATE) {
+            nameEditText.setText(groupAlarmModel.getName());
+            noteEditText.setText(groupAlarmModel.getNote());
+            TextView title = dialog.findViewById(R.id.title_text_view);
+            title.setText(context.getString(R.string.update_group_alarm_title));
+        }
     }
 
     public boolean isShowing() {

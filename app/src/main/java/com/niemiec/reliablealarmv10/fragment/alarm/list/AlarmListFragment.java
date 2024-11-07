@@ -17,8 +17,10 @@ import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.AlarmListType;
 import com.example.globals.enums.BundleNames;
 import com.example.globals.enums.IsClickable;
+import com.example.globals.enums.TypeView;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmActivityNavigationHelper;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListListenerHelper;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmMenuHandler;
@@ -78,6 +80,15 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AlarmMenuHandler menuHandler = new AlarmMenuHandler(this, viewHelper);
+        viewHelper.setAlarmMenuHandler(menuHandler);
+        requireActivity().addMenuProvider(menuHandler, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
+    }
+
     private void createAlarmListPresenter() {
         assert getArguments() != null;
         AlarmListType alarmListType = (AlarmListType) getArguments().getSerializable(AlarmListType.ALARM_LIST_TYPE.name());
@@ -86,14 +97,8 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        requireActivity().addMenuProvider(new AlarmMenuHandler(this, viewHelper), getViewLifecycleOwner(), Lifecycle.State.RESUMED);
-    }
-
-    @Override
     public void onStart() {
-        super.onStart();
+        super.onStart();;
         presenter.initView();
         viewHelper.setClickableOnAlarmListView(IsClickable.CLICKABLE);
         isAddNewAlarmButtonIsClicked = false;
@@ -169,6 +174,12 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
+    public void showUpdateGroupAlarmDialog(GroupAlarmModel groupAlarm) {
+        CreateNewGroupAlarmDialog dialog = new CreateNewGroupAlarmDialog(this, requireContext(), TypeView.UPDATE, groupAlarm);
+        dialog.show();
+    }
+
+    @Override
     public void showAddSingleAndGroupAlarmButtons() {
         viewHelper.changeVisibility(viewHelper.getSingleOrGroupAlarmButtonsView(), View.VISIBLE);
     }
@@ -206,6 +217,11 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
+    public void showEditButtonInActionBar() {
+        viewHelper.showEditButtonInActionBar();
+    }
+
+    @Override
     public void switchOnOffClick(Alarm alarm) {
         presenter.onSwitchOnOffAlarmClick(alarm);
     }
@@ -220,6 +236,16 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         String title = requireActivity().getString(R.string.bin_button_title);
         if (Objects.equals(objectName, title)) {
             presenter.onBinButtonClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onEditButtonClick(CharSequence objectName) {
+        String title = requireActivity().getString(R.string.edit_button_title);
+        if (Objects.equals(objectName, title)) {
+            presenter.onEditButtonClick();
             return true;
         }
         return false;

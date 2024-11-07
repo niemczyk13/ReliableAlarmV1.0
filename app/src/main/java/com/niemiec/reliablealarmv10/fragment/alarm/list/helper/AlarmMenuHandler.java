@@ -14,10 +14,15 @@ import androidx.core.view.MenuProvider;
 
 import com.niemiec.reliablealarmv10.R;
 
+import java.util.Objects;
+
 @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class AlarmMenuHandler implements MenuProvider {
     private final AlarmMenuListener fragment;
     private final AlarmListViewHelper viewHelper;
+    private boolean editButtonVisible = false;
+    private MenuItem binButton;
+    private MenuItem editButton;
 
 
     public AlarmMenuHandler(AlarmMenuListener fragment, AlarmListViewHelper viewHelper) {
@@ -27,10 +32,11 @@ public class AlarmMenuHandler implements MenuProvider {
 
     @Override
     public void onPrepareMenu(@NonNull Menu menu) {
-        MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
+        MenuItem binButton = menu.findItem(R.id.bin_image_button);
+
         boolean isAddAlarmVisible = isAddAlarmLayoutVisible();
 
-        trashIcon.setVisible(!isAddAlarmVisible);
+        binButton.setVisible(!isAddAlarmVisible);
         viewHelper.setActionBarColor(isAddAlarmVisible ? R.color.blue_darker : R.color.blue);
     }
 
@@ -42,16 +48,29 @@ public class AlarmMenuHandler implements MenuProvider {
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.main_activity_menu, menu);
+        binButton = menu.findItem(R.id.bin_image_button);
+        editButton = menu.findItem(R.id.edit_image_button);
+        editButton.setVisible(editButtonVisible);
     }
 
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-        return fragment.onBinButtonClick(menuItem.getTitle());
+        if (Objects.equals(menuItem.getTitle(), binButton.getTitle())) {
+            return fragment.onBinButtonClick(menuItem.getTitle());
+        } else {
+            return fragment.onEditButtonClick(menuItem.getTitle());
+        }
+    }
+
+    public void showEditButton() {
+        //editButton.setVisible(true);
+        editButtonVisible = true;
     }
 
     public interface AlarmMenuListener {
         Context getContext();
         View getViewById(int id);
         boolean onBinButtonClick(CharSequence objectName);
+        boolean onEditButtonClick(CharSequence title);
     }
 }

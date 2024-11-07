@@ -22,6 +22,7 @@ public interface AlarmListContractMVP {
         void checkOrUncheckAlarm(int positionOnList);
         void updateNotification(List<SingleAlarmModel> activeSingleAlarms);
         void showCreateNewAlarmDialog();
+        void showUpdateGroupAlarmDialog(GroupAlarmModel groupAlarm);
         void showAddSingleAndGroupAlarmButtons();
         boolean areAddSingleAndGroupAlarmButtonsVisible();
         void hideAddSingleAndGroupAlarmButtons();
@@ -29,11 +30,13 @@ public interface AlarmListContractMVP {
         void hideFullScreenMask();
         boolean isAddGroupAlarmDialogShow();
         void setAppTitleInActionBar(String s);
+        void showEditButtonInActionBar();
     }
 
     interface Presenter {
         void initView();
         void onBinButtonClick();
+        void onEditButtonClick();
         void onDeleteButtonClick(List<Alarm> alarms);
         void onCancelButtonClick();
         void onCreateAlarmButtonClick();
