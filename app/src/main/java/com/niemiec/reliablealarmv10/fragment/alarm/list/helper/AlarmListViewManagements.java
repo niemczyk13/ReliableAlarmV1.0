@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.globals.enums.TypeView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.niemiec.reliablealarmv10.R;
@@ -38,6 +39,6 @@ public class AlarmListViewManagements {
         cancelOrDelete = view.findViewById(R.id.cancel_or_delete_linear_layout);
         cancelDeleteAlarmButton = view.findViewById(R.id.cancel_delete_alarm_button);
         deleteAlarmButton = view.findViewById(R.id.delete_alarm_button);
-        dialog = new CreateNewGroupAlarmDialog(fragment, view.getContext());
+        dialog = new CreateNewGroupAlarmDialog(fragment, view.getContext(), TypeView.CREATE);
     }
 }

@@ -24,6 +24,7 @@ public class AlarmListViewHelper {
     private final Fragment fragment;
     private AlarmListViewManagements viewManagements;
     private AlarmListAdapter adapter;
+    private AlarmMenuHandler menuHandler;
 
     public AlarmListViewHelper(Fragment fragment) {
         this.fragment = fragment;
@@ -40,11 +41,7 @@ public class AlarmListViewHelper {
     }
 
     public void setAppTitleInActionBar(String title) {
-        if (fragment.requireActivity() instanceof AppCompatActivity activity) {
-            if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setTitle(title);
-            }
-        }
+        menuHandler.setTitle(title);
     }
 
     public void changeVisibility(View view, int visibility) {
@@ -151,5 +148,13 @@ public class AlarmListViewHelper {
 
     public View getCancelOrDeleteButtonsView() {
         return viewManagements.cancelOrDelete;
+    }
+
+    public void showEditButtonInActionBar() {
+        menuHandler.showEditButton();
+    }
+
+    public void setAlarmMenuHandler(AlarmMenuHandler menuHandler) {
+        this.menuHandler = menuHandler;
     }
 }

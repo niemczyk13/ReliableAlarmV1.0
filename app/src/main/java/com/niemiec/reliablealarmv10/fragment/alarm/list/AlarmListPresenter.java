@@ -52,7 +52,12 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
         this.groupAlarmId = groupAlarmId;
         GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
         view.showFragment(groupAlarmModel.getAlarms().stream().map(a -> (Alarm) a).collect(Collectors.toList()));
-        view.setAppTitleInActionBar(context.getString(R.string.group_alarm) + ": " + groupAlarmModel.getName());
+        view.setAppTitleInActionBar(createTitleForGroupAlarm(groupAlarmModel));
+        view.showEditButtonInActionBar();
+    }
+
+    private @NonNull String createTitleForGroupAlarm(GroupAlarmModel groupAlarmModel) {
+        return context.getString(R.string.group_alarm) + ": " + groupAlarmModel.getName();
     }
 
     private void initViewForAllAlarms() {
@@ -78,6 +83,12 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
             view.showAlarmListForDeletion();
             typeView = TypeView.DELETE;
         }
+    }
+
+    @Override
+    public void onEditButtonClick() {
+        //TODO
+        view.showUpdateGroupAlarmDialog(model.getGroupAlarm(groupAlarmId));
     }
 
     @Override
@@ -251,6 +262,16 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     public void onFullScreenMaskViewClick() {
         if (view.areAddSingleAndGroupAlarmButtonsVisible() && !view.isAddGroupAlarmDialogShow()) {
             resetViewState();
+        }
+    }
+
+    @Override
+    public void refreshTitleInActionBar() {
+        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
+            GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
+            view.setAppTitleInActionBar(createTitleForGroupAlarm(groupAlarmModel));
+        } else {
+            view.setAppTitleInActionBar(context.getString(R.string.title));
         }
     }
 
