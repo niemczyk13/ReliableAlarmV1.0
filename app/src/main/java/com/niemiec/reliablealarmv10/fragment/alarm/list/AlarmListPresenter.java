@@ -14,7 +14,6 @@ import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.data.Model;
-import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
@@ -53,8 +52,12 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
         this.groupAlarmId = groupAlarmId;
         GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
         view.showFragment(groupAlarmModel.getAlarms().stream().map(a -> (Alarm) a).collect(Collectors.toList()));
-        view.setAppTitleInActionBar(context.getString(R.string.group_alarm) + ": " + groupAlarmModel.getName());
+        view.setAppTitleInActionBar(createTitleForGroupAlarm(groupAlarmModel));
         view.showEditButtonInActionBar();
+    }
+
+    private @NonNull String createTitleForGroupAlarm(GroupAlarmModel groupAlarmModel) {
+        return context.getString(R.string.group_alarm) + ": " + groupAlarmModel.getName();
     }
 
     private void initViewForAllAlarms() {
@@ -259,6 +262,16 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
     public void onFullScreenMaskViewClick() {
         if (view.areAddSingleAndGroupAlarmButtonsVisible() && !view.isAddGroupAlarmDialogShow()) {
             resetViewState();
+        }
+    }
+
+    @Override
+    public void refreshTitleInActionBar() {
+        if (alarmListType == AlarmListType.WITHOUT_GROUP_ALARM) {
+            GroupAlarmModel groupAlarmModel = model.getGroupAlarm(groupAlarmId);
+            view.setAppTitleInActionBar(createTitleForGroupAlarm(groupAlarmModel));
+        } else {
+            view.setAppTitleInActionBar(context.getString(R.string.title));
         }
     }
 

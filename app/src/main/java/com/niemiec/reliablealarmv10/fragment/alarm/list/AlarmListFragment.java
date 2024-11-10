@@ -222,6 +222,11 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
+    public void refreshTitleInActionBar() {
+        presenter.refreshTitleInActionBar();
+    }
+
+    @Override
     public void switchOnOffClick(Alarm alarm) {
         presenter.onSwitchOnOffAlarmClick(alarm);
     }

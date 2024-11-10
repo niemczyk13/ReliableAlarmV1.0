@@ -31,6 +31,7 @@ public interface AlarmListContractMVP {
         boolean isAddGroupAlarmDialogShow();
         void setAppTitleInActionBar(String s);
         void showEditButtonInActionBar();
+        void refreshTitleInActionBar();
     }
 
     interface Presenter {
@@ -45,5 +46,6 @@ public interface AlarmListContractMVP {
         void onCreateGroupAlarmButtonClick();
         void onAddNewAlarmButtonClick();
         void onFullScreenMaskViewClick();
+        void refreshTitleInActionBar();
     }
 }

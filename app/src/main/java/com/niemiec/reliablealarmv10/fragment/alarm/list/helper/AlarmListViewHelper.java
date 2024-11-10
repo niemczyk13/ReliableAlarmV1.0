@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.globals.enums.IsClickable;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
-import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListAdapter;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmsList;
@@ -42,11 +41,7 @@ public class AlarmListViewHelper {
     }
 
     public void setAppTitleInActionBar(String title) {
-        if (fragment.requireActivity() instanceof AppCompatActivity activity) {
-            if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setTitle(title);
-            }
-        }
+        menuHandler.setTitle(title);
     }
 
     public void changeVisibility(View view, int visibility) {
@@ -161,9 +156,5 @@ public class AlarmListViewHelper {
 
     public void setAlarmMenuHandler(AlarmMenuHandler menuHandler) {
         this.menuHandler = menuHandler;
-    }
-
-    public void showUpdateGroupAlarmDialog(CreateNewGroupAlarmDialog groupAlarm) {
-
     }
 }

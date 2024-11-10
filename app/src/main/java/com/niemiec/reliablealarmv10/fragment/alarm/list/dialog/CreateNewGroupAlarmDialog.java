@@ -24,8 +24,8 @@ public class CreateNewGroupAlarmDialog {
     private Button saveButton;
     private EditText nameEditText;
     private EditText noteEditText;
-    private TypeView typeView;
-    private Context context;
+    private final TypeView typeView;
+    private final Context context;
     private GroupAlarmModel groupAlarmModel;
 
     public CreateNewGroupAlarmDialog(AlarmListContractMVP.View mainActivityView, Context context, TypeView typeView) {
@@ -69,8 +69,7 @@ public class CreateNewGroupAlarmDialog {
 
     private void setListeners() {
         cancelButton.setOnClickListener(view -> {
-            KeyboardUtilities.hideKeyboard(dialog);
-            dialog.dismiss();
+            closeDialog();
         });
 
         saveButton.setOnClickListener(view -> {
@@ -90,12 +89,17 @@ public class CreateNewGroupAlarmDialog {
             gam.setId(groupAlarmModel.getId());
             GroupAlarmDataBase.getInstance(dialog.getContext()).updateGroupAlarm(gam);
             if (isGroupAlarmAddedIntoDatabase(gam)) {
-                dialog.dismiss();
+                closeDialog();
             } else {
                 Toast.makeText(dialog.getContext(), dialog.getContext().getString(R.string.error_connecting_to_database), Toast.LENGTH_LONG).show();
             }
         }
 
+    }
+
+    private void closeDialog() {
+        KeyboardUtilities.hideKeyboard(dialog);
+        dialog.dismiss();
     }
 
     private void tryCreateAndSaveNewGroupAlarm() {
@@ -115,7 +119,7 @@ public class CreateNewGroupAlarmDialog {
     private void saveGroupAlarmToDatabase(GroupAlarmModel groupAlarmModel) {
         GroupAlarmModel ga = GroupAlarmDataBase.getInstance(dialog.getContext()).insertGroupAlarm(groupAlarmModel);
         if (isGroupAlarmAddedIntoDatabase(ga)) {
-            dialog.dismiss();
+            closeDialog();
             mainActivityView.showGroupAlarmActivity(ga);
         } else {
             Toast.makeText(dialog.getContext(), dialog.getContext().getString(R.string.error_connecting_to_database), Toast.LENGTH_LONG).show();
@@ -134,7 +138,7 @@ public class CreateNewGroupAlarmDialog {
 
     private void resetViewState() {
         mainActivityView.hideFullScreenMask();
-        mainActivityView.setAppTitleInActionBar(dialog.getContext().getString(R.string.title));
+        mainActivityView.refreshTitleInActionBar();
     }
 
     private void initView() {
