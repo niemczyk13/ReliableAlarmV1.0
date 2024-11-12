@@ -28,7 +28,8 @@
         tools:replace="android:theme">
         <activity
             android:name=".activity.alarm.group.GroupAlarmActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/Theme.ReliableAlarmV10"/>
         <activity
             android:name=".activity.alarm.launch.safe.SafeAlarmActivity"
             android:allowTaskReparenting="false"
@@ -48,7 +49,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.alarm.add.AddAlarmActivity"
+            android:name=".activity.alarm.add.AddSingleAlarmActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity

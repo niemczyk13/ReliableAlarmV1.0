@@ -9,4 +9,6 @@ public enum BundleNames {
     SOUND_ID,
     IS_PERSONAL,
     URI,
+    GROUP_ALARM_ID,
+    ADD_SINGLE_ALARM_TYPE,
 }

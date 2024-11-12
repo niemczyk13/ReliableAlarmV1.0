@@ -13,13 +13,14 @@ import androidx.core.app.NotificationCompat;
 import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.launch.safe.service.SafeAlarmService;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.Calendar;
 
 public class AlarmManagerManagement {
 
-    public static void startAlarm(SingleAlarmEntity singleAlarm, Context context) {
+    public static void startAlarm(SingleAlarmModel singleAlarm, Context context) {
         PendingIntent sender = createAlarmReceiverPendingIntent(singleAlarm, context);
         addToAlarmManager(singleAlarm, sender, context);
         startSafeAlarmService(singleAlarm, context);
@@ -28,33 +29,33 @@ public class AlarmManagerManagement {
 
 
 
-    private static PendingIntent createAlarmReceiverPendingIntent(SingleAlarmEntity singleAlarm, Context context) {
+    private static PendingIntent createAlarmReceiverPendingIntent(SingleAlarmModel alarm, Context context) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarm.id);
+        bundle.putLong(BundleNames.ALARM_ID.name(), alarm.getId());
         intent.putExtra(BundleNames.DATA.name(), bundle);
-        return PendingIntent.getBroadcast(context, (int) singleAlarm.id, intent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getBroadcast(context, (int) alarm.getId(), intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
-    private static void addToAlarmManager(SingleAlarmEntity singleAlarm, PendingIntent sender, Context context) {
+    private static void addToAlarmManager(SingleAlarmModel singleAlarm, PendingIntent sender, Context context) {
         Calendar now2 = Calendar.getInstance();
         now2.add(Calendar.SECOND, 3);
 
-        long alarmTime = singleAlarm.alarmDateTime.getDateTime().getTimeInMillis();
+        long alarmTime = singleAlarm.getAlarmDateTime().getDateTime().getTimeInMillis();
         long now = Calendar.getInstance().getTimeInMillis();
 
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 //        mgr.set(AlarmManager.RTC_WAKEUP, now2.getTimeInMillis(), sender);
 
         if (alarmTime > now) {
-            mgr.set(AlarmManager.RTC_WAKEUP, singleAlarm.alarmDateTime.getDateTime().getTimeInMillis(), sender);
+            mgr.set(AlarmManager.RTC_WAKEUP, singleAlarm.getAlarmDateTime().getDateTime().getTimeInMillis(), sender);
         }
     }
 
 
-    public static void stopAlarm(SingleAlarmEntity singleAlarm, Context context) {
-        PendingIntent sender = createAlarmReceiverPendingIntent(singleAlarm, context);
-        stopSafeAlarmService(singleAlarm, context);
+    public static void stopAlarm(SingleAlarmModel alarm, Context context) {
+        PendingIntent sender = createAlarmReceiverPendingIntent(alarm, context);
+        stopSafeAlarmService(alarm, context);
         AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         try {
             mgr.cancel(sender);
@@ -63,8 +64,8 @@ public class AlarmManagerManagement {
         }
     }
 
-    private static void startSafeAlarmService(SingleAlarmEntity singleAlarm, Context context) {
-        if (singleAlarm.safeAlarmLaunch.isOn()) {
+    private static void startSafeAlarmService(SingleAlarmModel singleAlarm, Context context) {
+        if (singleAlarm.getSafeAlarmLaunch().isOn()) {
             context.startService(createSafeAlarmServiceIntent(singleAlarm, context));
         }
     }
@@ -77,17 +78,17 @@ public class AlarmManagerManagement {
         manager.notify(1, notification);
     }
 
-    private static Intent createSafeAlarmServiceIntent(SingleAlarmEntity singleAlarm, Context context) {
+    private static Intent createSafeAlarmServiceIntent(SingleAlarmModel singleAlarm, Context context) {
         Intent intent = new Intent(context, SafeAlarmService.class);
         Bundle bundle = new Bundle();
-        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarm.id);
-        bundle.putInt(BundleNames.PERCENTAGE_SAFE_ALARM_VALUE.name(), singleAlarm.safeAlarmLaunch.getSafeAlarmLaunchPercentage());
+        bundle.putLong(BundleNames.ALARM_ID.name(), singleAlarm.getId());
+        bundle.putInt(BundleNames.PERCENTAGE_SAFE_ALARM_VALUE.name(), singleAlarm.getSafeAlarmLaunch().getSafeAlarmLaunchPercentage());
         intent.putExtra(BundleNames.DATA.name(), bundle);
         return intent;
     }
 
-    private static void stopSafeAlarmService(SingleAlarmEntity singleAlarm, Context context) {
-        if (singleAlarm.safeAlarmLaunch.isOn()) {
+    private static void stopSafeAlarmService(SingleAlarmModel singleAlarm, Context context) {
+        if (singleAlarm.getSafeAlarmLaunch().isOn()) {
             context.stopService(createSafeAlarmServiceIntent(singleAlarm, context));
         }
     }

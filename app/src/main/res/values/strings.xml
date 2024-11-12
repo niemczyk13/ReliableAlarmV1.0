@@ -15,8 +15,15 @@
     <string name="left_word">Pozostało</string>
     <string name="battery_word">baterii</string>
     <string name="add_single_alarm">Dodaj alarm</string>
-    <string name="add_group_alarm">Dodaj alarm grupowy</string>
+    <string name="add_group_alarm">Stwórz alarm grupowy</string>
     <string name="bin_button_title">BinButton</string>
+    <string name="group_alarm">Grupa</string>
+    <string name="select_alarm_type">Wybierz typ alarmu</string>
+    <string name="name_is_required">Nazwa jest wymagana</string>
+    <string name="error_connecting_to_database">Błąd łączenia z bazą danych</string>
+    <string name="optional">Opcjonalne</string>
+    <string name="edit_button_title">EditButton</string>
+    <string name="update_group_alarm_title">Zaktualizauj alarm grupowy</string>
 
     <string-array name="nap_values">
         <item>1 minuta</item>

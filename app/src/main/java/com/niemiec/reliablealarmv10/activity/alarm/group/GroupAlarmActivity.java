@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,27 +13,25 @@ import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
-public class GroupAlarmActivity extends AppCompatActivity implements GroupAlarmContractMVP.View {
-    private GroupAlarmPresenter presenter;
+@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+public class GroupAlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_group_alarm);
+        setAlarmListFragment(savedInstanceState, getGroupAlarmId());
+    }
 
-
-        //TODO pewnie id przekazać do fragmentu za pomocą bundle?
+    private long getGroupAlarmId() {
         Bundle bundle = getIntent().getBundleExtra(BundleNames.DATA.name());
-        long id = bundle.getLong(BundleNames.GROUP_ALARM_ID.name());
-
-        setAlarmListFragment(savedInstanceState, id);
+        assert bundle != null;
+        return bundle.getLong(BundleNames.GROUP_ALARM_ID.name());
     }
 
     private void setAlarmListFragment(Bundle savedInstanceState, long groupAlarmId) {
         if (savedInstanceState == null) {
-            AlarmListFragment alarmListFragment = AlarmListFragment.newInstance(AlarmListType.WITHOUT_GROUP_ALARM, groupAlarmId);
+            AlarmListFragment alarmListFragment = AlarmListFragment.newInstanceForGroupAlarmActivity(AlarmListType.WITHOUT_GROUP_ALARM, groupAlarmId);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, alarmListFragment)
                     .commit();

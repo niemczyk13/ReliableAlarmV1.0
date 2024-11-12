@@ -6,7 +6,7 @@ import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
 
-public interface AddAlarmContractMVP {
+public interface AddSingleAlarmContractMVP {
     interface View {
         void showAlarm(SingleAlarmModel singleAlarm);
         SingleAlarmModel getAlarm();

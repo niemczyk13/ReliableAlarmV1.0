@@ -4,6 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.main.MainActivity">
 
+
+
+    <item
+        android:id="@+id/edit_image_button"
+        app:showAsAction="always"
+        android:title="@string/edit_button_title"
+        android:visible="false"
+        android:icon="@drawable/baseline_edit_24" />
+
     <item
         android:id="@+id/bin_image_button"
         app:showAsAction="always"

@@ -5,16 +5,16 @@ import android.os.Build;
 
 import com.niemiec.reliablealarmv10.database.alarm.GroupAlarmDataBase;
 import com.niemiec.reliablealarmv10.database.alarm.SingleAlarmDataBase;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
 import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
+@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 public class Model {
     private final SingleAlarmDataBase singleAlarmDataBase;
     private final GroupAlarmDataBase groupAlarmDataBase;
@@ -25,15 +25,10 @@ public class Model {
     }
 
     public List<SingleAlarmModel> getAllSingleAlarms() {
-        List<SingleAlarmModel> singleAlarmEntities = singleAlarmDataBase.getAllSingleAlarms();
-        List<SingleAlarmModel> singleAlarmModels = new ArrayList<>();
-        for (SingleAlarmModel singleAlarmEntity : singleAlarmEntities) {
-            singleAlarmModels.add(new SingleAlarmModel(singleAlarmEntity));
-        }
-        return singleAlarmModels;
+        return singleAlarmDataBase.getAllSingleAlarms();
     }
 
-    public List<SingleAlarmEntity> getAllSingleAlarmsEntity() {
+    public List<SingleAlarmModel> getAllSingleAlarmsEntity() {
         return singleAlarmDataBase.getAllSingleAlarms();
     }
 
@@ -45,14 +40,30 @@ public class Model {
         singleAlarmDataBase.updateSingleAlarm(singleAlarm);
     }
 
-    public void deleteAlarms(List<SingleAlarmModel> singleAlarms) {
-        for (SingleAlarmModel singleAlarm : singleAlarms) {
-            singleAlarmDataBase.deleteSingleAlarm(singleAlarm);
+    public void updateAlarm(GroupAlarmModel groupAlarm) {
+        groupAlarmDataBase.updateGroupAlarm(groupAlarm);
+    }
+
+    public void deleteAlarms(List<Alarm> alarms) {
+        for (Alarm alarm : alarms) {
+            if (alarm instanceof SingleAlarmModel singleAlarm)
+                singleAlarmDataBase.deleteSingleAlarm(singleAlarm);
+            else if (alarm instanceof GroupAlarmModel groupAlarm)
+                groupAlarmDataBase.deleteGroupAlarm(groupAlarm);
         }
     }
 
-    public List<SingleAlarmModel> getActiveAlarms() {
-        return singleAlarmDataBase.getActiveSingleAlarms();
+    public List<SingleAlarmModel> getActiveSingleAlarms() {
+        return singleAlarmDataBase.getActiveSingleAlarms().stream()
+                .filter(this::singleAndGroupAlarmAreActive).collect(Collectors.toList());
+    }
+
+    private boolean singleAndGroupAlarmAreActive(SingleAlarmModel singleAlarm) {
+        if (singleAlarm.isInGroupAlarm()) {
+            GroupAlarmModel groupAlarmModel = getGroupAlarm(singleAlarm.getGroupAlarmId());
+            return singleAlarm.isActive() && groupAlarmModel.isActive();
+        }
+        return singleAlarm.isActive();
     }
 
     public GroupAlarmModel getGroupAlarm(long groupAlarmId) {
@@ -61,5 +72,9 @@ public class Model {
 
     public List<GroupAlarmModel> getGroupAlarms() {
         return groupAlarmDataBase.getAllGroupAlarms();
+    }
+
+    public List<SingleAlarmModel> getAllSingleAlarmsWithoutGroupId() {
+        return singleAlarmDataBase.getAllSingleAlarmsWithoutGroupId();
     }
 }

@@ -1,104 +1,81 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
+import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.AlarmListType;
 import com.example.globals.enums.BundleNames;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.globals.enums.IsClickable;
+import com.example.globals.enums.TypeView;
 import com.niemiec.reliablealarmv10.R;
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmActivity;
-import com.niemiec.reliablealarmv10.activity.alarm.add.AddAlarmPresenter;
-import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.AlarmListListener;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.AlarmListAdapter;
-import com.niemiec.reliablealarmv10.activity.main.alarm.list.adapter.data.AlarmsList;
-import com.niemiec.reliablealarmv10.activity.main.dialog.CreateNewGroupAlarmDialog;
-import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmActivityNavigationHelper;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListListenerHelper;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmMenuHandler;
+import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.helper.AlarmListViewHelper;
+import com.niemiec.reliablealarmv10.model.custom.Alarm;
+import com.niemiec.reliablealarmv10.model.custom.GroupAlarmModel;
+import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import java.util.List;
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
-public class AlarmListFragment extends Fragment implements AlarmListContractMVP.View, AlarmListListener {
-    private static final String ARG_ALARM_LIST_TYPE = "alarmListType";
+@RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+public class AlarmListFragment extends Fragment implements AlarmListContractMVP.View, AlarmListListener, AlarmMenuHandler.AlarmMenuListener, AlarmListListenerHelper.AlarmListActionListener {
     private AlarmListViewHelper viewHelper;
-    private AlarmListType alarmListType;
     private AlarmListPresenter presenter;
-    private AlarmListAdapter adapter;
-    CreateNewGroupAlarmDialog dialog;
-
-    private ListView alarmListView;
-    private FrameLayout mask;
-    private FloatingActionButton addNewAlarmButton;
-    private LinearLayout addSingleOrGroupAlarm;
-    private MaterialButton addSingleAlarmButton;
-    private MaterialButton addGroupAlarmButton;
-    private LinearLayout cancelOrDelete;
-    private Button cancelDeleteAlarmButton;
-    private Button deleteAlarmButton;
+    private AlarmActivityNavigationHelper activationHelper;
+    private AlarmListListenerHelper listenerHelper;
     private boolean isAddNewAlarmButtonIsClicked = false;
 
     public AlarmListFragment() {
     }
 
-    public static AlarmListFragment newInstance(AlarmListType alarmListType) {
-        AlarmListFragment fragment = new AlarmListFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_ALARM_LIST_TYPE, alarmListType);
-        fragment.setArguments(args);
-        return fragment;
+    public static AlarmListFragment newInstanceForGroupAlarmActivity(AlarmListType alarmListType, long groupAlarmId) {
+        return createFragment(alarmListType, groupAlarmId);
     }
 
-    private void createAlarmListPresenter() {
-        presenter = new AlarmListPresenter(requireContext(), alarmListType);
-        presenter.attach(this);
+    public static AlarmListFragment newInstanceForMainActivity(AlarmListType alarmListType) {
+        return createFragment(alarmListType, null);
+    }
+
+    private static AlarmListFragment createFragment(AlarmListType alarmListType, Long groupAlarmId) {
+        AlarmListFragment fragment = new AlarmListFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(AlarmListType.ALARM_LIST_TYPE.name(), alarmListType);
+        if (AlarmListType.WITHOUT_GROUP_ALARM == alarmListType && groupAlarmId != null)
+            args.putLong(BundleNames.GROUP_ALARM_ID.name(), groupAlarmId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            alarmListType = (AlarmListType) getArguments().getSerializable(ARG_ALARM_LIST_TYPE);
-        }
         viewHelper = new AlarmListViewHelper(this);
+        activationHelper = new AlarmActivityNavigationHelper(requireContext());
+        listenerHelper = new AlarmListListenerHelper(viewHelper);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         createAlarmListPresenter();
-        initView(view);
-        setListeners();
-        setViews();
-
-        if (alarmListType == AlarmListType.WITH_GROUP_ALARM) {
-            //TODO
-        } else {
-            //TODO
-        }
+        viewHelper.initView(view, this);
+        listenerHelper.setupListeners(this);
 
         return view;
     }
@@ -106,214 +83,216 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        registerMenu();
+        AlarmMenuHandler menuHandler = new AlarmMenuHandler(this, viewHelper);
+        viewHelper.setAlarmMenuHandler(menuHandler);
+        requireActivity().addMenuProvider(menuHandler, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
     }
 
-    private void registerMenu() {
-        requireActivity().addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.main_activity_menu, menu);
-            }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                return handleMenuSelection(menuItem);
-            }
-
-            @Override
-            public void onPrepareMenu(@NonNull Menu menu) {
-                prepareMenu(menu);
-            }
-        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+    private void createAlarmListPresenter() {
+        assert getArguments() != null;
+        AlarmListType alarmListType = (AlarmListType) getArguments().getSerializable(AlarmListType.ALARM_LIST_TYPE.name());
+        presenter = new AlarmListPresenter(requireContext(), alarmListType);
+        presenter.attach(this);
     }
 
-    private boolean handleMenuSelection(@NonNull MenuItem menuItem) {
+    @Override
+    public void onStart() {
+        super.onStart();;
+        presenter.initView();
+        viewHelper.setClickableOnAlarmListView(IsClickable.CLICKABLE);
+        isAddNewAlarmButtonIsClicked = false;
+    }
+
+    @Override
+    public long getGroupAlarmId() {
+        assert getArguments() != null;
+        return getArguments().getLong(BundleNames.GROUP_ALARM_ID.name());
+    }
+
+    @Override
+    public void showFragment(List<Alarm> alarms) {
+        viewHelper.changeVisibility(viewHelper.getCancelOrDeleteButtonsView(), View.GONE);
+        viewHelper.changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
+        viewHelper.createAlarmList(alarms, this);
+        viewHelper.showAlarmList();
+    }
+
+    @Override
+    public void showAlarmListForDeletion() {
+        viewHelper.changeVisibility(viewHelper.getCancelOrDeleteButtonsView(), View.VISIBLE);
+        viewHelper.changeTheVisibilityOfBrowsingViewItems(View.GONE);
+        viewHelper.showDeleteAlarmList();
+    }
+
+    @Override
+    public void showNormalView() {
+        viewHelper.changeVisibility(viewHelper.getCancelOrDeleteButtonsView(), View.GONE);
+        viewHelper.changeTheVisibilityOfBrowsingViewItems(View.VISIBLE);
+        viewHelper.changeVisibility(viewHelper.getSingleOrGroupAlarmButtonsView(), View.GONE);
+        viewHelper.showAlarmList();
+    }
+
+    @Override
+    public void updateAlarmList(List<Alarm> alarms) {
+        viewHelper.createAlarmList(alarms, this);
+    }
+
+    @Override
+    public void showCreateNewAlarmActivity(AddSingleAlarmType addSingleAlarmType) {
+        activationHelper.navigateToAddAlarmActivity(addSingleAlarmType);
+    }
+
+    @Override
+    public void showCreateNewAlarmActivityForGroupAlarm(long groupAlarmId, AddSingleAlarmType addSingleAlarmType) {
+        activationHelper.navigateToAddAlarmActivityForGroupAlarm(groupAlarmId, addSingleAlarmType);
+    }
+
+    @Override
+    public void showUpdateAlarmActivity(SingleAlarmModel singleAlarmModel) {
+        activationHelper.navigateToUpdateAlarmActivity(singleAlarmModel);
+    }
+
+    @Override
+    public void showGroupAlarmActivity(GroupAlarmModel groupAlarmModel) {
+        activationHelper.navigateToGroupAlarmActivity(groupAlarmModel);
+    }
+
+    @Override
+    public void checkOrUncheckAlarm(int positionOnList) {
+        viewHelper.checkOnUncheckAlarmOnAlarmList(positionOnList);
+    }
+
+    @Override
+    public void updateNotification(List<SingleAlarmModel> activeSingleAlarms) {
+        AlarmNotificationManager.updateNotification(this.getContext(), activeSingleAlarms);
+    }
+
+    @Override
+    public void showCreateNewAlarmDialog() {
+        viewHelper.showCreateNewGroupAlarmDialog();
+    }
+
+    @Override
+    public void showUpdateGroupAlarmDialog(GroupAlarmModel groupAlarm) {
+        CreateNewGroupAlarmDialog dialog = new CreateNewGroupAlarmDialog(this, requireContext(), TypeView.UPDATE, groupAlarm);
+        dialog.show();
+    }
+
+    @Override
+    public void showAddSingleAndGroupAlarmButtons() {
+        viewHelper.changeVisibility(viewHelper.getSingleOrGroupAlarmButtonsView(), View.VISIBLE);
+    }
+
+    @Override
+    public boolean areAddSingleAndGroupAlarmButtonsVisible() {
+        return viewHelper.areAddSingleAndGroupAlarmButtonsVisible();
+    }
+
+    @Override
+    public void hideAddSingleAndGroupAlarmButtons() {
+        viewHelper.changeVisibility(viewHelper.getSingleOrGroupAlarmButtonsView(), View.GONE);
+    }
+
+    @Override
+    public void showFullScreenMask() {
+        viewHelper.showFullScreenMask();
+        requireActivity().invalidateMenu();
+    }
+
+    @Override
+    public void hideFullScreenMask() {
+        viewHelper.hideFullScreenMask();
+        requireActivity().invalidateMenu();
+    }
+
+    @Override
+    public boolean isAddGroupAlarmDialogShow() {
+        return viewHelper.isAddGroupAlarmDialogShow();
+    }
+
+    @Override
+    public void setAppTitleInActionBar(String title) {
+        viewHelper.setAppTitleInActionBar(title);
+    }
+
+    @Override
+    public void showEditButtonInActionBar() {
+        viewHelper.showEditButtonInActionBar();
+    }
+
+    @Override
+    public void refreshTitleInActionBar() {
+        presenter.refreshTitleInActionBar();
+    }
+
+    @Override
+    public void switchOnOffClick(Alarm alarm) {
+        presenter.onSwitchOnOffAlarmClick(alarm);
+    }
+
+    @Override
+    public View getViewById(int id) {
+        return requireView().findViewById(id);
+    }
+
+    @Override
+    public boolean onBinButtonClick(CharSequence objectName) {
         String title = requireActivity().getString(R.string.bin_button_title);
-        if (Objects.equals(menuItem.getTitle(), title)) {
+        if (Objects.equals(objectName, title)) {
             presenter.onBinButtonClick();
             return true;
         }
         return false;
     }
 
-    private void prepareMenu(@NonNull Menu menu) {
-        MenuItem trashIcon = menu.findItem(R.id.bin_image_button);
-        boolean isAddAlarmVisible = isAddAlarmLayoutVisible();
-
-        trashIcon.setVisible(!isAddAlarmVisible);
-        viewHelper.setActionBarColor(isAddAlarmVisible ? R.color.blue_darker : R.color.blue);
-    }
-
-    private boolean isAddAlarmLayoutVisible() {
-        LinearLayout addAlarmLayout = requireView().findViewById(R.id.add_single_or_group_alarm_linear_layout);
-        return addAlarmLayout.getVisibility() == View.VISIBLE;
+    @Override
+    public boolean onEditButtonClick(CharSequence objectName) {
+        String title = requireActivity().getString(R.string.edit_button_title);
+        if (Objects.equals(objectName, title)) {
+            presenter.onEditButtonClick();
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        presenter.initView();
-        alarmListView.setClickable(true);
-        isAddNewAlarmButtonIsClicked = false;
-    }
-
-    private void initView(View view) {
-        alarmListView = view.findViewById(R.id.alarm_list_view);
-        mask = view.findViewById(R.id.full_screen_mask);
-        addNewAlarmButton = view.findViewById(R.id.add_alarm_button);
-        addSingleOrGroupAlarm = view.findViewById(R.id.add_single_or_group_alarm_linear_layout);
-        addSingleAlarmButton = view.findViewById(R.id.add_single_alarm_button);
-        addGroupAlarmButton = view.findViewById(R.id.add_group_alarm_button);
-        cancelOrDelete = view.findViewById(R.id.cancel_or_delete_linear_layout);
-        cancelDeleteAlarmButton = view.findViewById(R.id.cancel_delete_alarm_button);
-        deleteAlarmButton = view.findViewById(R.id.delete_alarm_button);
-        dialog = new CreateNewGroupAlarmDialog(this,this.getContext());
-    }
-
-    private void setListeners() {
-        mask.setOnClickListener(view -> presenter.onFullScreenMaskViewClick());
-
-        cancelDeleteAlarmButton.setOnClickListener(view -> {
-            presenter.onCancelButtonClick();
-            alarmListView.setClickable(false);       });
-
-        alarmListView.setOnItemClickListener((parent, view, position, id) -> {
-            presenter.onAlarmListItemClick(position);
-            alarmListView.setClickable(false);
-        });
-
-        addNewAlarmButton.setOnClickListener(view -> presenter.onAddNewAlarmButtonClick());
-
-        addGroupAlarmButton.setOnClickListener(view -> presenter.onCreateGroupAlarmButtonClick());
-
-        addSingleAlarmButton.setOnClickListener(view -> {
-            if (!isAddNewAlarmButtonIsClicked) {
-                presenter.onCreateAlarmButtonClick();
-                isAddNewAlarmButtonIsClicked = true;
-            }
-        });
-
-        deleteAlarmButton.setOnClickListener(view -> presenter.onDeleteButtonClick(adapter.getSelectedAlarms()));
-    }
-
-    private void setViews() {
-        presenter.initView();
+    public void onFullScreenMaskClick() {
+        presenter.onFullScreenMaskViewClick();
     }
 
     @Override
-    public void showFragment(List<SingleAlarmEntity> singleAlarms) {
-        viewHelper.changeVisibility(cancelOrDelete, View.GONE);
-        viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.VISIBLE);
-        createAlarmListWithAdapter(singleAlarms);
-        adapter.showMainList();
-    }
-
-    private void createAlarmListWithAdapter(List<SingleAlarmEntity> singleAlarms) {
-        adapter = new AlarmListAdapter(this.getContext(), new AlarmsList(singleAlarms), this);
-        alarmListView.setAdapter(adapter);
+    public void onCancelDeleteButtonClick() {
+        presenter.onCancelButtonClick();
+        viewHelper.setClickableOnAlarmListView(IsClickable.NON_CLICKABLE);
     }
 
     @Override
-    public void showAlarmListForDeletion() {
-        viewHelper.changeVisibility(cancelOrDelete, View.VISIBLE);
-        viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.GONE);
-        adapter.showDeleteList();
-
+    public void onAlarmListItemClick(Alarm alarm, int position) {
+        presenter.onAlarmListItemClick(viewHelper.getAlarmFromAlarmList(position), position);
+        viewHelper.setClickableOnAlarmListView(IsClickable.NON_CLICKABLE);
     }
 
     @Override
-    public void showNormalView() {
-        viewHelper.changeVisibility(cancelOrDelete, View.GONE);
-        viewHelper.changeTheVisibilityOfBrowsingViewItems(addNewAlarmButton, alarmListView, View.VISIBLE);
-        viewHelper.changeVisibility(addSingleOrGroupAlarm, View.GONE);
-        adapter.showMainList();
+    public void onAddNewAlarmButtonClick() {
+        presenter.onAddNewAlarmButtonClick();
     }
 
     @Override
-    public void updateAlarmList(List<SingleAlarmEntity> singleAlarms) {
-        createAlarmListWithAdapter(singleAlarms);
+    public void onCreateGroupAlarmButtonClick() {
+        presenter.onCreateGroupAlarmButtonClick();
     }
 
     @Override
-    public void showCreateNewAlarmActivity() {
-        Intent intent = new Intent(this.getContext(), AddAlarmActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(BundleNames.TYPE.name(), AddAlarmPresenter.Type.CREATE);
-        intent.putExtra(BundleNames.DATA.name(), bundle);
-
-        startActivity(intent);
+    public void onCreateSingleAlarmButtonClick() {
+        if (!isAddNewAlarmButtonIsClicked) {
+            presenter.onCreateAlarmButtonClick();
+            isAddNewAlarmButtonIsClicked = true;
+        }
     }
 
     @Override
-    public void showUpdateAlarmActivity(int position) {
-        Intent intent = new Intent(this.getContext(), AddAlarmActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(BundleNames.TYPE.name(), AddAlarmPresenter.Type.UPDATE);
-        bundle.putLong(BundleNames.ALARM_ID.name(), adapter.getAlarm(position).id);
-        intent.putExtra(BundleNames.DATA.name(), bundle);
-        startActivity(intent);
-    }
-
-    @Override
-    public void checkOrUncheckAlarm(int position) {
-        adapter.checkOnUncheckAlarm(position);
-    }
-
-    @Override
-    public void startAlarm(SingleAlarmEntity singleAlarm) {
-        AlarmManagerManagement.startAlarm(singleAlarm, this.getContext());
-    }
-
-    @Override
-    public void stopAlarm(SingleAlarmEntity singleAlarm) {
-        AlarmManagerManagement.stopAlarm(singleAlarm, this.getContext());
-    }
-
-    @Override
-    public void updateNotification(List<SingleAlarmEntity> activeSingleAlarms) {
-        AlarmNotificationManager.updateNotification(this.getContext(), activeSingleAlarms);
-    }
-
-    @Override
-    public void showCreateNewAlarmDialog() {
-        dialog.show();
-    }
-
-    @Override
-    public void showAddSingleAndGroupAlarmButtons() {
-        viewHelper.changeVisibility(addSingleOrGroupAlarm, View.VISIBLE);
-    }
-
-    @Override
-    public boolean areAddSingleAndGroupAlarmButtonsVisible() {
-        return addSingleOrGroupAlarm.getVisibility() == View.VISIBLE;
-    }
-
-    @Override
-    public void hideAddSingleAndGroupAlarmButtons() {
-        viewHelper.changeVisibility(addSingleOrGroupAlarm, View.GONE);
-    }
-
-    @Override
-    public void showFullScreenMask() {
-        viewHelper.showFullScreenMask(mask);
-        requireActivity().invalidateMenu();
-    }
-
-    @Override
-    public void hideFullScreenMask() {
-        viewHelper.hideFullScreenMask(mask);
-        requireActivity().invalidateMenu();
-    }
-
-    @Override
-    public boolean isAddGroupAlarmDialogShow() {
-        return dialog.isShowing();
-    }
-
-    @Override
-    public void switchOnOffClick(long id) {
-        presenter.onSwitchOnOffAlarmClick(id);
+    public void onDeleteButtonClick(List<Alarm> selectedAlarms) {
+        presenter.onDeleteButtonClick(selectedAlarms);
     }
 }
