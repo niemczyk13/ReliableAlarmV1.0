@@ -1,39 +1,40 @@
-package com.niemiec.reliablealarmv10.activity.main;
+package com.niemiec.reliablealarmv10.fragment.alarm.list;
 
 import android.content.Context;
 import android.os.Build;
+import androidx.annotation.RequiresApi;
 
 import com.example.alarmschedule.view.alarm.schedule.logic.AlarmDateTimeUpdater;
+import com.example.globals.enums.AlarmListType;
 import com.niemiec.reliablealarmv10.activity.BasePresenter;
-import com.niemiec.reliablealarmv10.activity.main.dialog.CreateNewGroupAlarmDialog;
+import com.niemiec.reliablealarmv10.activity.main.Model;
 import com.niemiec.reliablealarmv10.database.alarm.entity.custom.SingleAlarmEntity;
 
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MainPresenter extends BasePresenter<MainContractMVP.View> implements MainContractMVP.Presenter {
+public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View> implements AlarmListContractMVP.Presenter {
     private TypeView typeView;
     private final Model model;
+    private final Context context;
 
-    public MainPresenter(Context context) {
+    public AlarmListPresenter(Context context, AlarmListType alarmListType) {
         super();
         model = new Model(context);
         typeView = TypeView.NORMAL;
+        this.context = context;
     }
 
     @Override
     public void initView() {
-        view.showActivity(model.getAllAlarms());
+        view.showFragment(model.getAllAlarms());
     }
 
     @Override
     public void onBinButtonClick() {
         if (typeView == TypeView.DELETE) {
-            view.showNormalView();
-            typeView = TypeView.NORMAL;
+            resetViewToNormalState();
         } else if (typeView == TypeView.NORMAL) {
             view.showAlarmListForDeletion();
             typeView = TypeView.DELETE;
@@ -44,9 +45,8 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
     public void onDeleteButtonClick(List<SingleAlarmEntity> singleAlarms) {
         stopDeletedAlarms(singleAlarms);
         model.deleteAlarms(singleAlarms);
-        view.showNormalView();
+        resetViewToNormalState();
         view.updateAlarmList(model.getAllAlarms());
-        typeView = TypeView.NORMAL;
         view.updateNotification(model.getActiveAlarms());
     }
 
@@ -60,6 +60,10 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onCancelButtonClick() {
+        resetViewToNormalState();
+    }
+
+    private void resetViewToNormalState() {
         view.showNormalView();
         typeView = TypeView.NORMAL;
     }
@@ -122,7 +126,7 @@ public class MainPresenter extends BasePresenter<MainContractMVP.View> implement
 
     @Override
     public void onFullScreenMaskViewClick() {
-        if (view.areAddSingleAndGroupAlarmButtonsVisible()) {
+        if (view.areAddSingleAndGroupAlarmButtonsVisible() && !view.isAddGroupAlarmDialogShow()) {
             view.hideAddSingleAndGroupAlarmButtons();
             view.hideFullScreenMask();
         }

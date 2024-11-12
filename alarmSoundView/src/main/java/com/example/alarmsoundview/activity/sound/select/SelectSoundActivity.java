@@ -3,9 +3,13 @@ package com.example.alarmsoundview.activity.sound.select;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 
 import android.annotation.SuppressLint;
@@ -16,7 +20,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import com.example.alarmsoundview.R;
 import com.example.alarmsoundview.activity.sound.personal.PersonalSoundActivity;
 import com.example.alarmsoundview.model.Sound;
+import com.example.globals.enums.BundleNames;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 public class SelectSoundActivity extends AppCompatActivity implements SelectSoundContractMVP.View {
@@ -64,7 +68,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
                     if (result.getResultCode() == RESULT_OK) {
                         Bundle bundle = addDataToBundle(result);
                         Intent intent = new Intent();
-                        intent.putExtra("data", bundle);
+                        intent.putExtra(BundleNames.DATA.name(), bundle);
                         setResult(RESULT_OK, intent);
                         finish();
                     } else {
@@ -76,9 +80,9 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     private Bundle addDataToBundle(ActivityResult result) {
         assert result.getData() != null;
-        Bundle bundle = result.getData().getBundleExtra("data");
-        bundle.putBoolean("is_personal", true);
-        bundle.putInt("id", 0);
+        Bundle bundle = result.getData().getBundleExtra(BundleNames.DATA.name());
+        bundle.putBoolean(BundleNames.IS_PERSONAL.name(), true);
+        bundle.putInt(BundleNames.SOUND_ID.name(), 0);
         return bundle;
     }
 
@@ -93,12 +97,12 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     }
 
     private void createSoundFromBundle() {
-        Bundle bundle = getIntent().getExtras().getBundle("data");
+        Bundle bundle = getIntent().getExtras().getBundle(BundleNames.DATA.name());
         sound = new Sound();
-        sound.setSoundId(bundle.getInt("id"));
-        sound.setPersonal(bundle.getBoolean("is_personal"));
-        sound.setUri(bundle.getString("uri"));
-        sound.setSoundName(bundle.getString("name"));
+        sound.setSoundId(bundle.getInt(BundleNames.SOUND_ID.name()));
+        sound.setPersonal(bundle.getBoolean(BundleNames.IS_PERSONAL.name()));
+        sound.setUri(bundle.getString(BundleNames.URI.name()));
+        sound.setSoundName(bundle.getString(BundleNames.NAME.name()));
     }
 
     private void createSelectSoundPresenter() {
@@ -130,13 +134,13 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         this.sound = sound;
 
         Bundle bundle = new Bundle();
-        bundle.putInt("id", sound.getSoundId());
-        bundle.putString("name", sound.getSoundName());
-        bundle.putString("uri", sound.getUri());
-        bundle.putBoolean("is_personal", sound.isPersonal());
+        bundle.putInt(BundleNames.SOUND_ID.name(), sound.getSoundId());
+        bundle.putString(BundleNames.NAME.name(), sound.getSoundName());
+        bundle.putString(BundleNames.URI.name(), sound.getUri());
+        bundle.putBoolean(BundleNames.IS_PERSONAL.name(), sound.isPersonal());
 
         Intent intent = new Intent();
-        intent.putExtra("data", bundle);
+        intent.putExtra(BundleNames.DATA.name(), bundle);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -171,7 +175,12 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         presenter.cancelButtonClick();
     }
 
+    @Override
+    public void addMenuProvider(@NonNull MenuProvider provider, @NonNull LifecycleOwner owner, @NonNull Lifecycle.State state) {
+
+    }
 }

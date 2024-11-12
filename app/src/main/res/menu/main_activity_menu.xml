@@ -7,7 +7,6 @@
     <item
         android:id="@+id/bin_image_button"
         app:showAsAction="always"
-        android:title=""
+        android:title="@string/bin_button_title"
         android:icon="@drawable/ic_baseline_delete_24"/>
-
 </menu>

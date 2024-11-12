@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.globals.enums.BundleNames;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagement;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
@@ -96,7 +97,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
     }
 
     private void setViews() {
-        long id = getIntent().getBundleExtra("data").getLong("id");
+        long id = getIntent().getBundleExtra(BundleNames.DATA.name()).getLong(BundleNames.ALARM_ID.name());
         presenter.initView(id);
     }
 
