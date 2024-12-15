@@ -14,18 +14,22 @@ public class SafeAlarmLaunchTimeView extends LinearLayout {
 
     public SafeAlarmLaunchTimeView(Context context) {
         super(context);
+        setProperties();
     }
 
     public SafeAlarmLaunchTimeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setProperties();
     }
 
     public SafeAlarmLaunchTimeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setProperties();
     }
 
     public SafeAlarmLaunchTimeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        setProperties();
     }
 
     private void setProperties() {

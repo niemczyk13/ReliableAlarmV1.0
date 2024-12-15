@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SafeAlarmLaunch {
-    @Setter
-    @Getter
+    //@Setter
+    //@Getter
     private int safeAlarmLaunchPercentage;
-    @Getter
-    @Setter
+    //@Getter
+    //@Setter
     private int timeBeforeAlarmSafeAlarmLaunchWork;
 
     public boolean isOn() {
@@ -19,5 +19,21 @@ public class SafeAlarmLaunch {
 
     public double getSafeAlarmLaunchPercentageInDouble() {
         return (double) safeAlarmLaunchPercentage / 100;
+    }
+
+    public int getSafeAlarmLaunchPercentage() {
+        return safeAlarmLaunchPercentage;
+    }
+
+    public int getTimeBeforeAlarmSafeAlarmLaunchWork() {
+        return timeBeforeAlarmSafeAlarmLaunchWork;
+    }
+
+    public void setSafeAlarmLaunchPercentage(int safeAlarmLaunchPercentage) {
+        this.safeAlarmLaunchPercentage = safeAlarmLaunchPercentage;
+    }
+
+    public void setTimeBeforeAlarmSafeAlarmLaunchWork(int timeBeforeAlarmSafeAlarmLaunchWork) {
+        this.timeBeforeAlarmSafeAlarmLaunchWork = timeBeforeAlarmSafeAlarmLaunchWork;
     }
 }
