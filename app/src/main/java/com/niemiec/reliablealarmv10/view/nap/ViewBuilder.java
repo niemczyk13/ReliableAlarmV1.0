@@ -41,7 +41,7 @@ public class ViewBuilder {
 
         params.weight = 1;
         napDescription.setLayoutParams(params);
-        napDescription.setText("Drzemka:");
+        napDescription.setText(R.string.nap_text_view);
         //napDescription.setGravity(Gravity.START);
     }
 
