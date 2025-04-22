@@ -12,7 +12,7 @@ android {
         applicationId "com.niemiec.reliablealarmv10"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 3
+        versionCode 4
         versionName "1.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -91,4 +91,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
     kapt 'org.projectlombok:lombok:1.18.34'
+    implementation 'androidx.work:work-runtime:2.10.0'
+
 }
