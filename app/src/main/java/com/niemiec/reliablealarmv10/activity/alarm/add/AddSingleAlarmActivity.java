@@ -1,7 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.alarm.add;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.DatePicker;
@@ -17,7 +16,6 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNot
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;

@@ -65,14 +65,10 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                handleBackPressed();
+                presenter.cancelButtonClick();
+                finish();
             }
         });
-    }
-
-    private void handleBackPressed() {
-        presenter.cancelButtonClick();
-        finish();
     }
 
     private void createActivityResultLauncher() {
@@ -139,7 +135,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     @Override
     public void onBackButtonPressed() {
-        handleBackPressed();
+        finish();
     }
 
     @Override
