@@ -1,5 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.alarm.launch.safe;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
@@ -30,6 +31,7 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
         initViews();
         setListeners();
         setViews();
+        EdgeToEdge.enable(this);
     }
 
     private void setWindowFlags() {
@@ -48,7 +50,7 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
     }
 
     private void createSafeAlarmPresenter() {

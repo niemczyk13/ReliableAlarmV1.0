@@ -1,5 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.alarm.launch.main;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +22,6 @@ import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 import java.util.List;
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class AlarmClockActivity extends AppCompatActivity implements AlarmClockContractMVP.View {
     private AlarmClockPresenter presenter;
     private TextView clockTextView;
@@ -38,6 +38,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
         initView();
         setListeners();
         setViews();
+        EdgeToEdge.enable(this);
     }
 
     private void setWindowFlags() {
@@ -56,7 +57,7 @@ public class AlarmClockActivity extends AppCompatActivity implements AlarmClockC
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
     }
 
     @Override

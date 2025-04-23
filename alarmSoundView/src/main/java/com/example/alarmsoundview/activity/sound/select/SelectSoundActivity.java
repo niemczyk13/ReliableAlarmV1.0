@@ -1,5 +1,6 @@
 package com.example.alarmsoundview.activity.sound.select;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -39,7 +40,6 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     @SuppressLint("NonConstantResourceId")
     protected ListView soundListView;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         getSupportActionBar().hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
 
         soundListView = findViewById(R.id.built_in_sound_list_view);
         addBackArrow();
@@ -59,6 +59,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         addOnItemClickListenerToFileListView();
         createActivityResultLauncher();
         addOnClickMethods();
+        EdgeToEdge.enable(this);
     }
 
 

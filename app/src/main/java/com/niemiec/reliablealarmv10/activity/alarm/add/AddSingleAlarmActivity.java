@@ -17,6 +17,7 @@ import com.niemiec.reliablealarmv10.activity.alarm.manager.AlarmManagerManagemen
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.model.custom.SingleAlarmModel;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,6 +40,7 @@ public class AddSingleAlarmActivity extends AppCompatActivity implements DatePic
         createAddAlarmPresenter();
         presenter.downloadAlarm(Objects.requireNonNull(getIntent().getBundleExtra(BundleNames.DATA.name())));
         AddSingleAlarmListenerHelper.setupListeners(viewHelper, this);
+        EdgeToEdge.enable(this);
     }
 
     private void defineBasicHeaderAppearanceData() {
@@ -46,7 +48,7 @@ public class AddSingleAlarmActivity extends AppCompatActivity implements DatePic
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
     }
 
     private void createAddAlarmPresenter() {
