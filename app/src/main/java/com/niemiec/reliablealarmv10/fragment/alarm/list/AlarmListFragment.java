@@ -133,7 +133,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void onStart() {
-        super.onStart();;
+        super.onStart();
         presenter.initView();
         viewHelper.setClickableOnAlarmListView(IsClickable.CLICKABLE);
         isAddNewAlarmButtonIsClicked = false;

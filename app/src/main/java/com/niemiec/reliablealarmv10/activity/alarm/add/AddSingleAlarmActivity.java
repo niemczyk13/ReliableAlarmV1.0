@@ -1,7 +1,6 @@
 package com.niemiec.reliablealarmv10.activity.alarm.add;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
