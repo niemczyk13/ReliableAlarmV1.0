@@ -65,9 +65,7 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
     }
 
     private void setListeners() {
-        okButton.setOnClickListener(view -> {
-            presenter.onOkButtonClick();
-        });
+        okButton.setOnClickListener(view -> presenter.onOkButtonClick());
     }
 
     private void setViews() {

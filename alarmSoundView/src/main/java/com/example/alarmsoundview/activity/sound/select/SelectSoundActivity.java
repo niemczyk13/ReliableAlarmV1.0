@@ -1,6 +1,7 @@
 package com.example.alarmsoundview.activity.sound.select;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -57,8 +58,22 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         createActivityResultLauncher();
         addOnClickMethods();
         EdgeToEdge.enable(this);
+        addBackPressedAction();
     }
 
+    private void addBackPressedAction() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackPressed();
+            }
+        });
+    }
+
+    private void handleBackPressed() {
+        presenter.cancelButtonClick();
+        finish();
+    }
 
     private void createActivityResultLauncher() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -124,7 +139,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     @Override
     public void onBackButtonPressed() {
-        super.onBackPressed();
+        handleBackPressed();
     }
 
     @Override
@@ -168,12 +183,6 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     }
 
     public void cancelButtonClick(View view) {
-        presenter.cancelButtonClick();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
         presenter.cancelButtonClick();
     }
 

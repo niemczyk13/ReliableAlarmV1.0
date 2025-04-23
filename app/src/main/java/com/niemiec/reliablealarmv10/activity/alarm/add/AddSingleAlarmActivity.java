@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 import java.util.Objects;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class AddSingleAlarmActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AddSingleAlarmContractMVP.View, AddSingleAlarmListenerHelper.AddSingleAlarmActionListener {
 
     private AddSingleAlarmPresenter presenter;

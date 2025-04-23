@@ -93,7 +93,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         requireActivity().addMenuProvider(menuHandler, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
 
         // 2) Obsługa insets dla edge-to-edge
-        View root = view; // fragment root
+        // fragment root
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ListView alarmListView = view.findViewById(R.id.alarm_list_view);
 
@@ -106,7 +106,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         final int lvRight = alarmListView.getPaddingRight();
         final int lvBottom = alarmListView.getPaddingBottom();
 
-        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
             Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             // 3) Toolbar: tylko górny padding = status bar
             toolbar.setPadding(tbLeft, sys.top, tbRight, tbBottom);
@@ -121,7 +121,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
             // Nie konsumujemy, żeby dzieci też dostały insets, jeśli potrzebują
             return insets;
         });
-        ViewCompat.requestApplyInsets(root);
+        ViewCompat.requestApplyInsets(view);
     }
 
     private void createAlarmListPresenter() {
