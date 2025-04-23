@@ -38,4 +38,4 @@ Aplikacja **nie pobiera**, **nie przetwarza** i **nie przechowuje** żadnych dan
 Aby uruchomić projekt lokalnie:
 
 ```bash
-git clone https://github.com/TwojaNazwaUzytkownika/alarm-app.git
+git clone https://github.com/ReliableAlarmV1.0
