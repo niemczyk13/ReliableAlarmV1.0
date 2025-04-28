@@ -6,12 +6,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.globals.enums.AddSingleAlarmType;
 import com.example.globals.enums.AlarmListType;
@@ -87,6 +92,36 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         viewHelper.setAlarmMenuHandler(menuHandler);
         requireActivity().addMenuProvider(menuHandler, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
 
+        // 2) Obsługa insets dla edge-to-edge
+        // fragment root
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ListView alarmListView = view.findViewById(R.id.alarm_list_view);
+
+        // Zachowaj oryginalne paddingi
+        final int tbLeft = toolbar.getPaddingLeft();
+        final int tbRight = toolbar.getPaddingRight();
+        final int tbBottom = toolbar.getPaddingBottom();
+
+        final int lvLeft = alarmListView.getPaddingLeft();
+        final int lvRight = alarmListView.getPaddingRight();
+        final int lvBottom = alarmListView.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+            Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            // 3) Toolbar: tylko górny padding = status bar
+            toolbar.setPadding(tbLeft, sys.top, tbRight, tbBottom);
+            // 4) ListView: top = status bar + wysokość toolbar, bottom = nav bar
+            int toolbarHeight = toolbar.getHeight();
+            alarmListView.setPadding(
+                    lvLeft,
+                    sys.top + toolbarHeight,
+                    lvRight,
+                    lvBottom + sys.bottom
+            );
+            // Nie konsumujemy, żeby dzieci też dostały insets, jeśli potrzebują
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(view);
     }
 
     private void createAlarmListPresenter() {
@@ -98,7 +133,7 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
 
     @Override
     public void onStart() {
-        super.onStart();;
+        super.onStart();
         presenter.initView();
         viewHelper.setClickableOnAlarmListView(IsClickable.CLICKABLE);
         isAddNewAlarmButtonIsClicked = false;
