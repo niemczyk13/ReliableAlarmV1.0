@@ -1,8 +1,8 @@
 package com.niemiec.reliablealarmv10.activity.alarm.launch.safe;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -30,15 +30,16 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
         initViews();
         setListeners();
         setViews();
+        EdgeToEdge.enable(this);
     }
 
     private void setWindowFlags() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        //WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
@@ -48,7 +49,7 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
     }
 
     private void createSafeAlarmPresenter() {
@@ -64,9 +65,7 @@ public class SafeAlarmActivity extends AppCompatActivity implements SafeAlarmCon
     }
 
     private void setListeners() {
-        okButton.setOnClickListener(view -> {
-            presenter.onOkButtonClick();
-        });
+        okButton.setOnClickListener(view -> presenter.onOkButtonClick());
     }
 
     private void setViews() {

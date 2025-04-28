@@ -1,15 +1,14 @@
 package com.example.alarmsoundview.activity.sound.personal;
 
-import androidx.annotation.RequiresApi;
+import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -47,13 +46,12 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
 
     private Cursor cursor;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_sound);
         setTitle(R.string.add_personal_sound);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
         ButterKnife.bind(this);
         getViews();
         addBackArrow();
@@ -61,6 +59,8 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         createMusicLoader();
         showMusicList();
         setOnQueryTextListenerInSearchView();
+        EdgeToEdge.enable(this);
+        setOnBackPressed();
     }
 
     private void getViews() {
@@ -103,7 +103,7 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
     private String createName() {
         String author = getAuthor();
         String title = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.TITLE));
-        if (author.length() != 0) {
+        if (!author.isEmpty()) {
             return author + " - " + title;
         } else {
             return title;
@@ -138,16 +138,24 @@ public class PersonalSoundActivity extends AppCompatActivity implements LoaderMa
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        adapter.stopMusic();
+    private void setOnBackPressed() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                adapter.stopMusic();
+                setEnabled(false); // Tymczasowo wyłącz callback
+                getOnBackPressedDispatcher().onBackPressed(); // Wywołaj domyślne zachowanie
+                setEnabled(true); // Ponownie włącz callback
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
+            //onBackPressed();
             return false;
         }
         return super.onOptionsItemSelected(item);

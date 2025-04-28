@@ -1,10 +1,11 @@
 package com.example.alarmsoundview.activity.sound.select;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
@@ -14,8 +15,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -39,7 +38,6 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     @SuppressLint("NonConstantResourceId")
     protected ListView soundListView;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +46,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         getSupportActionBar().hide();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(Color.BLACK);
+        //getWindow().setStatusBarColor(Color.BLACK);
 
         soundListView = findViewById(R.id.built_in_sound_list_view);
         addBackArrow();
@@ -59,8 +57,19 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
         addOnItemClickListenerToFileListView();
         createActivityResultLauncher();
         addOnClickMethods();
+        EdgeToEdge.enable(this);
+        addBackPressedAction();
     }
 
+    private void addBackPressedAction() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                presenter.cancelButtonClick();
+                finish();
+            }
+        });
+    }
 
     private void createActivityResultLauncher() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -126,7 +135,7 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
 
     @Override
     public void onBackButtonPressed() {
-        super.onBackPressed();
+        finish();
     }
 
     @Override
@@ -170,12 +179,6 @@ public class SelectSoundActivity extends AppCompatActivity implements SelectSoun
     }
 
     public void cancelButtonClick(View view) {
-        presenter.cancelButtonClick();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
         presenter.cancelButtonClick();
     }
 

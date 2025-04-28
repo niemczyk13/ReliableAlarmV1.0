@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
     <uses-permission
@@ -29,19 +29,19 @@
         <activity
             android:name=".activity.alarm.group.GroupAlarmActivity"
             android:exported="true"
-            android:theme="@style/Theme.ReliableAlarmV10"/>
+            android:theme="@style/Theme.ReliableAlarmV10"
+            tools:targetApi="34" />
         <activity
             android:name=".activity.alarm.launch.safe.SafeAlarmActivity"
             android:allowTaskReparenting="false"
             android:excludeFromRecents="true"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.main.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.ReliableAlarmV10">
+            android:theme="@style/Theme.ReliableAlarmV10"
+            tools:targetApi="34">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,15 +50,13 @@
         </activity>
         <activity
             android:name=".activity.alarm.add.AddSingleAlarmActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+            android:exported="true" />
         <activity
             android:name=".activity.alarm.launch.main.AlarmClockActivity"
             android:allowTaskReparenting="false"
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:taskAffinity="" />
 
         <receiver
