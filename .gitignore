@@ -15,3 +15,5 @@
 local.properties
 /.idea/androidTestResultsUserPreferences.xml
 /.idea/AndroidProjectSystem.xml
+*.aab
+/app/release
