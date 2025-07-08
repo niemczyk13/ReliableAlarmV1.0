@@ -27,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@id/clock_text_view"
         android:layout_marginTop="100dp"
         android:text="@string/nap"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/main_blue"
         />
 
     <Button
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nap_button"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/main_blue"
         android:layout_marginTop="50dp"
         android:text="@string/turn_off_the_alarm"/>
 

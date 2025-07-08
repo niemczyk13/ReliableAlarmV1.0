@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="SeekBarColor" parent="Widget.AppCompat.SeekBar">
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorAccent">@color/main_blue</item>
     </style>
 
     <style name="MainAppTheme" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/main_blue</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorAccent">@color/main_blue</item>
     </style>
 
     <style name="Button.Blue" parent="ThemeOverlay.AppCompat">
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorAccent">@color/main_blue</item>
     </style>
 </resources>

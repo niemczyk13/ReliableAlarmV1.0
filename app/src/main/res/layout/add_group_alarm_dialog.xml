@@ -76,14 +76,14 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/main_blue"
             android:text="@string/cancel_button" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/main_blue"
             android:layout_marginLeft="35dp"
             android:text="@string/save_button" />
     </LinearLayout>

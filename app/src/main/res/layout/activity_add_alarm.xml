@@ -53,6 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                app:buttonTextColor="@color/white"
+                app:buttonColor="@color/black"
                 />
 
             <com.niemiec.reliablealarmv10.view.safeAlarmLaunch.view.SafeAlarmLaunchView

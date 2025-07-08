@@ -40,7 +40,7 @@ public class AlarmMenuHandler implements MenuProvider {
         MenuItem binButton = menu.findItem(R.id.bin_image_button);
         boolean isAddAlarmVisible = isAddAlarmLayoutVisible();
         binButton.setVisible(!isAddAlarmVisible);
-        viewHelper.setActionBarColor(isAddAlarmVisible ? R.color.blue_darker : R.color.blue);
+        viewHelper.setActionBarColor(isAddAlarmVisible ? R.color.blue_darker : R.color.main_blue);
     }
 
     private boolean isAddAlarmLayoutVisible() {

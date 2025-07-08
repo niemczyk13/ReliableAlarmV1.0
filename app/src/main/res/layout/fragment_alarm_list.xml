@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="?attr/colorPrimary"
         android:contentDescription="+"
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="5dp"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/main_blue"
             android:text="@string/add_group_alarm"/>
 
         <com.google.android.material.button.MaterialButton
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="5dp"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/main_blue"
             android:text="@string/add_single_alarm"/>
 
     </LinearLayout>
@@ -94,14 +94,14 @@
         <Button
             android:id="@+id/cancel_delete_alarm_button"
             android:text="@string/cancel_button"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/main_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/delete_alarm_button"
             android:text="@string/delete"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/main_blue"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
