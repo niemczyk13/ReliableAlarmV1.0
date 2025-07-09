@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.ReliableAlarmV10" parent="Theme.MaterialComponents.DayNight.Bridge">
         <item name="colorPrimary">@color/main_blue</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
 
         <item name="buttonTextColor">@color/white</item>
         <item name="buttonColor">@color/black</item>
-        <item name="descriptionTextColor">@color/grey</item>
+        <item name="descriptionTextColor">@color/black</item>
         <item name="backgroundColor">@color/white</item>
 
     </style>

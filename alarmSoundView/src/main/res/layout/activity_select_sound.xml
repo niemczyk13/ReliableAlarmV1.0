@@ -62,7 +62,8 @@
             android:layout_column="0"
             android:text="@string/cancel"
             android:layout_gravity="right"
-            android:backgroundTint="@color/blue"/>
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorPrimary"/>
 
         <Button
             android:id="@+id/save_button"

@@ -36,28 +36,29 @@ public class AlarmSoundView extends LinearLayout {
 
     public AlarmSoundView(Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public AlarmSoundView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        options = context.obtainStyledAttributes(attrs, R.styleable.AlarmSoundView, 0, 0);
-        init();
+        init(attrs);
     }
 
     public AlarmSoundView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        options = context.obtainStyledAttributes(attrs, R.styleable.AlarmSoundView, 0, 0);
-        init();
+        init(attrs);
     }
 
-    private void init() {
+    private void init(AttributeSet attrs) {
         this.componentActivity = (ComponentActivity) super.getContext();
+        if (attrs != null) options = getContext().obtainStyledAttributes(attrs, R.styleable.AlarmSoundView);
+
         setParamsToMainLinearLayout();
         createViews();
         addOnClickMethodToViews();
         addViewsToMainLinearLayout();
         createActivityResultLauncher();
+        if (options != null) options.recycle();
     }
 
     private void createActivityResultLauncher() {

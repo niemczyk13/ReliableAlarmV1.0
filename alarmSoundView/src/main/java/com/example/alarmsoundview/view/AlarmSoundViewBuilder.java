@@ -1,6 +1,5 @@
 package com.example.alarmsoundview.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -11,8 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.alarmsoundview.R;
+import com.example.globals.themes.ThemesUtils;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class AlarmSoundViewBuilder {
@@ -50,6 +51,8 @@ public class AlarmSoundViewBuilder {
         LinearLayout.LayoutParams params = createDescriptionTextViewParams();
         description.setLayoutParams(params);
         description.setText(options.getString(R.styleable.AlarmSoundView_descriptionText));
+        //description.setTextColor(options.getColor(R.styleable.AlarmSoundView_descriptionTextColor, ContextCompat.getColor(context, R.color.black)));
+        description.setTextColor(ThemesUtils.getThemeColor(context, R.attr.descriptionTextColor, ContextCompat.getColor(context, R.color.black)));
     }
 
     private LinearLayout.LayoutParams createDescriptionTextViewParams() {
