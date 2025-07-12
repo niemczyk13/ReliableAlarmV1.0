@@ -3,12 +3,12 @@
 
     <style name="MyTimePicker" parent="@android:style/Widget.Material.TimePicker">
 
-        <item name="android:numbersBackgroundColor">#F6F6F6</item>
+        <item name="android:numbersBackgroundColor">?attr/colorSurface</item>
 
-        <item name="colorControlActivated">#1DA1F2</item>
-        <item name="android:headerBackground">#F6F6F6</item>
-        <item name="android:textColorPrimary">#1DA1F2</item>
-        <item name="android:textColorSecondary">#000000</item>
+        <item name="colorControlActivated">?attr/colorPrimary</item>
+        <item name="android:headerBackground">?attr/colorSurface</item>
+        <item name="android:textColorPrimary">?attr/colorPrimary</item>
+        <item name="android:textColorSecondary">?attr/colorOnBackground</item>
 
 
         <item name="android:timePickerStyle">@style/MyTimePicker</item>

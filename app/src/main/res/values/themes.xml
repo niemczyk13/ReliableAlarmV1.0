@@ -17,5 +17,7 @@
 
         <item name="colorSurface">@color/grey</item>
         <item name="colorOnSurface">@color/white</item>
+
+        <item name="android:windowBackground">@color/backgroundMain</item>
     </style>
 </resources>

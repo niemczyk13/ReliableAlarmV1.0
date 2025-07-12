@@ -36,19 +36,16 @@ public class CustomTimePicker extends TimePicker {
     private ImageButton keyboardImageButton;
     private KeyboardInputListener keyboardInputListener;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public CustomTimePicker(Context context) {
         super(context);
         setProperties();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public CustomTimePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         setProperties();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setProperties() {
         super.setIs24HourView(true);
         getViewsFromTimePicker();
