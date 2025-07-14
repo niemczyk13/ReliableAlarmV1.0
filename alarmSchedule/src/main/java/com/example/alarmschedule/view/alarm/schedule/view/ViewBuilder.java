@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.example.alarmschedule.R;
 import com.google.android.material.button.MaterialButton;
 
 public class ViewBuilder {
@@ -63,8 +64,8 @@ public class ViewBuilder {
 
     private CalendarImageButton createCalendarImageButton() {
         CalendarImageButton button = new CalendarImageButton(context);
-        button.setColorFilter(Color.BLACK);
-        button.setBackgroundColor(Color.WHITE);
+        button.setColorFilter(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorSecondary));
+        button.setBackgroundColor(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorOnSecondary));
         return button;
     }
 

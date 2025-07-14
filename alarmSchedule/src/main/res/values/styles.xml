@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalendarDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?attr/colorPrimary</item>
+        <item name="android:buttonBarButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+    </style>
+
+    <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+</resources>

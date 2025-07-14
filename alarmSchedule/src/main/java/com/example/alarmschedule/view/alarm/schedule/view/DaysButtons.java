@@ -2,7 +2,9 @@ package com.example.alarmschedule.view.alarm.schedule.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -78,8 +80,8 @@ public class DaysButtons {
     }
 
     private void setUncheckColorButton(MaterialButton button) {
-        button.setBackgroundColor(Color.rgb(0, 0, 0));
-        button.setTextColor(Color.rgb(255, 255, 255));
+        button.setBackgroundColor(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorSecondary));
+        button.setTextColor(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorOnSecondary));
     }
 
     private void onDayButtonClick(View view) {
@@ -108,16 +110,16 @@ public class DaysButtons {
     }
 
     private void setCheckColorButton(MaterialButton button) {
-        button.setBackgroundColor(context.getResources().getColor(R.color.check_button_background));
-        button.setTextColor(Color.rgb(255,255,255));
+        button.setBackgroundColor(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorPrimary));
+        button.setTextColor(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorOnPrimary));
     }
 
     private void createCheckAllDaysButton() {
         checkAllDaysButton = new ImageButton(context);
         LinearLayout.LayoutParams params = getDefaultLayoutParamsForCheckAllDayButton();
         checkAllDaysButton.setLayoutParams(params);
-        checkAllDaysButton.setColorFilter(Color.BLACK);
-        checkAllDaysButton.setBackgroundColor(Color.WHITE);
+        checkAllDaysButton.setColorFilter(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorSecondary));
+        checkAllDaysButton.setBackgroundColor(DataFromMainThemeUtils.getColorFromTheme(context, R.attr.colorOnSecondary));
         checkAllDaysButton.setPadding(0, 0, 0, 0);
 
         checkAllDaysButton.setId(View.generateViewId());

@@ -8,7 +8,7 @@
         <item name="colorControlActivated">?attr/colorPrimary</item>
         <item name="android:headerBackground">?attr/colorSurface</item>
         <item name="android:textColorPrimary">?attr/colorPrimary</item>
-        <item name="android:textColorSecondary">?attr/colorOnBackground</item>
+        <item name="android:textColorSecondary">?attr/colorSecondary</item>
 
 
         <item name="android:timePickerStyle">@style/MyTimePicker</item>

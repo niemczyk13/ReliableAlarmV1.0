@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.example.alarmschedule.view.singleAlarm.schedule.view.AlarmSchedule
+    <com.example.alarmschedule.view.alarm.schedule.view.AlarmSchedule
         android:id="@+id/alarm_schedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
