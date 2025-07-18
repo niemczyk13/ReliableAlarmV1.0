@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.core.content.ContextCompat;
+
+import com.example.globals.themes.ThemesUtils;
 import com.google.android.material.button.MaterialButton;
 import com.niemiec.risingview.R;
 
@@ -53,7 +56,7 @@ public class RisingSoundButton extends MaterialButton {
     }
 
     private void setCheckColorButton() {
-        super.setBackgroundColor(super.getContext().getResources().getColor(R.color.check_button_background));
+        super.setBackgroundColor(ThemesUtils.getThemeColor(getContext(), R.attr.colorPrimary, ContextCompat.getColor(getContext(), R.color.main_blue)));
         super.setTextColor(Color.rgb(255,255,255));
     }
 

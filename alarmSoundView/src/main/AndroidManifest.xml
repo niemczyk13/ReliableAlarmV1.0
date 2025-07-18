@@ -7,10 +7,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AlarmSoundView">
+        android:theme="@style/Theme.ReliableAlarmV10">
         <activity
-            android:name=".activity.sound.personal.PersonalSoundActivity"
-            android:theme="@style/MainAppTheme" />
+            android:name=".activity.sound.personal.PersonalSoundActivity" />
         <activity android:name=".activity.sound.select.SelectSoundActivity"/>
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

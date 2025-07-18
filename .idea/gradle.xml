@@ -15,11 +15,11 @@
             <option value="$PROJECT_DIR$/alarmSchedule" />
             <option value="$PROJECT_DIR$/alarmSoundView" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/commonStyles" />
             <option value="$PROJECT_DIR$/customTimePicker" />
             <option value="$PROJECT_DIR$/risingSoundView" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

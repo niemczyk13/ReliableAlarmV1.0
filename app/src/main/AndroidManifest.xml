@@ -29,7 +29,6 @@
         <activity
             android:name=".activity.alarm.group.GroupAlarmActivity"
             android:exported="true"
-            android:theme="@style/Theme.ReliableAlarmV10"
             tools:targetApi="34" />
         <activity
             android:name=".activity.alarm.launch.safe.SafeAlarmActivity"
@@ -40,7 +39,6 @@
         <activity
             android:name=".activity.main.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.ReliableAlarmV10"
             tools:targetApi="34">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

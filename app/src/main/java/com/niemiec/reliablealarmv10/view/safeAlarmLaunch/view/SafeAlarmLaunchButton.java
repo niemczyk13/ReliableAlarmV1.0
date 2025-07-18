@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.globals.themes.ThemesUtils;
 import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 public class SafeAlarmLaunchButton extends MaterialButton {
     private final int percentageValue;
@@ -52,7 +54,7 @@ public class SafeAlarmLaunchButton extends MaterialButton {
     }
 
     private void setCheckColorButton() {
-        super.setBackgroundColor(super.getContext().getResources().getColor(com.niemiec.risingview.R.color.check_button_background));
+        super.setBackgroundColor(ThemesUtils.getThemeColor(getContext(), com.niemiec.risingview.R.attr.colorPrimary, ContextCompat.getColor(getContext(), com.niemiec.risingview.R.color.main_blue)));
         super.setTextColor(Color.rgb(255,255,255));
     }
 

@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.alarmschedule.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
@@ -43,9 +45,9 @@ public class CalendarDialogFragment extends DialogFragment {
         alarmDate = calendar;
     }
 
-    @SuppressLint("ResourceAsColor")
+    //@SuppressLint({"ResourceAsColor", "ResourceType"})
     private void createAlarmPickerDialog() {
-        datePickerDialog = new DatePickerDialog(getActivity(), R.style.CalendarDialog, (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
+        datePickerDialog = new DatePickerDialog(requireContext(), R.style.CalendarDialog, (DatePickerDialog.OnDateSetListener) getActivity(), year, month, day);
         datePickerDialog.getDatePicker().setMinDate(getMinDate());
         datePickerDialog.getDatePicker().setFirstDayOfWeek(Calendar.MONDAY);
     }
