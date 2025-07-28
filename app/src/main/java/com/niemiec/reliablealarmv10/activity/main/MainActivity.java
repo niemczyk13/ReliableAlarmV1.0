@@ -3,6 +3,7 @@ package com.niemiec.reliablealarmv10.activity.main;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setAlarmListFragment(savedInstanceState);
         EdgeToEdge.enable(this);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        // albo dla jasnego: AppCompatDelegate.MODE_NIGHT_NO
+        // albo automatycznie: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
     }
 

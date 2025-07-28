@@ -17,6 +17,7 @@
     <string name="add_single_alarm">Dodaj alarm</string>
     <string name="add_group_alarm">Stwórz alarm grupowy</string>
     <string name="bin_button_title">BinButton</string>
+    <string name="twighlight_button_title">TwigLightButton</string>
     <string name="group_alarm">Grupa</string>
     <string name="select_alarm_type">Wybierz typ alarmu</string>
     <string name="name_is_required">Nazwa jest wymagana</string>

@@ -1,7 +1,9 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list.helper;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,9 +54,31 @@ public class AlarmMenuHandler implements MenuProvider {
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.main_activity_menu, menu);
         binButton = menu.findItem(R.id.bin_image_button);
+
+        setColorOnMenuItem(menu, R.id.twighlight_button);
+        setColorOnMenuItem(menu, R.id.bin_image_button);
+        setColorOnMenuItem(menu, R.id.edit_image_button);
+
+
         MenuItem editButton = menu.findItem(R.id.edit_image_button);
         editButton.setVisible(editButtonVisible);
         setTitle(title);
+    }
+
+    private void setColorOnMenuItem(Menu menu, int menuItemId) {
+        MenuItem menuItem = menu.findItem(menuItemId);
+        Drawable icon = menuItem.getIcon();
+        if (icon != null) {
+            icon.mutate();
+            icon.setTint(resolveAttrColor(fragment.getContext(), R.attr.colorControlNormal));
+            menuItem.setIcon(icon);
+        }
+    }
+
+    private int resolveAttrColor(Context context, int attr) {
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
     }
 
     @Override
