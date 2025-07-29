@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 public class ThemesUtils {
+
     public static int getThemeColor(Context context, int attrId, int fallbackColor) {
         TypedValue typedValue = new TypedValue();
         if (context.getTheme().resolveAttribute(attrId, typedValue, true)) {
@@ -57,5 +58,4 @@ public class ThemesUtils {
             return fallback;
         }
     }
-
 }

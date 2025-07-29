@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="main_blue">#1DA1F2</color> <!-- Można zostawić taki sam -->
+    <color name="main_blue">#B4047DC8</color> <!-- Można zostawić taki sam -->
     <color name="blue_darker">#0F5179</color> <!-- Można zostawić taki sam -->
     <color name="bad_info">#FFBDBD</color> <!-- jaśniejszy czerwony -->
     <color name="black">#000000</color> <!-- jako tekst na ciemnym tle -->
-    <color name="white">#FFFFFF</color> <!-- jako tło np. dla tekstu na białym -->
+    <color name="white">#D3FFFFFF</color> <!-- jako tło np. dla tekstu na białym -->
     <color name="grey">#121212</color> <!-- typowe tło dla dark mode -->
     <color name="backgroundMain">#121212</color> <!-- ciemne tło ogólne -->
     <color name="scrimBackground">#80FFFFFF</color> <!-- półprzezroczysta biel -->

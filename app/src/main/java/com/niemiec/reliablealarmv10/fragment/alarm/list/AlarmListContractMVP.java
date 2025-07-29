@@ -32,6 +32,7 @@ public interface AlarmListContractMVP {
         void setAppTitleInActionBar(String s);
         void showEditButtonInActionBar();
         void refreshTitleInActionBar();
+        void toggleTheme();
     }
 
     interface Presenter {
@@ -47,5 +48,6 @@ public interface AlarmListContractMVP {
         void onAddNewAlarmButtonClick();
         void onFullScreenMaskViewClick();
         void refreshTitleInActionBar();
+        void onTwghlightButtonClick();
     }
 }

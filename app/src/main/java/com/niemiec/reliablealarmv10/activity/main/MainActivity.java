@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.example.globals.enums.AlarmListType;
+import com.example.globals.themes.ThemeManager;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
 
@@ -22,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setAlarmListFragment(savedInstanceState);
         EdgeToEdge.enable(this);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        ThemeManager.applySavedTheme(this);
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         // albo dla jasnego: AppCompatDelegate.MODE_NIGHT_NO
         // albo automatycznie: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         //WindowCompat.setDecorFitsSystemWindows(getWindow(), true);

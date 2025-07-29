@@ -23,6 +23,7 @@ import com.example.globals.enums.AlarmListType;
 import com.example.globals.enums.BundleNames;
 import com.example.globals.enums.IsClickable;
 import com.example.globals.enums.TypeView;
+import com.example.globals.themes.ThemeManager;
 import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.activity.alarm.manager.notification.AlarmNotificationManager;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.dialog.CreateNewGroupAlarmDialog;
@@ -262,6 +263,11 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
     }
 
     @Override
+    public void toggleTheme() {
+        ThemeManager.toggleTheme(getContext());
+    }
+
+    @Override
     public void switchOnOffClick(Alarm alarm) {
         presenter.onSwitchOnOffAlarmClick(alarm);
     }
@@ -286,6 +292,16 @@ public class AlarmListFragment extends Fragment implements AlarmListContractMVP.
         String title = requireActivity().getString(R.string.edit_button_title);
         if (Objects.equals(objectName, title)) {
             presenter.onEditButtonClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTwghlightButtonClick(CharSequence objectName) {
+        String title = requireActivity().getString(R.string.twighlight_button_title);
+        if (Objects.equals(objectName, title)) {
+            presenter.onTwghlightButtonClick();
             return true;
         }
         return false;

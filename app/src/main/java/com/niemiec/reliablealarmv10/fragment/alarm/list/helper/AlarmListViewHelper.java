@@ -1,16 +1,21 @@
 package com.niemiec.reliablealarmv10.fragment.alarm.list.helper;
 
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.globals.enums.IsClickable;
+import com.example.globals.themes.ThemesUtils;
+import com.niemiec.reliablealarmv10.R;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.AlarmListFragment;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListListener;
 import com.niemiec.reliablealarmv10.fragment.alarm.list.list.AlarmListAdapter;
@@ -30,14 +35,11 @@ public class AlarmListViewHelper {
         this.fragment = fragment;
     }
 
-    public void setActionBarColor(int colorResId) {
-        if (fragment.requireActivity() instanceof AppCompatActivity activity) {
-            if (activity.getSupportActionBar() != null) {
-                activity.getSupportActionBar().setBackgroundDrawable(
-                        new ColorDrawable(fragment.getResources().getColor(colorResId))
-                );
-            }
-        }
+    public void setActionBarColor(@AttrRes int colorAttr) {
+        if (!(fragment.requireActivity() instanceof AppCompatActivity activity)) return;
+
+        if (activity.getSupportActionBar() != null)
+            activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ThemesUtils.getThemeColor(fragment.getContext(), colorAttr, R.color.main_blue)));
     }
 
     public void setAppTitleInActionBar(String title) {

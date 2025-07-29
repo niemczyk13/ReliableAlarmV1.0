@@ -91,6 +91,10 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
         view.showUpdateGroupAlarmDialog(model.getGroupAlarm(groupAlarmId));
     }
 
+    public void onTwghlightButtonClick() {
+        view.toggleTheme();
+    }
+
     @Override
     public void onDeleteButtonClick(List<Alarm> alarms) {
         stopDeletedAlarms(alarms);
@@ -280,5 +284,4 @@ public class AlarmListPresenter extends BasePresenter<AlarmListContractMVP.View>
         view.hideFullScreenMask();
         view.setAppTitleInActionBar(context.getString(R.string.title));
     }
-
 }

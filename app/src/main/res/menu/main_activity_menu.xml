@@ -4,8 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.main.MainActivity">
 
-
-
     <item
         android:id="@+id/edit_image_button"
         app:showAsAction="always"

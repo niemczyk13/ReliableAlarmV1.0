@@ -3,6 +3,7 @@
     <style name="Theme.ReliableAlarmV10" parent="Theme.MaterialComponents.DayNight.Bridge">
         <item name="colorPrimary">@color/main_blue</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/blue_darker</item>
 
         <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/black</item>
@@ -22,5 +23,10 @@
         <item name="android:windowBackground">@color/backgroundMain</item>
 
         <item name="colorControlNormal">@color/white</item>
+        <item name="toolbarStyle">@style/CustomToolbar</item>
+    </style>
+
+    <style name="CustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">@color/white</item>
     </style>
 </resources>

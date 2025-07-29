@@ -27,6 +27,8 @@ public class AlarmMenuHandler implements MenuProvider {
     private final AlarmListViewHelper viewHelper;
     private boolean editButtonVisible = false;
     private MenuItem binButton;
+    private MenuItem editButton;
+    private MenuItem twighlightButton;
     private String title;
 
 
@@ -42,7 +44,7 @@ public class AlarmMenuHandler implements MenuProvider {
         MenuItem binButton = menu.findItem(R.id.bin_image_button);
         boolean isAddAlarmVisible = isAddAlarmLayoutVisible();
         binButton.setVisible(!isAddAlarmVisible);
-        viewHelper.setActionBarColor(isAddAlarmVisible ? R.color.blue_darker : R.color.main_blue);
+        viewHelper.setActionBarColor(isAddAlarmVisible ? R.attr.colorPrimaryDark : R.attr.colorPrimary);
     }
 
     private boolean isAddAlarmLayoutVisible() {
@@ -62,6 +64,11 @@ public class AlarmMenuHandler implements MenuProvider {
 
         MenuItem editButton = menu.findItem(R.id.edit_image_button);
         editButton.setVisible(editButtonVisible);
+        this.editButton = editButton;
+
+        MenuItem twighlightButton = menu.findItem(R.id.twighlight_button);
+        this.twighlightButton = twighlightButton;
+
         setTitle(title);
     }
 
@@ -85,8 +92,10 @@ public class AlarmMenuHandler implements MenuProvider {
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         if (Objects.equals(menuItem.getTitle(), binButton.getTitle())) {
             return fragment.onBinButtonClick(menuItem.getTitle());
-        } else {
+        } else if (Objects.equals(menuItem.getTitle(), editButton.getTitle())) {
             return fragment.onEditButtonClick(menuItem.getTitle());
+        } else {
+            return fragment.onTwghlightButtonClick(menuItem.getTitle());
         }
     }
 
@@ -108,5 +117,6 @@ public class AlarmMenuHandler implements MenuProvider {
         View getViewById(int id);
         boolean onBinButtonClick(CharSequence objectName);
         boolean onEditButtonClick(CharSequence title);
+        boolean onTwghlightButtonClick(CharSequence title);
     }
 }
