@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!--<style name="MyTimePicker" parent="@android:style/Widget.Material.TimePicker">
+    <style name="MyTimePicker" parent="@android:style/Widget.Material.TimePicker">
 
         <item name="android:numbersBackgroundColor">?attr/colorSurface</item>
 
@@ -12,5 +11,5 @@
 
 
         <item name="android:timePickerStyle">@style/MyTimePicker</item>
-    </style>-->
+    </style>
 </resources>

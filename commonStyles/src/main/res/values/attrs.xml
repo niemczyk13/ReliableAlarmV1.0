@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorScrimBackground" format="color" />
+    <attr name="colorBackground" format="color" />
+    <attr name="watchFace" format="color" />
 </resources>

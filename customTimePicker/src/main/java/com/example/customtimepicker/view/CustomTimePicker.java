@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -22,11 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.annotation.RequiresApi;
-
 import com.example.customtimepicker.R;
 import com.example.customtimepicker.view.validator.HourValidator;
 import com.example.customtimepicker.view.validator.MinuteValidator;
+import com.example.globals.themes.ThemesUtils;
 
 public class CustomTimePicker extends TimePicker {
     private View radialPicker;
@@ -62,9 +60,9 @@ public class CustomTimePicker extends TimePicker {
         radialPicker = (View) getViewFromTimePicker("radial_picker");
         //radialPicker.setBackgroundColor(Color.BLACK);
         //radialPicker.setDrawingCacheBackgroundColor(Color.RED);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        ViewGroup.LayoutParams params2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //ViewGroup.LayoutParams params2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         timePickerHour = (TextView) getViewFromTimePicker("hours");
         timePickerMinute = (TextView) getViewFromTimePicker("minutes");
@@ -100,8 +98,8 @@ public class CustomTimePicker extends TimePicker {
     private ImageButton createKeyboardImageButton() {
         ImageButton button = new ImageButton(super.getContext());
         button.setImageResource(R.drawable.ic_baseline_keyboard_24);
-        button.setColorFilter(Color.BLACK);
-        button.setBackgroundColor(Color.parseColor("#F6F6F6"));
+        button.setColorFilter(ThemesUtils.getThemeColor(getContext(), R.attr.colorOnBackground, Color.BLACK));
+        button.setBackgroundColor(ThemesUtils.getThemeColor(getContext(), R.attr.colorBackground, Color.GRAY));
         //button.setDrawingCacheBackgroundColor(Color.BLACK);
         //button.setBackgroundColor(Color.BLACK);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -139,7 +137,6 @@ public class CustomTimePicker extends TimePicker {
         inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void addEditTextChangeListener() {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -158,7 +155,6 @@ public class CustomTimePicker extends TimePicker {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void introducedHour() {
         String hour = editText.getText().toString();
         String result = HourValidator.checkTheCorrectnessOfTheEnteredHour(hour);
@@ -198,7 +194,6 @@ public class CustomTimePicker extends TimePicker {
         return result.length() == 2;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void updateHourDataForCompleteTime(String result) {
         CustomTimePicker.super.setHour(Integer.parseInt(result));
         editText.selectAll();
@@ -209,7 +204,6 @@ public class CustomTimePicker extends TimePicker {
             keyboardInputListener.onChange();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void introducedMinute() {
         String minute = editText.getText().toString();
         String result = MinuteValidator.checkTheCorrectnessOfTheEnteredMinute(minute);
@@ -227,7 +221,6 @@ public class CustomTimePicker extends TimePicker {
         editText.setSelection(1);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void updateMinuteDataForCompleteTime(String result) {
         CustomTimePicker.super.setMinute(Integer.parseInt(result));
         editText.selectAll();
@@ -235,7 +228,6 @@ public class CustomTimePicker extends TimePicker {
             keyboardInputListener.onChange();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ClickableViewAccessibility")
     private void setTimePickerHourOnTouchListener() {
         timePickerHour.setOnTouchListener((view, motionEvent) -> {
@@ -252,7 +244,6 @@ public class CustomTimePicker extends TimePicker {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ClickableViewAccessibility")
     private void setTimePickerMinuteOnTouchListener() {
         timePickerMinute.setOnTouchListener((view, motionEvent) -> {
@@ -277,12 +268,10 @@ public class CustomTimePicker extends TimePicker {
         return super.getMinute();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void viewHour(int hour) {
         CustomTimePicker.super.setHour(hour);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public void viewMinute(int minute) {
         CustomTimePicker.super.setMinute(minute);
     }

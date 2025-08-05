@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnBackground"
             android:minWidth="200dp"
             android:layout_weight="1"/>
     </LinearLayout>
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorOnBackground"
             android:hint="@string/optional"
             android:minWidth="200dp"
             android:layout_weight="1"/>
@@ -76,14 +76,14 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_blue"
+            android:backgroundTint="?attr/colorPrimary"
             android:text="@string/cancel_button" />
 
         <Button
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_blue"
+            android:backgroundTint="?attr/colorPrimary"
             android:layout_marginLeft="35dp"
             android:text="@string/save_button" />
     </LinearLayout>
