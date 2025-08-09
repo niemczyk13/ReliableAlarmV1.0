@@ -2,6 +2,6 @@
 <resources>
     <style name="CalendarDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
         <!--<item name="colorAccent">?attr/colorPrimary</item>-->
-        <item name="colorAccent">@color/main_blue</item>
+        <item name="colorAccent">?attr/colorPrimary</item>
     </style>
 </resources>

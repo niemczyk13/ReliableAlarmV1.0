@@ -2,7 +2,7 @@
 <resources>
     <style name="MyTimePicker" parent="@android:style/Widget.Material.TimePicker">
 
-        <item name="android:numbersBackgroundColor">?attr/colorSurface</item>
+        <item name="android:numbersBackgroundColor">?attr/watchFace</item>
 
         <item name="colorControlActivated">?attr/colorPrimary</item>
         <item name="android:headerBackground">?attr/colorSurface</item>

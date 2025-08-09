@@ -23,7 +23,7 @@ import com.example.alarmsoundview.activity.sound.select.SelectSoundActivity;
 import com.example.alarmsoundview.model.Sound;
 import com.example.globals.enums.BundleNames;
 
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+import java.util.Objects;
 
 public class AlarmSoundView extends LinearLayout {
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -66,7 +66,7 @@ public class AlarmSoundView extends LinearLayout {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         assert result.getData() != null;
-                        getSoundFromActivityResult(result.getData().getBundleExtra(BundleNames.DATA.name()));
+                        getSoundFromActivityResult(Objects.requireNonNull(result.getData().getBundleExtra(BundleNames.DATA.name())));
                     }
                 });
     }

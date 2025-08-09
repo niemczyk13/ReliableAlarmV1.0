@@ -22,7 +22,7 @@ public class ViewBuilder {
 
     private Spinner createNapSpinner(Context context) {
         Spinner spinner = new Spinner(context);
-        spinner.setGravity(Gravity.RIGHT);
+        spinner.setGravity(Gravity.END);
 
         String[] str = {NapValue.LACK.getName(), NapValue.FIRST.getName(), NapValue.SECOND.getName(),
                 NapValue.THIRD.getName(), NapValue.FOURTH.getName(), NapValue.FIFTH.getName()};
@@ -41,7 +41,7 @@ public class ViewBuilder {
 
         params.weight = 1;
         napDescription.setLayoutParams(params);
-        napDescription.setText("Drzemka:");
+        napDescription.setText(R.string.nap_text_view);
         //napDescription.setGravity(Gravity.START);
     }
 

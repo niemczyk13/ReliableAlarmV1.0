@@ -7,5 +7,5 @@
     <color name="white">#D3FFFFFF</color> <!-- jako tło np. dla tekstu na białym -->
     <color name="grey">#121212</color> <!-- typowe tło dla dark mode -->
     <color name="backgroundMain">#121212</color> <!-- ciemne tło ogólne -->
-    <color name="scrimBackground">#80FFFFFF</color> <!-- półprzezroczysta biel -->
+    <color name="scrimBackground">#17FFFFFF</color> <!-- półprzezroczysta biel -->
 </resources>

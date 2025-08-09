@@ -38,6 +38,7 @@
                 android:layout_marginRight="5dp"
                 app:descriptionWidth="120dp"
                 app:descriptionText="@string/alarm_sound"
+                app:descriptionTextColor="?attr/colorOnBackground"
                 />
 
             <com.niemiec.reliablealarmv10.view.nap.NapView
@@ -53,8 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                app:buttonTextColor="@color/white"
-                app:buttonColor="@color/black"
+                app:buttonTextColor="?attr/colorOnSecondary"
+                app:buttonColor="?attr/colorSecondary"
                 />
 
             <com.niemiec.reliablealarmv10.view.safeAlarmLaunch.view.SafeAlarmLaunchView
@@ -122,8 +123,8 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
             android:text="@string/cancel_button"/>
 
         <Button
@@ -131,8 +132,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textColor="?attr/colorOnSecondary"
             android:text="@string/save_button"/>
 
      </LinearLayout>
